@@ -5,6 +5,14 @@ body{
     background-image: url(tpe-wide.jpg);
 }
 
+@media only screen and (max-width: 400px) {
+    body {
+        background-image: url(tpe-tall.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+  }
+
 .quiz-question{
 
     padding: 5px;
