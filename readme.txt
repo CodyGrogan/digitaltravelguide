@@ -8,3 +8,8 @@
     The card should contain name of the activity, address, approximate time to spend at the location, and a 
     written description of the activity. There should also be a link to google maps.
 7. Activities data will be saved in a MongoDB database.
+
+
+photo attributions
+
+<a href="https://www.freepik.com/vectors/travel">Travel vector created by freepik - www.freepik.com</a>
