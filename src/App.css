@@ -1,8 +1,8 @@
 body{
-    text-align: center;
     background-color: black;
     color: white;
     background-image: url(tpe-wide.jpg);
+    text-align: center;
 }
 
 @media only screen and (max-width: 400px) {
@@ -17,4 +17,15 @@ body{
 
     padding: 5px;
     margin: 5px;
+}
+
+.pageCon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10%;
+}
+
+.questionCon{
+    color: black;
 }

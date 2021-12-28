@@ -1,14 +1,15 @@
 import QuizQuestion from "./QuizQuestion";
+import { Link } from "react-router-dom";
 
 function Home(props){
 
     return(
-        <div>
+        <div className="pageCon">
             <h1>
                 Welcome To Digital Travel Guide Taipei
             </h1>
-            <button className="btn btn-primary">Plan your vacation!</button>
-            <QuizQuestion question={'Do you like Spicy Food?'}/>
+            <Link to='/quiz' ><button className="btn btn-primary">Plan your vacation!</button></Link>
+            
             
            
         </div>
