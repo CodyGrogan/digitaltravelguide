@@ -4,27 +4,33 @@ function QuizQuestion(props){
 
     const [answer, setAnswer] = useState('');
 
-    let submitAnswer = () =>{
+    let submitAnswer = (response) =>{
         console.log('submit answer clicked');
-        let setAnswerList = props.setAnswer;
-        let newlist = props.answerList.splice(0);
-        newlist.push(answer)
-        setAnswerList(newlist);
+        let id = props.question;
+        let thisdiv = document.getElementById(id);
+        thisdiv.style.className = 'fade-out';
+        setTimeout(3000);
+        let newlist = props.answerList.slice(0);
+        newlist.push(response)
+        props.setAnswerList(newlist);
         let newCurrentQuestion = props.currentQuestion + 1;
         props.setCurrentQuestion(newCurrentQuestion);
+        console.log(props.answerList);
 
     }
 
+
+
     return(
-        <div className="questionCon card">
+        <div className="questionCon card" id={props.question}>
             <div className="card-header"><p>{props.question}</p></div>
             
             <div className="card-body">
-            <input className="form-check-input quiz-question" onClick={()=> setAnswer('positive')} type="radio" value='positive' name={props.question}/>Love it
-            <input className="form-check-input quiz-question" onClick={()=> setAnswer('neutral')} type="radio" value='neutral' name={props.question}/>It's fine
-            <input className="form-check-input quiz-question" onClick={()=> setAnswer('negative')} type="radio" value='negative' name={props.question}/>Hate it
+            <button className="btn btn-success quiz-question" onClick={()=> submitAnswer('positive')} >Love it</button>
+            <button className="btn btn-warning quiz-question" onClick={()=> submitAnswer('neutral')} >It's fine</button>
+            <button className="btn btn-danger quiz-question" onClick={()=> submitAnswer('negative')}>Hate it</button>
             <br/>
-            <button className="btn btn-primary" onClick={submitAnswer}>Submit</button>
+            
             </div>
         </div>
     )
