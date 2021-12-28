@@ -12,7 +12,7 @@ const [currentQuestion, setCurrentQuestion] = useState(0);
     return(
 
         <div className="pageCon">
-            <QuizQuestion question={questionList[currentQuestion]} answerList={answerList} setAnswer={setAnswerList} currentQuestion ={currentQuestion} setCurrentQuestion ={setCurrentQuestion}  />
+            <QuizQuestion key={currentQuestion} question={questionList[currentQuestion]} answerList={answerList} setAnswerList={setAnswerList} currentQuestion ={currentQuestion} setCurrentQuestion ={setCurrentQuestion}  />
         </div>
     )
 }

@@ -8,13 +8,16 @@ function QuizQuestion(props){
         console.log('submit answer clicked');
         let id = props.question;
         let thisdiv = document.getElementById(id);
-        thisdiv.style.className = 'fade-out';
-        setTimeout(3000);
+        thisdiv.className = 'fade-out';
+        
         let newlist = props.answerList.slice(0);
         newlist.push(response)
         props.setAnswerList(newlist);
         let newCurrentQuestion = props.currentQuestion + 1;
-        props.setCurrentQuestion(newCurrentQuestion);
+        setTimeout(()=>{
+            props.setCurrentQuestion(newCurrentQuestion);
+
+        }, 1000 );
         console.log(props.answerList);
 
     }
