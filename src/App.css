@@ -34,10 +34,13 @@ body{
 .fade-out {
     visibility: hidden;
     opacity: 0;
-    transition: visibility .5s .5s, opacity .5s linear;
+    transition: visibility .2s .2s, opacity .2s linear;
 }
 
 .lineBreak{
     width: 100%;
 }
 
+.date-input{
+    margin-bottom: 10px;
+}
