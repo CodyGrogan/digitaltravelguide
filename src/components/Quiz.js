@@ -1,26 +1,35 @@
 import { useState, useEffect } from "react";
 import QuizQuestion from "./QuizQuestion";
 import DateSelector from "./DateSelector";
+import questionObjArr from "./questionList";
 
 function Quiz(props){
 
-const [questionList, setQuestionList] = useState(['Do you like Spicy Food?', 'Do you like art galleries?', 'How about Sushi?', 'History museums?']);
+const [questionList, setQuestionList] = useState(questionObjArr);
 const [answerList, setAnswerList] = useState([]);
 const [currentQuestion, setCurrentQuestion] = useState(0);
+const [questionIndex, setQuestionIndex] = useState(0);
 const [dates, setDates] = useState(null);
 console.log(dates);
-
+console.log(questionObjArr[0].content)
 useEffect(()=>{
    if (questionList.length == answerList.length){
        console.log(answerList);
        let quiz = document.getElementById('quizCon');
        let guide = document.getElementById('guideCon');
-       quiz.hidden = true;
+       quiz.remove();
        guide.hidden = false;
 
    }
 },
 [questionList, answerList]);
+
+useEffect(()=>{
+    if (currentQuestion < questionList.length){
+        setQuestionIndex(currentQuestion);
+    }
+},
+[currentQuestion, questionIndex, questionList]);
 
 useEffect(()=>{
     if (dates != null)
@@ -46,7 +55,7 @@ useEffect(()=>{
         </div>
 
         <div hidden id='quizCon'>
-            <QuizQuestion key={currentQuestion} question={questionList[currentQuestion]} answerList={answerList} setAnswerList={setAnswerList} currentQuestion ={currentQuestion} setCurrentQuestion ={setCurrentQuestion}  />
+            <QuizQuestion key={currentQuestion} question={questionList[questionIndex].phrase} questionType={questionList[questionIndex].type} answerList={answerList} setAnswerList={setAnswerList} currentQuestion ={currentQuestion} setCurrentQuestion ={setCurrentQuestion} />
         </div>
         <div hidden id='guideCon'>
             <p>Your itinerary is under construction</p>

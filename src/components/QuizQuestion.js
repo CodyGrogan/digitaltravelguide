@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 
 function QuizQuestion(props){
 
     const [answer, setAnswer] = useState('');
+    const [phrase, setPhrase] = useState('');
+    
+    
 
     let submitAnswer = (response) =>{
         console.log('submit answer clicked');
+        
         let id = props.question;
         let thisdiv = document.getElementById(id);
         let realbtn = document.getElementById('realbtn');
@@ -17,12 +22,15 @@ function QuizQuestion(props){
         let newlist = props.answerList.slice(0);
         newlist.push(response)
         props.setAnswerList(newlist);
+      
         let newCurrentQuestion = props.currentQuestion + 1;
+        
         setTimeout(()=>{
             props.setCurrentQuestion(newCurrentQuestion);
 
         }, 500 );
         console.log(props.answerList);
+     
 
     }
 
