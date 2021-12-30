@@ -44,3 +44,14 @@ body{
 .date-input{
     margin-bottom: 10px;
 }
+
+.activity{
+    background-color: lightgray;
+    color: black;
+    width: 70%;
+  
+}
+
+.day-num{
+    font-size: 16px;
+}

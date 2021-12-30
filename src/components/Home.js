@@ -1,5 +1,6 @@
 import QuizQuestion from "./QuizQuestion";
 import { Link } from "react-router-dom";
+import ActivityCard from "./AcitivityCard";
 
 function Home(props){
 
@@ -10,7 +11,7 @@ function Home(props){
             </h1> <div className="lineBreak"></div>
             <Link to='/quiz' ><button className="btn btn-primary">Plan your vacation!</button></Link>
             
-            
+            <ActivityCard/>
            
         </div>
     )
