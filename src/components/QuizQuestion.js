@@ -11,6 +11,7 @@ function QuizQuestion(props){
     let submitAnswer = (response) =>{
         console.log('submit answer clicked');
         
+        let responseObj = {type: props.questionType, response: response};
         let id = props.question;
         let thisdiv = document.getElementById(id);
         let realbtn = document.getElementById('realbtn');
@@ -20,7 +21,7 @@ function QuizQuestion(props){
         thisdiv.className = 'fade-out';
         
         let newlist = props.answerList.slice(0);
-        newlist.push(response)
+        newlist.push(responseObj)
         props.setAnswerList(newlist);
       
         let newCurrentQuestion = props.currentQuestion + 1;

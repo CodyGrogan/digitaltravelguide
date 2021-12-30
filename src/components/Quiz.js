@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import QuizQuestion from "./QuizQuestion";
 import DateSelector from "./DateSelector";
 import questionObjArr from "./questionList";
+import { Link } from "react-router-dom";
 
 function Quiz(props){
 
@@ -15,6 +16,8 @@ console.log(questionObjArr[0].content)
 useEffect(()=>{
    if (questionList.length == answerList.length){
        console.log(answerList);
+       let responseList = answerList.slice(0);
+       props.setQuestionResponse(responseList);
        let quiz = document.getElementById('quizCon');
        let guide = document.getElementById('guideCon');
        quiz.remove();
@@ -62,6 +65,7 @@ useEffect(()=>{
             <div className="spinner-border" role="status">
             <span className="visually-hidden">Loading...</span>
             </div>
+            <Link to='/itinerary'> <button type="button" className="btn btn-primary">View Your Vacation Now!</button></Link>
         </div>
 
         </div>
