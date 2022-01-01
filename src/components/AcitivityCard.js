@@ -1,5 +1,3 @@
-import Taipei101 from "./activityList";
-let obj = Taipei101;
 
 
 
@@ -22,7 +20,7 @@ function ActivityCard(props){
                             Date
                        </div>
                        <div className="col-sm">
-                            <h1>{obj.title}</h1>
+                            <h1>{props.obj.title}</h1>
                        </div>
                        <div className="col-sm">
                             Weather
@@ -40,19 +38,19 @@ function ActivityCard(props){
                 <div class="container" >
                     <div className="row sm">
                         <div className="col-sm">
-                          <img className="activityImg" src={obj.img}/>  
+                          <img className="activityImg" src={props.obj.img}/>  
                          </div>
                     
                          <div className="col-sm">
-                            <h2>{obj.subtitle}</h2>
-                            <p>{obj.address}</p>
+                            <h2>{props.subtitle}</h2>
+                            <p>{props.obj.address}</p>
                          </div>
 
                     </div>
                     <div className="lineBreak"></div>
                     
                     
-                    <div> {obj.body}</div>
+                    <div> {props.obj.body}</div>
                     <div>Google Maps container</div>
 
                 </div>
