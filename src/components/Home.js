@@ -1,6 +1,9 @@
 import QuizQuestion from "./QuizQuestion";
 import { Link } from "react-router-dom";
 import ActivityCard from "./AcitivityCard";
+import Taipei101 from "./activityList";
+let obj = Taipei101;
+
 
 function Home(props){
 
@@ -11,7 +14,7 @@ function Home(props){
             </h1> <div className="lineBreak"></div>
             <Link to='/quiz' ><button className="btn btn-primary">Plan your vacation!</button></Link>
             
-            <ActivityCard/>
+            <ActivityCard obj={obj} />
            
         </div>
     )

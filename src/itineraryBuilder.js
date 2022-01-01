@@ -40,4 +40,44 @@ function readResponse(response){
 
 }
 
+function buildItineraryActivities(typeMap){
+   //this read each value in the map and check if its value is above 0. Only recommend activities that are
+   //over 0.
+
+   //it will return an array of activity Objects
+   let activityArr;
+   
+
+
+   return activityArr;
+}
+
+function buildDailySchedule(activityArr) {
+   //this function will check how close the activities are.
+   //and will place activity cards into days 
+   //then build the component with the completed information (date and activity object)
+   //and return them in an array.
+   
+}
+
+function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+   //from stackoverflow. use this to calculate the distance between different activities.
+   
+   var R = 6371; // Radius of the earth in km
+   var dLat = deg2rad(lat2-lat1);  // deg2rad below
+   var dLon = deg2rad(lon2-lon1); 
+   var a = 
+     Math.sin(dLat/2) * Math.sin(dLat/2) +
+     Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+     Math.sin(dLon/2) * Math.sin(dLon/2)
+     ; 
+   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+   var d = R * c; // Distance in km
+   return d;
+ }
+ 
+ function deg2rad(deg) {
+   return deg * (Math.PI/180)
+ }
+
 module.exports = {readResponse}
