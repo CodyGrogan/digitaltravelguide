@@ -7,6 +7,7 @@
 // maximum of 6 activity cards per day in schedule (3 food, 3 other)
 
 
+
 function readResponse(response){
    //this function returns a map with all types and a numeric value.
    //higher means the user likes the type more
@@ -40,19 +41,39 @@ function readResponse(response){
 
 }
 
-function buildItineraryActivities(typeMap){
+function parseActivities(typeMap){
    //this read each value in the map and check if its value is above 0. Only recommend activities that are
    //over 0.
+   // valid types are: art, history, religion, spicy, japanese, chinese, sichuanese, cats, hiking, parks, sight seeing, night life. 
 
+   //let possibleTypes = ['art', 'history', 'religion', 'spicy', 'japanese', 'chinese', 'sichuanese', 'cats', 'hiking', 'parks', 'sightseeing', 'nightlife']
+   let possibleTypes = ['japanese', 'spicy', 'art', 'history'];
    //it will return an array of activity Objects
-   let activityArr;
+   let activityArr = [];
    
-
+   for (let i = 0; i < possibleTypes.length; i++){
+      let thisType = possibleTypes[i];
+      let thisVal = typeMap.get(thisType);
+      if (thisVal >= 0){
+         activityArr.push(thisType);
+      }
+   }
+   console.log(activityArr)
 
    return activityArr;
 }
 
-function buildDailySchedule(activityArr) {
+function buildCards(activityArr){
+   //this function will match the activityArr with those in the activitylist, and return
+   //an array of the matching activity Objects in an array.
+   let activityObjArr = [];
+
+   return activityObjArr
+   
+
+}
+
+function buildDailySchedule(activityObjArr, requestedDates) {
    //this function will check how close the activities are.
    //and will place activity cards into days 
    //then build the component with the completed information (date and activity object)
@@ -80,4 +101,4 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
    return deg * (Math.PI/180)
  }
 
-module.exports = {readResponse}
+module.exports = {readResponse, parseActivities}
