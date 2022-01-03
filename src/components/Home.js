@@ -1,8 +1,8 @@
 import QuizQuestion from "./QuizQuestion";
 import { Link } from "react-router-dom";
 import ActivityCard from "./AcitivityCard";
-import Taipei101 from "./activityList";
-let obj = Taipei101;
+import activityList from "./activityList";
+let obj = activityList[0];
 
 
 function Home(props){

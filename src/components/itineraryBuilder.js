@@ -5,7 +5,8 @@
 // sort the array based on highest obj num
 // then pick the higher scored items first to build activityCards for
 // maximum of 6 activity cards per day in schedule (3 food, 3 other)
-
+import ActivityCard from "./AcitivityCard";
+import activityList from "./activityList";
 
 
 function readResponse(response){
@@ -63,12 +64,22 @@ function parseActivities(typeMap){
    return activityArr;
 }
 
-function buildCards(activityArr){
+function matchActivities(activityArr){
+   
    //this function will match the activityArr with those in the activitylist, and return
    //an array of the matching activity Objects in an array.
    let activityObjArr = [];
+   
 
-   return activityObjArr
+   for (let i = 0; i < activityArr.length; i++){
+      for (let j = 0; j < activityList.length; j++){
+         if (activityArr[i] == activityList[j].type){
+            activityObjArr.push(activityList[j])
+         }
+      }
+   }
+
+   return activityObjArr;
    
 
 }
@@ -78,7 +89,33 @@ function buildDailySchedule(activityObjArr, requestedDates) {
    //and will place activity cards into days 
    //then build the component with the completed information (date and activity object)
    //and return them in an array.
+   let cardArr = [];
+
+   let testDates = {
+      "start": "2022-01-03",
+      "end": "2022-01-04"
+    }
+
+    //for now just arbitrarily return cards
+
+    for (let i = 0; i < activityObjArr.length; i++){
+       let newjsx = <ActivityCard obj={activityObjArr[i]} />
+       cardArr.push(newjsx);
+    }
+
+    return cardArr;
+
    
+}
+
+function buildItinerary(response, dates){
+   let typeMap = readResponse(response);
+   let activityArr = parseActivities(typeMap);
+   let activityObjArr = matchActivities(activityArr);
+   let cardArr = buildDailySchedule(activityObjArr, dates);
+   return cardArr;
+
+
 }
 
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
@@ -101,4 +138,4 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
    return deg * (Math.PI/180)
  }
 
-module.exports = {readResponse, parseActivities}
+module.exports = {readResponse, parseActivities, matchActivities}

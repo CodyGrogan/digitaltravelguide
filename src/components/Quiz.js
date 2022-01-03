@@ -3,6 +3,7 @@ import QuizQuestion from "./QuizQuestion";
 import DateSelector from "./DateSelector";
 import questionObjArr from "./questionList";
 import { Link } from "react-router-dom";
+import {buildItinerary} from './itineraryBuilder';
 
 function Quiz(props){
 
@@ -22,6 +23,7 @@ useEffect(()=>{
        let guide = document.getElementById('guideCon');
        quiz.remove();
        guide.hidden = false;
+    
 
    }
 },
@@ -42,6 +44,7 @@ useEffect(()=>{
         dateCon.hidden = true;
         let quiz = document.getElementById('quizCon');
         quiz.hidden = false;
+        //props.setDatesResponse(dates);
     }
 
 },

@@ -1,6 +1,7 @@
 const itineraryBuilder = require('../src/components/itineraryBuilder');
 const readResponse = itineraryBuilder.readResponse;
 const parseActivities = itineraryBuilder.parseActivities;
+const matchActivities = itineraryBuilder.matchActivities; 
 
 test('response of [{type: history, response: positive}] to be one', () => {
 
@@ -42,4 +43,18 @@ test('response of [{type: history, response: positive}] to be one', () => {
     let itineraryArr = parseActivities(result);
     
     expect(itineraryArr[0]).not.toBe('history');
+  });
+  test('response of [history, art] to to be Sun Yatsen Memorial Hall at [0]', () => {
+
+    let array = ['art', 'history'];
+    let objArr = matchActivities(array);
+    
+    expect(objArr[0].title).toBe('Sun Yatsen Memorial Hall');
+  });
+  test('response of [history, art] to be Taiwan Museum at [1]', () => {
+
+    let array = ['art', 'history'];
+    let objArr = matchActivities(array);
+    
+    expect(objArr[1].title).toBe('Taiwan Museum');
   });

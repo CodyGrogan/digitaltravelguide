@@ -10,14 +10,15 @@ import {useState} from 'react';
 function App() {
 
   const [questionResponse, setQuestionResponse] = useState();
+  const [datesResponse, setDatesResponse] = useState();
   return (
     <div className="App">
       
       <BrowserRouter>
       <Routes>
       <Route path='/' element={<Home/>}/>
-      <Route path='/quiz' element={<Quiz setQuestionResponse={setQuestionResponse}/>}/>
-      <Route path='/itinerary' element={<Itinerary response={questionResponse}/>}/>
+      <Route path='/quiz' element={<Quiz setQuestionResponse={setQuestionResponse} setDatesResponse={setDatesResponse}/>}/>
+      <Route path='/itinerary' element={<Itinerary response={questionResponse} datesResponse={datesResponse}/>}/>
       </Routes>
       </BrowserRouter>
       
