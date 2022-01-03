@@ -3,6 +3,8 @@
 //every 2 rows in a full screen will be one day. each column being
 //breakfast, morningactivity, lunch, noon activity, dinner, nightactivity
 
+import ActivityCard from "./AcitivityCard";
+
 
 
 
@@ -13,6 +15,7 @@ function Itinerary(props){
         <div>
             <p>Itinerary will go here, populated by activity cards</p>
             <p>this is a response: {props.response[0].response}</p>
+            
         </div>
     )
 }
