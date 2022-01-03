@@ -9,6 +9,141 @@ import ActivityCard from "./AcitivityCard";
 import activityList from "./activityList";
 
 
+class itineraryBuilder{
+
+   
+    readResponse(response){
+   //this function returns a map with all types and a numeric value.
+   //higher means the user likes the type more
+   console.log('readResponse fired')
+   let typeMap = new Map;
+   typeMap.set('japanese', 0);
+   typeMap.set('history', 0);
+   typeMap.set('art', 0);
+   typeMap.set('spicy', 0);
+  
+
+
+   for (let i = 0; i < response.length; i++){
+      let thisType = response[i].type;
+      console.log('thistype is ' + thisType);
+     
+      let currentVal = typeMap.get(thisType);
+      if (response[i].response == 'positive'){
+         currentVal = currentVal+1;
+      }
+      else if (response[i].response == 'negative'){
+         currentVal = currentVal - 1;
+      }
+      else if (response[i].response == 'neutral'){
+         currentVal = currentVal;
+      }
+      typeMap.set(thisType, currentVal);
+      console.log(thisType + "=" + typeMap.get(thisType))
+   }
+   return typeMap;
+
+}
+
+ parseActivities(typeMap){
+   //this read each value in the map and check if its value is above 0. Only recommend activities that are
+   //over 0.
+   // valid types are: art, history, religion, spicy, japanese, chinese, sichuanese, cats, hiking, parks, sight seeing, night life. 
+
+   //let possibleTypes = ['art', 'history', 'religion', 'spicy', 'japanese', 'chinese', 'sichuanese', 'cats', 'hiking', 'parks', 'sightseeing', 'nightlife']
+   let possibleTypes = ['japanese', 'spicy', 'art', 'history'];
+   //it will return an array of activity Objects
+   let activityArr = [];
+   
+   for (let i = 0; i < possibleTypes.length; i++){
+      let thisType = possibleTypes[i];
+      let thisVal = typeMap.get(thisType);
+      if (thisVal >= 0){
+         activityArr.push(thisType);
+      }
+   }
+   console.log(activityArr)
+
+   return activityArr;
+}
+
+ matchActivities(activityArr){
+   
+   //this function will match the activityArr with those in the activitylist, and return
+   //an array of the matching activity Objects in an array.
+   let activityObjArr = [];
+   
+
+   for (let i = 0; i < activityArr.length; i++){
+      for (let j = 0; j < activityList.length; j++){
+         if (activityArr[i] == activityList[j].type){
+            activityObjArr.push(activityList[j])
+         }
+      }
+   }
+
+   return activityObjArr;
+   
+
+}
+
+ buildDailySchedule(activityObjArr, requestedDates) {
+   //this function will check how close the activities are.
+   //and will place activity cards into days 
+   //then build the component with the completed information (date and activity object)
+   //and return them in an array.
+   let cardArr = [];
+
+   let testDates = {
+      "start": "2022-01-03",
+      "end": "2022-01-04"
+    }
+
+    //for now just arbitrarily return cards
+
+    for (let i = 0; i < activityObjArr.length; i++){
+       let newjsx = <ActivityCard obj={activityObjArr[i]} />
+       cardArr.push(newjsx);
+    }
+
+    return cardArr;
+
+   
+}
+
+ buildItinerary(response, dates){
+   console.log('build itinerary fired')
+   let typeMap = readResponse(response);
+   let activityArr = parseActivities(typeMap);
+   let activityObjArr = matchActivities(activityArr);
+   let cardArr = buildDailySchedule(activityObjArr, dates);
+   return cardArr;
+
+
+}
+
+ getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+   //from stackoverflow. use this to calculate the distance between different activities.
+   
+   var R = 6371; // Radius of the earth in km
+   var dLat = deg2rad(lat2-lat1);  // deg2rad below
+   var dLon = deg2rad(lon2-lon1); 
+   var a = 
+     Math.sin(dLat/2) * Math.sin(dLat/2) +
+     Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+     Math.sin(dLon/2) * Math.sin(dLon/2)
+     ; 
+   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+   var d = R * c; // Distance in km
+   return d;
+ }
+ 
+  deg2rad(deg) {
+   return deg * (Math.PI/180)
+ }
+
+}
+
 function readResponse(response){
    //this function returns a map with all types and a numeric value.
    //higher means the user likes the type more
@@ -109,6 +244,7 @@ function buildDailySchedule(activityObjArr, requestedDates) {
 }
 
 function buildItinerary(response, dates){
+   console.log('build itinerary fired')
    let typeMap = readResponse(response);
    let activityArr = parseActivities(typeMap);
    let activityObjArr = matchActivities(activityArr);
@@ -138,4 +274,5 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
    return deg * (Math.PI/180)
  }
 
-module.exports = {readResponse, parseActivities, matchActivities}
+
+export default itineraryBuilder;

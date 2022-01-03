@@ -11,14 +11,19 @@ function App() {
 
   const [questionResponse, setQuestionResponse] = useState();
   const [datesResponse, setDatesResponse] = useState();
+  const [activityCards, setActivityCards] = useState();
+  function getCards(){
+    return activityCards;
+  }
+
   return (
     <div className="App">
       
       <BrowserRouter>
       <Routes>
       <Route path='/' element={<Home/>}/>
-      <Route path='/quiz' element={<Quiz setQuestionResponse={setQuestionResponse} setDatesResponse={setDatesResponse}/>}/>
-      <Route path='/itinerary' element={<Itinerary response={questionResponse} datesResponse={datesResponse}/>}/>
+      <Route path='/quiz' element={<Quiz setQuestionResponse={setQuestionResponse} setDatesResponse={setDatesResponse} setActivityCards={setActivityCards}/>}/>
+      <Route path='/itinerary' element={<Itinerary getCards={getCards}/>}/>
       </Routes>
       </BrowserRouter>
       

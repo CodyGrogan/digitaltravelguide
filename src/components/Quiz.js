@@ -3,7 +3,9 @@ import QuizQuestion from "./QuizQuestion";
 import DateSelector from "./DateSelector";
 import questionObjArr from "./questionList";
 import { Link } from "react-router-dom";
-import {buildItinerary} from './itineraryBuilder';
+import itineraryBuilder from './itineraryBuilder';
+
+const builder = new itineraryBuilder;
 
 function Quiz(props){
 
@@ -18,11 +20,13 @@ useEffect(()=>{
    if (questionList.length == answerList.length){
        console.log(answerList);
        let responseList = answerList.slice(0);
-       props.setQuestionResponse(responseList);
        let quiz = document.getElementById('quizCon');
        let guide = document.getElementById('guideCon');
        quiz.remove();
        guide.hidden = false;
+       let activityCards = builder.buildItinerary(responseList, dates);
+       props.setActivityCards(activityCards);
+
     
 
    }
