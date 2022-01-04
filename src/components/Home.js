@@ -8,12 +8,12 @@ let obj = activityList[0];
 function Home(props){
 
     return(
-        <div className="pageCon">
+        <div className="pageCon defBackground">
             <h1>
                 Welcome To Digital Travel Guide Taipei
             </h1> <div className="lineBreak"></div>
             <Link to='/quiz' ><button className="btn btn-primary">Plan your vacation!</button></Link>
-                       
+                     
         </div>
     )
 }

@@ -4,8 +4,9 @@ body{
     background-image: url(tpe-wide.jpg);
     text-align: center;
     background-size: cover;
-        background-repeat: no-repeat;
+    background-repeat: no-repeat;
 }
+
 
 
 .quiz-question{
@@ -44,6 +45,7 @@ body{
     background-color: lightgray;
     color: black;
     width: 70%;
+    margin: 10px;
   
 }
 
@@ -54,11 +56,13 @@ body{
 .activityImg{
     
     max-height: 400px;
+    max-width: 350px;
     
 }
 
 
-@media only screen and (max-width: 400px) {
+
+@media(max-width: 600px) {
     body {
         background-image: url(tpe-tall.jpg);
         background-size: cover;

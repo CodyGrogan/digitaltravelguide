@@ -3,13 +3,15 @@
 
 
 class Activity{
-    constructor(title, address, img, subtitle, body, type){
+    constructor(title, address, img, subtitle, body, type, lat, long){
         this.title = title;
         this.address = address;
         this.img = img;
         this.subtitle = subtitle;
         this.body = body;
         this.type = type;
+        this.lat = lat;
+        this.long = long;
     }
 }
 

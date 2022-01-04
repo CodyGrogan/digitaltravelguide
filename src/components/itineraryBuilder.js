@@ -153,6 +153,7 @@ function readResponse(response){
    typeMap.set('history', 0);
    typeMap.set('art', 0);
    typeMap.set('spicy', 0);
+   typeMap.set('sight seeing', 0);
   
 
 
@@ -183,7 +184,7 @@ function parseActivities(typeMap){
    // valid types are: art, history, religion, spicy, japanese, chinese, sichuanese, cats, hiking, parks, sight seeing, night life. 
 
    //let possibleTypes = ['art', 'history', 'religion', 'spicy', 'japanese', 'chinese', 'sichuanese', 'cats', 'hiking', 'parks', 'sightseeing', 'nightlife']
-   let possibleTypes = ['japanese', 'spicy', 'art', 'history'];
+   let possibleTypes = ['japanese', 'spicy', 'art', 'history', 'sight seeing'];
    //it will return an array of activity Objects
    let activityArr = [];
    

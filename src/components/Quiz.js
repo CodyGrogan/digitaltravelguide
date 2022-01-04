@@ -58,7 +58,7 @@ useEffect(()=>{
 
     return(
 
-        <div className="pageCon">
+        <div className="pageCon defBackground">
             
         <div id='dateCon'>
             <DateSelector setDates={setDates}/>

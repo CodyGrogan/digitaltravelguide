@@ -7,7 +7,7 @@ import Question from "./classes/questions";
 
 let arrContent = ['Do you like Spicy Food?', 'Do you like art galleries?', 'How about Sushi?', 'History museums?']
 
-let questionObjArr = [new Question('spicy', 'spicy food'), new Question('art', 'art galleries'), new Question('japanese', 'sushi'), new Question('history', 'history museums')];
+let questionObjArr = [new Question('spicy', 'spicy food'), new Question('art', 'art galleries'), new Question('japanese', 'sushi'), new Question('history', 'history museums'), new Question('sight seeing', 'tall buildings')];
 
 
 export default questionObjArr;

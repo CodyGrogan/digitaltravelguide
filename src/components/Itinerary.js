@@ -18,7 +18,7 @@ function Itinerary(props){
     }, [])
     
     return(
-        <div className="pageCon">
+        <div className="pageCon itineraryPageBackground">
             <p>Itinerary will go here, populated by activity cards</p>
            
             {activityCards}
