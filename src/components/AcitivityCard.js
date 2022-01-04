@@ -44,9 +44,8 @@ function ActivityCard(props){
                          <div className="col-sm">
                             <h2>{props.obj.subtitle}</h2>
                             <p>{props.obj.address}</p>
-                            <iframe 
-                            width="400"
-                            height="350"
+                            <iframe className="mapIframe" title={props.obj.title}
+                           
                             
                             src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDh-IF0C5tIeY5SNTL62RsBkZS7dyeqWbQ
                                 &q=${props.obj.lat},${props.obj.long}`}/>
