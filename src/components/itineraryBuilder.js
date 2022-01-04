@@ -77,12 +77,14 @@ class itineraryBuilder{
    for (let i = 0; i < activityArr.length; i++){
       for (let j = 0; j < activityList.length; j++){
          if (activityArr[i] == activityList[j].type){
-            activityObjArr.push(activityList[j])
+            activityObjArr.push(activityList[j]);
          }
       }
    }
 
    return activityObjArr;
+   
+
    
 
 }
@@ -92,45 +94,144 @@ class itineraryBuilder{
    //and will place activity cards into days 
    //then build the component with the completed information (date and activity object)
    //and return them in an array.
+
+   // there are 5 cards per day. 2 food and 3 other.
+
+   console.log('buildDailySchedule fired');
+   let foodArr = [];
+   let otherArr =[]
    let cardArr = [];
+   let sortedActivity = []
 
    let testDates = {
       "start": "2022-01-03",
       "end": "2022-01-04"
     }
-
-    //for now just arbitrarily return cards
-
-    for (let i = 0; i < activityObjArr.length; i++){
-       let newjsx = <ActivityCard obj={activityObjArr[i]} />
-       cardArr.push(newjsx);
+   let totaldays = 1 //for testing right now set to only one day
+    //first separate food from other
+    for (let i = 0; i < activityObjArr.length; i ++){
+       if (activityObjArr[i].food == true){
+          foodArr.push(activityObjArr[i]);
+       }
+       else{
+          otherArr.push(activityObjArr[i]);
+       }
     }
 
-    return cardArr;
+    //put a random other activity into sortedActivity
+    //then check for closest food from foodArr
+    //then check for closest otherArr
+    //then for foodArr
+    //then otherArr
 
+    //one day                 ///////////////////////////////////////////////////////////////////////
+    sortedActivity.push(otherArr[0]);
+    otherArr.splice(0, 1);
+    let foodSortArr = [];
+    for (let i = 0; i < foodArr.length; i++){
+       //put foodObj index and distance in an an array [index, distance]
+       let distance = this.getDistanceFromLatLonInKm(sortedActivity[0].lat, sortedActivity[0].long, foodArr[i].lat, foodArr[i].long);
+       let thisfood = [i, distance];
+       foodSortArr.push(thisfood)
+
+    }
+    foodSortArr.sort(function (a, b) {
+      return a[1] - b[1];
+    });
+    console.log(foodSortArr);
+    let indexofClosest = foodSortArr[0][0];
+    sortedActivity.push(foodArr[indexofClosest]);
+    foodArr.splice(indexofClosest,1);
+
+    //get second activity closest to food 1
+    let otherSortArr = [];
+    for (let i = 0; i < otherArr.length; i++){
+      //put foodObj index and distance in an an array [index, distance]
+      let distance = this.getDistanceFromLatLonInKm(sortedActivity[1].lat, sortedActivity[1].long, otherArr[i].lat, otherArr[i].long);
+      let thisother = [i, distance];
+      otherSortArr.push(thisother)
+   }
+   otherSortArr.sort(function (a, b) {
+      return a[1] - b[1];
+    });
+    indexofClosest = otherSortArr[0][0];
+    sortedActivity.push(otherArr[indexofClosest]);
+    otherArr.splice(indexofClosest,1);
+    
+    //get second food
+    foodSortArr = [];
+    for (let i = 0; i < foodArr.length; i++){
+       //put foodObj index and distance in an an array [index, distance]
+       let distance = this.getDistanceFromLatLonInKm(sortedActivity[0].lat, sortedActivity[0].long, foodArr[i].lat, foodArr[i].long);
+       let thisfood = [i, distance];
+       foodSortArr.push(thisfood)
+
+    }
+    foodSortArr.sort(function (a, b) {
+      return a[1] - b[1];
+    });
+    console.log(foodSortArr);
+    indexofClosest = foodSortArr[0][0];
+    sortedActivity.push(foodArr[indexofClosest]);
+    foodArr.splice(indexofClosest,1);
+
+    //get third activity
+    otherSortArr = [];
+    for (let i = 0; i < otherArr.length; i++){
+      //put foodObj index and distance in an an array [index, distance]
+      let distance = this.getDistanceFromLatLonInKm(sortedActivity[1].lat, sortedActivity[1].long, otherArr[i].lat, otherArr[i].long);
+      let thisother = [i, distance];
+      otherSortArr.push(thisother)
+   }
+   otherSortArr.sort(function (a, b) {
+      return a[1] - b[1];
+    });
+    indexofClosest = otherSortArr[0][0];
+    sortedActivity.push(otherArr[indexofClosest]);
+    otherArr.splice(indexofClosest,1);
+
+    console.log(sortedActivity);
+
+   return sortedActivity;
    
+}
+
+ buildCards(activityObjArr){
+   let cardArr = []
+
+   for (let i = 0; i < activityObjArr.length; i++){
+      let newjsx = <ActivityCard obj={activityObjArr[i]} />
+      cardArr.push(newjsx);
+   }
+
+   return cardArr;
 }
 
  buildItinerary(response, dates){
    console.log('build itinerary fired')
-   let typeMap = readResponse(response);
-   let activityArr = parseActivities(typeMap);
-   let activityObjArr = matchActivities(activityArr);
-   let cardArr = buildDailySchedule(activityObjArr, dates);
+   let typeMap = this.readResponse(response);
+   let activityArr = this.parseActivities(typeMap);
+   let activityObjArr = this.matchActivities(activityArr);
+   console.log(activityObjArr);
+   let sortedArray = this.buildDailySchedule(activityObjArr, dates);
+   let cardArr = this.buildCards(sortedArray);
    return cardArr;
 
 
 }
+   deg2rad(deg){
+      return deg * (Math.PI/180)
+   }
 
  getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
    //from stackoverflow. use this to calculate the distance between different activities.
    
    var R = 6371; // Radius of the earth in km
-   var dLat = deg2rad(lat2-lat1);  // deg2rad below
-   var dLon = deg2rad(lon2-lon1); 
+   var dLat = this.deg2rad(lat2-lat1);  // deg2rad below
+   var dLon = this.deg2rad(lon2-lon1); 
    var a = 
      Math.sin(dLat/2) * Math.sin(dLat/2) +
-     Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+     Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * 
      Math.sin(dLon/2) * Math.sin(dLon/2)
      ; 
    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
@@ -138,142 +239,13 @@ class itineraryBuilder{
    return d;
  }
  
-  deg2rad(deg) {
-   return deg * (Math.PI/180)
- }
-
-}
-
-function readResponse(response){
-   //this function returns a map with all types and a numeric value.
-   //higher means the user likes the type more
-   console.log('readResponse fired')
-   let typeMap = new Map;
-   typeMap.set('japanese', 0);
-   typeMap.set('history', 0);
-   typeMap.set('art', 0);
-   typeMap.set('spicy', 0);
-   typeMap.set('sight seeing', 0);
-  
-
-
-   for (let i = 0; i < response.length; i++){
-      let thisType = response[i].type;
-      console.log('thistype is ' + thisType);
-     
-      let currentVal = typeMap.get(thisType);
-      if (response[i].response == 'positive'){
-         currentVal = currentVal+1;
-      }
-      else if (response[i].response == 'negative'){
-         currentVal = currentVal - 1;
-      }
-      else if (response[i].response == 'neutral'){
-         currentVal = currentVal;
-      }
-      typeMap.set(thisType, currentVal);
-      console.log(thisType + "=" + typeMap.get(thisType))
-   }
-   return typeMap;
-
-}
-
-function parseActivities(typeMap){
-   //this read each value in the map and check if its value is above 0. Only recommend activities that are
-   //over 0.
-   // valid types are: art, history, religion, spicy, japanese, chinese, sichuanese, cats, hiking, parks, sight seeing, night life. 
-
-   //let possibleTypes = ['art', 'history', 'religion', 'spicy', 'japanese', 'chinese', 'sichuanese', 'cats', 'hiking', 'parks', 'sightseeing', 'nightlife']
-   let possibleTypes = ['japanese', 'spicy', 'art', 'history', 'sight seeing'];
-   //it will return an array of activity Objects
-   let activityArr = [];
-   
-   for (let i = 0; i < possibleTypes.length; i++){
-      let thisType = possibleTypes[i];
-      let thisVal = typeMap.get(thisType);
-      if (thisVal >= 0){
-         activityArr.push(thisType);
-      }
-   }
-   console.log(activityArr)
-
-   return activityArr;
-}
-
-function matchActivities(activityArr){
-   
-   //this function will match the activityArr with those in the activitylist, and return
-   //an array of the matching activity Objects in an array.
-   let activityObjArr = [];
-   
-
-   for (let i = 0; i < activityArr.length; i++){
-      for (let j = 0; j < activityList.length; j++){
-         if (activityArr[i] == activityList[j].type){
-            activityObjArr.push(activityList[j])
-         }
-      }
-   }
-
-   return activityObjArr;
-   
-
-}
-
-function buildDailySchedule(activityObjArr, requestedDates) {
-   //this function will check how close the activities are.
-   //and will place activity cards into days 
-   //then build the component with the completed information (date and activity object)
-   //and return them in an array.
-   let cardArr = [];
-
-   let testDates = {
-      "start": "2022-01-03",
-      "end": "2022-01-04"
-    }
-
-    //for now just arbitrarily return cards
-
-    for (let i = 0; i < activityObjArr.length; i++){
-       let newjsx = <ActivityCard obj={activityObjArr[i]} />
-       cardArr.push(newjsx);
-    }
-
-    return cardArr;
-
-   
-}
-
-function buildItinerary(response, dates){
-   console.log('build itinerary fired')
-   let typeMap = readResponse(response);
-   let activityArr = parseActivities(typeMap);
-   let activityObjArr = matchActivities(activityArr);
-   let cardArr = buildDailySchedule(activityObjArr, dates);
-   return cardArr;
 
 
 }
 
-function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
-   //from stackoverflow. use this to calculate the distance between different activities.
-   
-   var R = 6371; // Radius of the earth in km
-   var dLat = deg2rad(lat2-lat1);  // deg2rad below
-   var dLon = deg2rad(lon2-lon1); 
-   var a = 
-     Math.sin(dLat/2) * Math.sin(dLat/2) +
-     Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-     Math.sin(dLon/2) * Math.sin(dLon/2)
-     ; 
-   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-   var d = R * c; // Distance in km
-   return d;
- }
- 
- function deg2rad(deg) {
-   return deg * (Math.PI/180)
- }
+
+
+
 
 
 export default itineraryBuilder;

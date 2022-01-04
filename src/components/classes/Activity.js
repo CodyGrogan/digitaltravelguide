@@ -3,7 +3,7 @@
 
 
 class Activity{
-    constructor(title, address, img, subtitle, body, type, lat, long){
+    constructor(title, address, img, subtitle, body, type, lat, long, food){
         this.title = title;
         this.address = address;
         this.img = img;
@@ -12,6 +12,7 @@ class Activity{
         this.type = type;
         this.lat = lat;
         this.long = long;
+        this.food = food //this should be true or false
     }
 }
 

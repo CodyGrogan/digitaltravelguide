@@ -3,7 +3,7 @@ body{
     color: white;
     background-image: url(tpe-wide.jpg);
     text-align: center;
-    background-size: cover;
+    background-size: 100%;
     background-repeat: no-repeat;
 }
 
@@ -44,7 +44,7 @@ body{
 .activity{
     background-color: lightgray;
     color: black;
-    width: 70%;
+    width: 80%;
     margin: 10px;
   
 }
@@ -58,6 +58,11 @@ body{
     max-height: 400px;
     max-width: 350px;
     
+}
+
+.mapIframe{
+    width:300px;
+    height: 250px;
 }
 
 
@@ -75,5 +80,10 @@ body{
     .day-num{
         font-size: 12px;
     }
+    .mapIframe{
+        width: 180px;
+        height: 130px;
+    }
+    
 
   }
