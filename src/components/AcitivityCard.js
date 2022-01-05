@@ -57,7 +57,7 @@ function ActivityCard(props){
                     
                     
                     <div> {props.obj.body}</div>
-                    <div>Google Maps container</div>
+                    
 
                 </div>
 

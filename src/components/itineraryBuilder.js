@@ -21,6 +21,9 @@ class itineraryBuilder{
    typeMap.set('history', 0);
    typeMap.set('art', 0);
    typeMap.set('spicy', 0);
+   typeMap.set('chinese', 0);
+   typeMap.set('nature', 0);
+   typeMap.set('sight seeing', 0);
   
 
 
@@ -51,7 +54,7 @@ class itineraryBuilder{
    // valid types are: art, history, religion, spicy, japanese, chinese, sichuanese, cats, hiking, parks, sight seeing, night life. 
 
    //let possibleTypes = ['art', 'history', 'religion', 'spicy', 'japanese', 'chinese', 'sichuanese', 'cats', 'hiking', 'parks', 'sightseeing', 'nightlife']
-   let possibleTypes = ['japanese', 'spicy', 'art', 'history'];
+   let possibleTypes = ['japanese', 'spicy', 'art', 'history', 'chinese', 'nature', 'sight seeing'];
    //it will return an array of activity Objects
    let activityArr = [];
    
@@ -70,7 +73,7 @@ class itineraryBuilder{
  matchActivities(activityArr){
    
    //this function will match the activityArr with those in the activitylist, and return
-   //an array of the matching activity Objects in an array.
+   //an array of all the matching activity Objects in an array.
    let activityObjArr = [];
    
 

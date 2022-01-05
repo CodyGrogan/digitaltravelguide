@@ -56,12 +56,13 @@ test('response of [{type: history, response: positive}] to be one', () => {
     
     expect(objArr[0].title).toBe('Sun Yatsen Memorial Hall');
   });
-  test('response of [history, art] to be Taiwan Museum at [1]', () => {
+  test('response of [history, art] to be Huashan 1914 Creative Park at [1]', () => {
 
     let array = ['art', 'history'];
     let objArr = builder.matchActivities(array);
+    console.log(objArr);
     
-    expect(objArr[1].title).toBe('Taiwan Museum');
+    expect(objArr[1].title).toBe('Huashan 1914 Creative Park');
   });
 
   test('get distance from two coords', () => {
@@ -143,10 +144,9 @@ test('response of [{type: history, response: positive}] to be one', () => {
         "food": false
     }
   ];
-    //this test is temporary
     let testarr=builder.buildDailySchedule(objArr)
-    console.log(testarr);
-    expect(testarr).toBe(2.644923882528903);
+    
+    expect(testarr).toStrictEqual([{"address": "Xinyi District", "body": "Watch the changing of the guard ceremony, browse the museum, and enjoy a number of art galleries", "food": false, "img": "./activity-img/SYS_Memorial-wikipedia-cary-bass-sm.jpg", "lat": 25.040061374178094, "long": 121.56001587047173, "subtitle": "Memorial, Museum, and Art Gallery", "title": "Sun Yatsen Memorial Hall", "type": "art"}, {"address": "Everywhere", "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", "food": true, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.03386754133035, "long": 121.5383244857638, "subtitle": "Popular sushi chain", "title": "Sushi Express", "type": "japanese"}, {"address": "Zhongzheng District", "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan", "food": false, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.04308334099123, "long": 121.51513450556618, "subtitle": "Natural History Museum and Art gallery", "title": "Taiwan Museum", "type": "history"}, {"address": "Everywhere", "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", "food": true, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.05386754133035, "long": 121.5383244857638, "subtitle": "Popular sushi chain", "title": "foodtest2", "type": "japanese"}, {"address": "Zhongzheng District", "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan", "food": false, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.04308334099123, "long": 121.51513450556618, "subtitle": "Natural History Museum and Art gallery", "title": "Fake Taiwan Museum", "type": "history"}]);
   });
 
   /*
