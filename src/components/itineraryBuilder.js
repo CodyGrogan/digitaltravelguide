@@ -103,14 +103,18 @@ class itineraryBuilder{
    console.log('buildDailySchedule fired');
    let foodArr = [];
    let otherArr =[]
-   let cardArr = [];
+   
    let sortedActivity = []
+   let dateInfo = [];
 
-   let testDates = {
-      "start": "2022-01-03",
-      "end": "2022-01-04"
-    }
-   let totaldays = 1 //for testing right now set to only one day
+   //date info format {date: date, day: num, time: morning, lunch, afternoon, dinner, evening}
+
+   //parse requested dates
+   let startDate = new Date(requestedDates.start);
+   let endDate = new Date(requestedDates.end);
+   const diffTime = Math.abs(endDate - startDate);
+   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));  
+   let totaldays = diffDays //for testing right now set to only one day
     //first separate food from other
     for (let i = 0; i < activityObjArr.length; i ++){
        if (activityObjArr[i].food == true){
@@ -127,83 +131,108 @@ class itineraryBuilder{
     //then for foodArr
     //then otherArr
 
-    //one day                 ///////////////////////////////////////////////////////////////////////
-    sortedActivity.push(otherArr[0]);
-    otherArr.splice(0, 1);
-    let foodSortArr = [];
-    for (let i = 0; i < foodArr.length; i++){
-       //put foodObj index and distance in an an array [index, distance]
-       let distance = this.getDistanceFromLatLonInKm(sortedActivity[0].lat, sortedActivity[0].long, foodArr[i].lat, foodArr[i].long);
-       let thisfood = [i, distance];
-       foodSortArr.push(thisfood)
+    for (let j = 0; j < totaldays; j++){
+         
+         //one day                 ///////////////////////////////////////////////////////////////////////
 
-    }
-    foodSortArr.sort(function (a, b) {
-      return a[1] - b[1];
-    });
-    console.log(foodSortArr);
-    let indexofClosest = foodSortArr[0][0];
-    sortedActivity.push(foodArr[indexofClosest]);
-    foodArr.splice(indexofClosest,1);
+         //first figure out what the date is
+         let newDate = new Date(startDate);
+         newDate.setDate(startDate.getDate()+j);
 
-    //get second activity closest to food 1
-    let otherSortArr = [];
-    for (let i = 0; i < otherArr.length; i++){
-      //put foodObj index and distance in an an array [index, distance]
-      let distance = this.getDistanceFromLatLonInKm(sortedActivity[1].lat, sortedActivity[1].long, otherArr[i].lat, otherArr[i].long);
-      let thisother = [i, distance];
-      otherSortArr.push(thisother)
-   }
-   otherSortArr.sort(function (a, b) {
-      return a[1] - b[1];
-    });
-    indexofClosest = otherSortArr[0][0];
-    sortedActivity.push(otherArr[indexofClosest]);
-    otherArr.splice(indexofClosest,1);
-    
-    //get second food
-    foodSortArr = [];
-    for (let i = 0; i < foodArr.length; i++){
-       //put foodObj index and distance in an an array [index, distance]
-       let distance = this.getDistanceFromLatLonInKm(sortedActivity[0].lat, sortedActivity[0].long, foodArr[i].lat, foodArr[i].long);
-       let thisfood = [i, distance];
-       foodSortArr.push(thisfood)
+         //push first activity
+         sortedActivity.push(otherArr[0]);
+         // corresponding date information
+         dateInfo.push({date: newDate, day: j+1, time: 'Morning'});
+         otherArr.splice(0, 1);  //remove activity from original array so it cannot be selected again;
+         let foodSortArr = [];
+         for (let i = 0; i < foodArr.length; i++){
+            //put foodObj index and distance in an an array [index, distance]
+            let distance = this.getDistanceFromLatLonInKm(sortedActivity[0].lat, sortedActivity[0].long, foodArr[i].lat, foodArr[i].long);
+            let thisfood = [i, distance];
+            foodSortArr.push(thisfood);
+            
+            
 
-    }
-    foodSortArr.sort(function (a, b) {
-      return a[1] - b[1];
-    });
-    console.log(foodSortArr);
-    indexofClosest = foodSortArr[0][0];
-    sortedActivity.push(foodArr[indexofClosest]);
-    foodArr.splice(indexofClosest,1);
+         }
+         foodSortArr.sort(function (a, b) {
+            return a[1] - b[1];
+         });
+         console.log(foodSortArr);
+         let indexofClosest = foodSortArr[0][0];
+         sortedActivity.push(foodArr[indexofClosest]);
+         //push lunch and its time info
+         foodArr.splice(indexofClosest,1);
+         dateInfo.push({date: newDate, day: j+1, time: 'Lunch'});
 
-    //get third activity
-    otherSortArr = [];
-    for (let i = 0; i < otherArr.length; i++){
-      //put foodObj index and distance in an an array [index, distance]
-      let distance = this.getDistanceFromLatLonInKm(sortedActivity[1].lat, sortedActivity[1].long, otherArr[i].lat, otherArr[i].long);
-      let thisother = [i, distance];
-      otherSortArr.push(thisother)
-   }
-   otherSortArr.sort(function (a, b) {
-      return a[1] - b[1];
-    });
-    indexofClosest = otherSortArr[0][0];
-    sortedActivity.push(otherArr[indexofClosest]);
-    otherArr.splice(indexofClosest,1);
+         //get second activity closest to food 1
+         let otherSortArr = [];
+         for (let i = 0; i < otherArr.length; i++){
+            //put foodObj index and distance in an an array [index, distance]
+            let distance = this.getDistanceFromLatLonInKm(sortedActivity[1].lat, sortedActivity[1].long, otherArr[i].lat, otherArr[i].long);
+            let thisother = [i, distance];
+            otherSortArr.push(thisother)
+         }
+         otherSortArr.sort(function (a, b) {
+            return a[1] - b[1];
+         });
+         indexofClosest = otherSortArr[0][0];
+         sortedActivity.push(otherArr[indexofClosest]);
+         dateInfo.push({date: newDate, day: j+1, time: 'Afternoon'});
+         otherArr.splice(indexofClosest,1);
+         
+         //get second food
+         foodSortArr = [];
+         for (let i = 0; i < foodArr.length; i++){
+            //put foodObj index and distance in an an array [index, distance]
+            let distance = this.getDistanceFromLatLonInKm(sortedActivity[0].lat, sortedActivity[0].long, foodArr[i].lat, foodArr[i].long);
+            let thisfood = [i, distance];
+            foodSortArr.push(thisfood)
+
+         }
+         foodSortArr.sort(function (a, b) {
+            return a[1] - b[1];
+         });
+         console.log(foodSortArr);
+         indexofClosest = foodSortArr[0][0];
+         sortedActivity.push(foodArr[indexofClosest]);
+         dateInfo.push({date: newDate, day: j+1, time: 'Dinner'});
+         foodArr.splice(indexofClosest,1);
+
+         //get third activity
+         otherSortArr = [];
+         for (let i = 0; i < otherArr.length; i++){
+            //put foodObj index and distance in an an array [index, distance]
+            let distance = this.getDistanceFromLatLonInKm(sortedActivity[1].lat, sortedActivity[1].long, otherArr[i].lat, otherArr[i].long);
+            let thisother = [i, distance];
+            otherSortArr.push(thisother)
+         }
+         otherSortArr.sort(function (a, b) {
+            return a[1] - b[1];
+         });
+         indexofClosest = otherSortArr[0][0];
+         sortedActivity.push(otherArr[indexofClosest]);
+         otherArr.splice(indexofClosest,1);
+         dateInfo.push({date: newDate, day: j+1, time: 'Evening'});
+
+         ////// End of day
+
+      }
 
     console.log(sortedActivity);
+    console.log(dateInfo);
 
-   return sortedActivity;
+   return [sortedActivity, dateInfo];
    
 }
 
- buildCards(activityObjArr){
+ buildCards(info){
+    //build cards takes an array of two arrays, the activityobjArr is at [0] and time info array at[1];
+   let activityObjArr = info[0];
+   let timeInfo = info[1];
    let cardArr = []
 
    for (let i = 0; i < activityObjArr.length; i++){
-      let newjsx = <ActivityCard obj={activityObjArr[i]} />
+      let newjsx = <ActivityCard obj={activityObjArr[i]} timeInfo={timeInfo[i]} />
       cardArr.push(newjsx);
    }
 

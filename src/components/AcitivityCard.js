@@ -6,10 +6,29 @@
 
 
 function ActivityCard(props){
+
+    function displayDate(date) {
+        let dd = date.getDate();
+        let mm = date.getMonth()+1;
+        let yyyy = date.getFullYear();
+        if (dd<10){
+            dd = '0' + dd;
+        }
+        if (mm < 10){
+            mm = '0' + mm;
+        }
+        let dateString = `${yyyy}-${mm}-${dd}`;
+        console.log(dateString);
+        return dateString;
+        
+    }
+
+    let dateString = displayDate(props.timeInfo.date);
+
     return(
         <div className="card activity">
             <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger day-num">
-            Day - Time
+            Day {props.timeInfo.day} - {props.timeInfo.time}
             <span class="visually-hidden">Day Num - Time</span>
         </span>
            <div className="card-header ">
@@ -17,7 +36,7 @@ function ActivityCard(props){
                    <div className="row">
 
                        <div className="col-sm">
-                            Date
+                            Date: {dateString}
                        </div>
                        <div className="col-sm">
                             <h1>{props.obj.title}</h1>
