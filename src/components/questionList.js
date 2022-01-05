@@ -5,10 +5,22 @@ import Question from "./classes/questions";
 // valid types are: art, history, religion, spicy, japanese food, chinese food, sichuanese food, cats, hiking, parks, site seeing, night life. 
 
 
-let arrContent = ['Do you like Spicy Food?', 'Do you like art galleries?', 'How about Sushi?', 'History museums?']
 
-let questionObjArr = [new Question('spicy', 'spicy food'), new Question('art', 'art galleries'), new Question('japanese', 'sushi'), new Question('history', 'history museums'), new Question('sight seeing', 'tall buildings')];
+let dumpling = new Question('chinese', 'dumplings');
+let chinese = new Question('chinese', 'Chinese food');
+let gallery = new Question('art', 'art galleries');
+let spicy = new Question('spicy', 'spicy food')
+let sushi = new Question('japanese', 'sushi');
+let outdoor = new Question('nature', 'the great outdoors');
+let museum = new Question('history', 'history museums');
+let tall = new Question('sight seeing', 'tall buildings');
+let noodles = new Question('japanese', 'noodles');
+let sites = new Question('history', 'historic sites');
+let hikes = new Question('nature', 'hiking');
+let garden = new Question('nature', 'gardens');
+let artsandcrafts = new Question('art', 'arts and crafts');
+
+let questionObjArr = [dumpling, museum, chinese, spicy, gallery, sushi, outdoor, tall, noodles, sites, hikes, garden, artsandcrafts];
 
 
 export default questionObjArr;
-console.log(questionObjArr[0]);
