@@ -57,6 +57,7 @@ class itineraryBuilder{
    let possibleTypes = ['japanese', 'spicy', 'art', 'history', 'chinese', 'nature', 'sight seeing'];
    //it will return an array of activity Objects
    let activityArr = [];
+   let nonPrefActivityArr=[];
    
    for (let i = 0; i < possibleTypes.length; i++){
       let thisType = possibleTypes[i];
@@ -77,7 +78,10 @@ class itineraryBuilder{
    //an array of all the matching activity Objects in an array.
    //activityList is imported from activityList.js
    console.log('matchActivities fired')
+   
    let activityObjArr = [];
+   let nonPrefObjArr = [];
+   let nonPrefMap =  new Map;
    
 
    for (let i = 0; i < activityArr.length; i++){
@@ -89,28 +93,42 @@ class itineraryBuilder{
                   
                   break;
                }
+               else{
+
+                  if (nonPrefMap.get(activityList[j].title) != true){
+                   nonPrefObjArr.push(activityList[j])
+                   nonPrefMap.set(activityList[j].title, true);
+                  }
+               }
          }
       }
    }
 
-   return activityObjArr;
+   console.log(nonPrefObjArr.length + 'non prefs')
+
+   return [activityObjArr, nonPrefObjArr];
    
 
    
 
 }
 
- buildDailySchedule(activityObjArr, requestedDates) {
+ buildDailySchedule(activityObjArrs, requestedDates) {
    //this function will check how close the activities are.
    //and will place activity cards into days 
    //then build the component with the completed information (date and activity object)
    //and return them in an array.
 
    // there are 5 cards per day. 2 food and 3 other.
+   let activityObjArr = activityObjArrs[0];
+   let nonPrefObjArr = activityObjArrs[1]; //these will be used if there is a failure to find enough preferred activities
 
    console.log('buildDailySchedule fired');
    let foodArr = [];
    let otherArr =[]
+
+   let nonPrefFoodArr = [];
+   let nonPrefOtherArr = [];
    
    let sortedActivity = []
    let dateInfo = [];
@@ -133,6 +151,15 @@ class itineraryBuilder{
        }
     }
 
+    for (let i = 0; i < nonPrefObjArr.length; i ++){
+      if (nonPrefObjArr[i].food == true){
+         nonPrefFoodArr.push(nonPrefObjArr[i]);
+      }
+      else{
+         nonPrefOtherArr.push(nonPrefObjArr[i]);
+      }
+   }
+
     //put a random other activity into sortedActivity
     //then check for closest food from foodArr
     //then check for closest otherArr
@@ -141,11 +168,36 @@ class itineraryBuilder{
 
     for (let j = 0; j < totaldays; j++){
          
-         //one day                 ///////////////////////////////////////////////////////////////////////
+         //one day                 ////////////////////////////////////////////////////////////// there are 3 activities and 2 food in a day
+                                                                       //// so we can check that there are enough left in the arr
+                                                                                             
 
          //first figure out what the date is
          let newDate = new Date(startDate);
          newDate.setDate(startDate.getDate()+j);
+
+
+         //check that enough preferred activities remain
+      if (otherArr.length < 3 ){
+         //if not enough push enough activities into otherArr
+         let neededNum = 3 - otherArr.length;
+         for (let i = 0; i< neededNum; i++){
+            otherArr.push(nonPrefOtherArr[0]);
+            nonPrefOtherArr.splice(0,1);
+         }
+
+      }
+
+      if (foodArr.length < 2 ){
+         //if not enough push enough food into foodArr
+         let neededNum = 2 - foodArr.length;
+         for (let i = 0; i< neededNum; i++){
+            foodArr.push(nonPrefFoodArr[0]);
+            nonPrefFoodArr.splice(0,1);
+         }
+
+      }
+
 
          //push first activity
          sortedActivity.push(otherArr[0]);
@@ -177,7 +229,7 @@ class itineraryBuilder{
          for (let i = 0; i < otherArr.length; i++){
             //put foodObj index and distance in an an array [index, distance]
             let distance = this.getDistanceFromLatLonInKm(sortedActivity[1].lat, sortedActivity[1].long, otherArr[i].lat, otherArr[i].long);
-            let thisother = [i, distance];
+            let thisother = [i, distance];  
             otherSortArr.push(thisother)
          }
          otherSortArr.sort(function (a, b) {
