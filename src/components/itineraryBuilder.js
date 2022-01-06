@@ -194,6 +194,8 @@ class itineraryBuilder{
          for (let i = 0; i< neededNum; i++){
             foodArr.push(nonPrefFoodArr[0]);
             nonPrefFoodArr.splice(0,1);
+            console.log('foodprefs')
+            console.log(nonPrefFoodArr);
          }
 
       }
@@ -219,9 +221,10 @@ class itineraryBuilder{
          });
          //console.log(foodSortArr);
          let indexofClosest = foodSortArr[0][0];
+         foodArr.splice(indexofClosest, 1);
          sortedActivity.push(foodArr[indexofClosest]);
          //push lunch and its time info
-         foodArr.splice(indexofClosest,1);
+          
          dateInfo.push({date: newDate, day: j+1, time: 'Lunch'});
 
          //get second activity closest to food 1
@@ -255,6 +258,7 @@ class itineraryBuilder{
          //console.log(foodSortArr);
          indexofClosest = foodSortArr[0][0];
          sortedActivity.push(foodArr[indexofClosest]);
+         
          dateInfo.push({date: newDate, day: j+1, time: 'Dinner'});
          foodArr.splice(indexofClosest,1);
 

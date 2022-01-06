@@ -75,7 +75,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
     expect(distance).toBe(2.644923882528903);
   });
 
-  test('build daily schedule one day,  food arr to be sorted by distance ', () => {
+  test('build daily schedule one day,  food arr to be sorted by distance', () => {
 
     let objArr = [
       {
@@ -157,8 +157,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
     //buildDailySchedule returns an array with two objects, on on activities, the other on time/date
     let testObjArr = testarr[0];
     
-    expect(testObjArr).toStrictEqual([{"address": "Xinyi District", "body": "Watch the changing of the guard ceremony, browse the museum, and enjoy a number of art galleries", "food": false, "img": "./activity-img/SYS_Memorial-wikipedia-cary-bass-sm.jpg", "lat": 25.040061374178094, "long": 121.56001587047173, "subtitle": "Memorial, Museum, and Art Gallery", "title": "Sun Yatsen Memorial Hall", "type": ["art"]}, {"address": "Everywhere", "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", "food": true, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.03386754133035, "long": 121.5383244857638, "subtitle": "Popular sushi chain", "title": "Sushi Express", "type": ["japanese"]}, {"address": "Zhongzheng District", "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan", "food": false, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.04308334099123, "long": 121.51513450556618, "subtitle": "Natural History Museum and Art gallery", "title": "Taiwan Museum", "type": ["history"]}, {"address": "Everywhere", "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", "food": true, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.05386754133035, "long": 121.5383244857638, "subtitle": "Popular sushi chain", "title": "foodtest2", "type": ["japanese"]}, {"address": "Zhongzheng District", "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan", "food": false, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.04308334099123, "long": 121.51513450556618, "subtitle": "Natural History Museum and Art gallery", "title": "Fake Taiwan Museum", "type": ["history"]}]);
-  });
+    expect(testObjArr[0].title).toBe('Sun Yatsen Memorial Hall')  });
 
   test('build daily schedule food arr to be sorted by distance after 2 days', () => {
     //this test will need to be updates with dates for the parameter rather than an int
@@ -306,8 +305,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
     let testarr=builder.buildDailySchedule(objArrs, testDates);
     let testObjArr = testarr[0];
     
-    expect(testObjArr[1]).toStrictEqual({"address": "Everywhere", "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", "food": true, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.03386754133035, "long": 121.5383244857638, "subtitle": "Popular sushi chain", "title": "Sushi Express", "type": ["japanese"]})
-  });
+    expect(testObjArr[1].title).toBe('foodtest2')});
 
   test('after not enough prefObjs adds nonPrefs to final list ', () => {
 
@@ -450,6 +448,27 @@ test('response of [{type: history, response: positive}] to be one', () => {
     let length = testObjArr.length;
     expect(length).toBe(5);  
     
+  });
+
+
+  
+  test('check if build function works with all negative food responses', () => {
+
+    let testDates = {
+      "start": "2022-01-03",
+      "end": "2022-01-04"
+    }
+  
+    let response = [{type: 'history', response: 'negative'},{type: 'spicy', response: 'negative'},{type: 'chinese', response: 'negative'},{type: 'japanese', response: 'negative'}] 
+
+    
+    let typeMap = builder.readResponse(response);
+    let activityArr = builder.parseActivities(typeMap);
+    let activityObjArr = builder.matchActivities(activityArr);
+    console.log(activityObjArr);
+    let sortedArray = builder.buildDailySchedule(activityObjArr, testDates);
+    let length = sortedArray[0].length;
+    expect(length).toBe(5);  //5 cards per day
   });
 
 
