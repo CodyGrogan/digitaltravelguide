@@ -83,7 +83,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
           "img": "./activity-img/taipei-101-activity.jpg",
           "subtitle": "Popular sushi chain",
           "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
-          "type": "japanese",
+          "type": ["japanese"],
           "lat": 25.03386754133035,
           "long": 121.5383244857638,
           "food": true
@@ -94,7 +94,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
         "img": "./activity-img/taipei-101-activity.jpg",
         "subtitle": "Popular sushi chain",
         "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
-        "type": "japanese",
+        "type": ["japanese"],
         "lat": 25.05386754133035,
         "long": 121.5383244857638,
         "food": true
@@ -105,7 +105,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "img": "./activity-img/taipei-101-activity.jpg",
       "subtitle": "Popular sushi chain",
       "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
-      "type": "japanese",
+      "type": ["japanese"],
       "lat": 25.07386754133035,
       "long": 121.5383244857638,
       "food": true
@@ -116,7 +116,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
           "img": "./activity-img/SYS_Memorial-wikipedia-cary-bass-sm.jpg",
           "subtitle": "Memorial, Museum, and Art Gallery",
           "body": "Watch the changing of the guard ceremony, browse the museum, and enjoy a number of art galleries",
-          "type": "art",
+          "type": ["art"],
           "lat": 25.040061374178094,
           "long": 121.56001587047173,
           "food": false
@@ -127,7 +127,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
           "img": "./activity-img/taipei-101-activity.jpg",
           "subtitle": "Natural History Museum and Art gallery",
           "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan",
-          "type": "history",
+          "type": ["history"],
           "lat": 25.04308334099123,
           "long": 121.51513450556618,
           "food": false
@@ -138,7 +138,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
         "img": "./activity-img/taipei-101-activity.jpg",
         "subtitle": "Natural History Museum and Art gallery",
         "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan",
-        "type": "history",
+        "type": ["history"],
         "lat": 25.04308334099123,
         "long": 121.51513450556618,
         "food": false
@@ -149,9 +149,11 @@ test('response of [{type: history, response: positive}] to be one', () => {
     "start": "2022-01-03",
     "end": "2022-01-04"
   }
-    let testarr=builder.buildDailySchedule(objArr, testDates)
+    let testarr=builder.buildDailySchedule(objArr, testDates);
+    //buildDailySchedule returns an array with two objects, on on activities, the other on time/date
+    let testObjArr = testarr[0];
     
-    expect(testarr).toStrictEqual([{"address": "Xinyi District", "body": "Watch the changing of the guard ceremony, browse the museum, and enjoy a number of art galleries", "food": false, "img": "./activity-img/SYS_Memorial-wikipedia-cary-bass-sm.jpg", "lat": 25.040061374178094, "long": 121.56001587047173, "subtitle": "Memorial, Museum, and Art Gallery", "title": "Sun Yatsen Memorial Hall", "type": "art"}, {"address": "Everywhere", "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", "food": true, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.03386754133035, "long": 121.5383244857638, "subtitle": "Popular sushi chain", "title": "Sushi Express", "type": "japanese"}, {"address": "Zhongzheng District", "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan", "food": false, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.04308334099123, "long": 121.51513450556618, "subtitle": "Natural History Museum and Art gallery", "title": "Taiwan Museum", "type": "history"}, {"address": "Everywhere", "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", "food": true, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.05386754133035, "long": 121.5383244857638, "subtitle": "Popular sushi chain", "title": "foodtest2", "type": "japanese"}, {"address": "Zhongzheng District", "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan", "food": false, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.04308334099123, "long": 121.51513450556618, "subtitle": "Natural History Museum and Art gallery", "title": "Fake Taiwan Museum", "type": "history"}]);
+    expect(testObjArr).toStrictEqual([{"address": "Xinyi District", "body": "Watch the changing of the guard ceremony, browse the museum, and enjoy a number of art galleries", "food": false, "img": "./activity-img/SYS_Memorial-wikipedia-cary-bass-sm.jpg", "lat": 25.040061374178094, "long": 121.56001587047173, "subtitle": "Memorial, Museum, and Art Gallery", "title": "Sun Yatsen Memorial Hall", "type": ["art"]}, {"address": "Everywhere", "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", "food": true, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.03386754133035, "long": 121.5383244857638, "subtitle": "Popular sushi chain", "title": "Sushi Express", "type": ["japanese"]}, {"address": "Zhongzheng District", "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan", "food": false, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.04308334099123, "long": 121.51513450556618, "subtitle": "Natural History Museum and Art gallery", "title": "Taiwan Museum", "type": ["history"]}, {"address": "Everywhere", "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", "food": true, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.05386754133035, "long": 121.5383244857638, "subtitle": "Popular sushi chain", "title": "foodtest2", "type": ["japanese"]}, {"address": "Zhongzheng District", "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan", "food": false, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.04308334099123, "long": 121.51513450556618, "subtitle": "Natural History Museum and Art gallery", "title": "Fake Taiwan Museum", "type": ["history"]}]);
   });
 
   test('build daily schedule food arr to be sorted by distance after 2 days', () => {
@@ -164,7 +166,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
           "img": "./activity-img/taipei-101-activity.jpg",
           "subtitle": "Popular sushi chain",
           "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
-          "type": "japanese",
+          "type": ["japanese"],
           "lat": 25.03386754133035,
           "long": 121.5383244857638,
           "food": true
@@ -175,7 +177,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
         "img": "./activity-img/taipei-101-activity.jpg",
         "subtitle": "Popular sushi chain",
         "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
-        "type": "japanese",
+        "type": ["japanese"],
         "lat": 25.05386754133035,
         "long": 121.5383244857638,
         "food": true
@@ -186,7 +188,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "img": "./activity-img/taipei-101-activity.jpg",
       "subtitle": "Popular sushi chain",
       "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
-      "type": "japanese",
+      "type": ["japanese"],
       "lat": 25.07386754133035,
       "long": 121.5383244857638,
       "food": true
@@ -197,7 +199,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
           "img": "./activity-img/SYS_Memorial-wikipedia-cary-bass-sm.jpg",
           "subtitle": "Memorial, Museum, and Art Gallery",
           "body": "Watch the changing of the guard ceremony, browse the museum, and enjoy a number of art galleries",
-          "type": "art",
+          "type": ["art"],
           "lat": 25.040061374178094,
           "long": 121.56001587047173,
           "food": false
@@ -208,7 +210,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
           "img": "./activity-img/taipei-101-activity.jpg",
           "subtitle": "Natural History Museum and Art gallery",
           "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan",
-          "type": "history",
+          "type": ["history"],
           "lat": 25.04308334099123,
           "long": 121.51513450556618,
           "food": false
@@ -219,7 +221,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
         "img": "./activity-img/taipei-101-activity.jpg",
         "subtitle": "Natural History Museum and Art gallery",
         "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan",
-        "type": "history",
+        "type": ["history"],
         "lat": 25.04308334099123,
         "long": 121.51513450556618,
         "food": false
@@ -230,7 +232,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "img": "./activity-img/taipei-101-activity.jpg",
       "subtitle": "Popular sushi chain",
       "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
-      "type": "japanese",
+      "type": ["japanese"],
       "lat": 25.03386754133035,
       "long": 121.5383244857638,
       "food": true
@@ -241,7 +243,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
     "img": "./activity-img/taipei-101-activity.jpg",
     "subtitle": "Popular sushi chain",
     "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
-    "type": "japanese",
+    "type": ["japanese"],
     "lat": 25.05386754133035,
     "long": 121.5383244857638,
     "food": true
@@ -252,7 +254,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
   "img": "./activity-img/taipei-101-activity.jpg",
   "subtitle": "Popular sushi chain",
   "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
-  "type": "japanese",
+  "type": ["japanese"],
   "lat": 25.07386754133035,
   "long": 121.5383244857638,
   "food": true
@@ -263,7 +265,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "img": "./activity-img/SYS_Memorial-wikipedia-cary-bass-sm.jpg",
       "subtitle": "Memorial, Museum, and Art Gallery",
       "body": "Watch the changing of the guard ceremony, browse the museum, and enjoy a number of art galleries",
-      "type": "art",
+      "type": ["art"],
       "lat": 25.040061374178094,
       "long": 121.56001587047173,
       "food": false
@@ -274,7 +276,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "img": "./activity-img/taipei-101-activity.jpg",
       "subtitle": "Natural History Museum and Art gallery",
       "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan",
-      "type": "history",
+      "type":[ "history"],
       "lat": 25.04308334099123,
       "long": 121.51513450556618,
       "food": false
@@ -285,7 +287,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
     "img": "./activity-img/taipei-101-activity.jpg",
     "subtitle": "Natural History Museum and Art gallery",
     "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan",
-    "type": "history",
+    "type": ["history"],
     "lat": 25.04308334099123,
     "long": 121.51513450556618,
     "food": false
@@ -295,9 +297,10 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "start": "2022-01-03",
       "end": "2022-01-05"
     }
-    let testarr=builder.buildDailySchedule(objArr, testDates)
+    let testarr=builder.buildDailySchedule(objArr, testDates);
+    let testObjArr = testarr[0];
     
-    expect(testarr[1]).toStrictEqual({"address": "Everywhere", "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", "food": true, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.03386754133035, "long": 121.5383244857638, "subtitle": "Popular sushi chain", "title": "Sushi Express", "type": "japanese"})
+    expect(testObjArr[1]).toStrictEqual({"address": "Everywhere", "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", "food": true, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.03386754133035, "long": 121.5383244857638, "subtitle": "Popular sushi chain", "title": "Sushi Express", "type": ["japanese"]})
   });
 
 

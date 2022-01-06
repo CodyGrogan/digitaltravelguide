@@ -42,7 +42,7 @@ class itineraryBuilder{
          currentVal = currentVal;
       }
       typeMap.set(thisType, currentVal);
-      console.log(thisType + "=" + typeMap.get(thisType))
+      //console.log(thisType + "=" + typeMap.get(thisType))
    }
    return typeMap;
 
@@ -72,15 +72,23 @@ class itineraryBuilder{
 
  matchActivities(activityArr){
    
+   //activityArr is a list of types that the user likes
    //this function will match the activityArr with those in the activitylist, and return
    //an array of all the matching activity Objects in an array.
+   //activityList is imported from activityList.js
+   console.log('matchActivities fired')
    let activityObjArr = [];
    
 
    for (let i = 0; i < activityArr.length; i++){
       for (let j = 0; j < activityList.length; j++){
-         if (activityArr[i] == activityList[j].type){
-            activityObjArr.push(activityList[j]);
+         for(let k = 0; k < activityList[j].type.length; k++){
+
+               if (activityArr[i] == activityList[j].type[k]){
+                  activityObjArr.push(activityList[j]);
+                  
+                  break;
+               }
          }
       }
    }
@@ -157,7 +165,7 @@ class itineraryBuilder{
          foodSortArr.sort(function (a, b) {
             return a[1] - b[1];
          });
-         console.log(foodSortArr);
+         //console.log(foodSortArr);
          let indexofClosest = foodSortArr[0][0];
          sortedActivity.push(foodArr[indexofClosest]);
          //push lunch and its time info
@@ -192,7 +200,7 @@ class itineraryBuilder{
          foodSortArr.sort(function (a, b) {
             return a[1] - b[1];
          });
-         console.log(foodSortArr);
+         //console.log(foodSortArr);
          indexofClosest = foodSortArr[0][0];
          sortedActivity.push(foodArr[indexofClosest]);
          dateInfo.push({date: newDate, day: j+1, time: 'Dinner'});
@@ -218,8 +226,8 @@ class itineraryBuilder{
 
       }
 
-    console.log(sortedActivity);
-    console.log(dateInfo);
+    //console.log(sortedActivity);
+    //console.log(dateInfo);
 
    return [sortedActivity, dateInfo];
    
