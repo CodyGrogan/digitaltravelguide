@@ -5,7 +5,7 @@
 
 import ActivityCard from "./AcitivityCard";
 import { useEffect, useState } from "react";
-
+import {Link} from 'react-router-dom';
 
 
 
@@ -19,9 +19,10 @@ function Itinerary(props){
     
     return(
         <div className="pageCon itineraryPageBackground">
-            <p>Itinerary will go here, populated by activity cards</p>
+            
            
             {activityCards}
+            <Link to={'/'}><button className="btn btn-warning">Home</button></Link>
             
         </div>
     )

@@ -53,16 +53,24 @@ test('response of [{type: history, response: positive}] to be one', () => {
 
     let array = ['art', 'history'];
     let objArr = builder.matchActivities(array);
+    let prefArr = objArr[0];
     
-    expect(objArr[0].title).toBe('Sun Yatsen Memorial Hall');
+    expect(prefArr[0].title).toBe('Sun Yatsen Memorial Hall');
   });
-  test('response of [history, art] to be Huashan 1914 Creative Park at [1]', () => {
 
-    let array = ['art', 'history'];
-    let objArr = builder.matchActivities(array);
-    console.log(objArr);
-    
-    expect(objArr[1].title).toBe('Huashan 1914 Creative Park');
+
+  test('expect no non-pref when all things positive', () => {
+    //let response = [{type: 'history', response: 'positive'},{type: 'spicy', response: 'positive'},{type: 'chinese', response: 'positive'},{type: 'japanese', response: 'positive'},{type: 'art', response: 'positive'},{type: 'sight seeing', response: 'positive'}];
+    //let typemap = builder.readResponse(response);
+    //let parsed = builder.parseActivities(typemap)
+    let preftypearray = ['art', 'history', 'sight seeing', 'spicy', 'chinese', 'japanese', 'nature'];
+    let arrays = builder.matchActivities(preftypearray);
+    let preflength = arrays[0].length;
+    let length = arrays[1].length;
+    console.log('should be zero: preflength' + preflength + 'nonpreflength' + length);
+    console.log(arrays[1]);
+    console.log(arrays[0]);
+    expect(length).toBe(0);
   });
 
   test('get distance from two coords', () => {
@@ -74,7 +82,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
     expect(distance).toBe(2.644923882528903);
   });
 
-  test('build daily schedule one day,  food arr to be sorted by distance ', () => {
+  test('build daily schedule one day,  food arr to be sorted by distance', () => {
 
     let objArr = [
       {
@@ -149,12 +157,14 @@ test('response of [{type: history, response: positive}] to be one', () => {
     "start": "2022-01-03",
     "end": "2022-01-04"
   }
-    let testarr=builder.buildDailySchedule(objArr, testDates);
+
+  let nonpref = [];
+  let objArrs = [objArr, nonpref];
+    let testarr=builder.buildDailySchedule(objArrs, testDates);
     //buildDailySchedule returns an array with two objects, on on activities, the other on time/date
     let testObjArr = testarr[0];
     
-    expect(testObjArr).toStrictEqual([{"address": "Xinyi District", "body": "Watch the changing of the guard ceremony, browse the museum, and enjoy a number of art galleries", "food": false, "img": "./activity-img/SYS_Memorial-wikipedia-cary-bass-sm.jpg", "lat": 25.040061374178094, "long": 121.56001587047173, "subtitle": "Memorial, Museum, and Art Gallery", "title": "Sun Yatsen Memorial Hall", "type": ["art"]}, {"address": "Everywhere", "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", "food": true, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.03386754133035, "long": 121.5383244857638, "subtitle": "Popular sushi chain", "title": "Sushi Express", "type": ["japanese"]}, {"address": "Zhongzheng District", "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan", "food": false, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.04308334099123, "long": 121.51513450556618, "subtitle": "Natural History Museum and Art gallery", "title": "Taiwan Museum", "type": ["history"]}, {"address": "Everywhere", "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", "food": true, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.05386754133035, "long": 121.5383244857638, "subtitle": "Popular sushi chain", "title": "foodtest2", "type": ["japanese"]}, {"address": "Zhongzheng District", "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan", "food": false, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.04308334099123, "long": 121.51513450556618, "subtitle": "Natural History Museum and Art gallery", "title": "Fake Taiwan Museum", "type": ["history"]}]);
-  });
+    expect(testObjArr[0].title).toBe('Sun Yatsen Memorial Hall')  });
 
   test('build daily schedule food arr to be sorted by distance after 2 days', () => {
     //this test will need to be updates with dates for the parameter rather than an int
@@ -297,14 +307,279 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "start": "2022-01-03",
       "end": "2022-01-05"
     }
-    let testarr=builder.buildDailySchedule(objArr, testDates);
+    let nonpreffarr = [];
+    let objArrs = [objArr, nonpreffarr];
+    let testarr=builder.buildDailySchedule(objArrs, testDates);
     let testObjArr = testarr[0];
     
-    expect(testObjArr[1]).toStrictEqual({"address": "Everywhere", "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", "food": true, "img": "./activity-img/taipei-101-activity.jpg", "lat": 25.03386754133035, "long": 121.5383244857638, "subtitle": "Popular sushi chain", "title": "Sushi Express", "type": ["japanese"]})
+    expect(testObjArr[1].title).toBe('Sushi Express')});
+
+  test('after not enough prefObjs adds nonPrefs to final list ', () => {
+
+    let objArr = [
+      {
+          "title": "Sushi Express",
+          "address": "Everywhere",
+          "img": "./activity-img/taipei-101-activity.jpg",
+          "subtitle": "Popular sushi chain",
+          "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
+          "type": ["japanese"],
+          "lat": 25.03386754133035,
+          "long": 121.5383244857638,
+          "food": true
+      },
+      {
+        "title": "foodtest2",
+        "address": "Everywhere",
+        "img": "./activity-img/taipei-101-activity.jpg",
+        "subtitle": "Popular sushi chain",
+        "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
+        "type": ["japanese"],
+        "lat": 25.05386754133035,
+        "long": 121.5383244857638,
+        "food": true
+    },
+    {
+      "title": "foodtest3",
+      "address": "Everywhere",
+      "img": "./activity-img/taipei-101-activity.jpg",
+      "subtitle": "Popular sushi chain",
+      "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
+      "type": ["japanese"],
+      "lat": 25.07386754133035,
+      "long": 121.5383244857638,
+      "food": true
+  },
+      {
+          "title": "Sun Yatsen Memorial Hall",
+          "address": "Xinyi District",
+          "img": "./activity-img/SYS_Memorial-wikipedia-cary-bass-sm.jpg",
+          "subtitle": "Memorial, Museum, and Art Gallery",
+          "body": "Watch the changing of the guard ceremony, browse the museum, and enjoy a number of art galleries",
+          "type": ["art"],
+          "lat": 25.040061374178094,
+          "long": 121.56001587047173,
+          "food": false
+      },
+      {
+          "title": "Taiwan Museum",
+          "address": "Zhongzheng District",
+          "img": "./activity-img/taipei-101-activity.jpg",
+          "subtitle": "Natural History Museum and Art gallery",
+          "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan",
+          "type": ["history"],
+          "lat": 25.04308334099123,
+          "long": 121.51513450556618,
+          "food": false
+      }
+    
+  ];
+
+  let nonPrefArr = [  {
+    "title": "Fake Taiwan Museum",
+    "address": "Zhongzheng District",
+    "img": "./activity-img/taipei-101-activity.jpg",
+    "subtitle": "Natural History Museum and Art gallery",
+    "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan",
+    "type": ["history"],
+    "lat": 25.04308334099123,
+    "long": 121.51513450556618,
+    "food": false
+    },
+    {
+      "title": "Sushi Express",
+      "address": "Everywhere",
+      "img": "./activity-img/taipei-101-activity.jpg",
+      "subtitle": "Popular sushi chain",
+      "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
+      "type": ["japanese"],
+      "lat": 25.03386754133035,
+      "long": 121.5383244857638,
+      "food": true
+  },
+  {
+    "title": "foodtest2",
+    "address": "Everywhere",
+    "img": "./activity-img/taipei-101-activity.jpg",
+    "subtitle": "Popular sushi chain",
+    "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
+    "type": ["japanese"],
+    "lat": 25.05386754133035,
+    "long": 121.5383244857638,
+    "food": true
+  },
+  {
+  "title": "foodtest3",
+  "address": "Everywhere",
+  "img": "./activity-img/taipei-101-activity.jpg",
+  "subtitle": "Popular sushi chain",
+  "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
+  "type": ["japanese"],
+  "lat": 25.07386754133035,
+  "long": 121.5383244857638,
+  "food": true
+  },
+  {
+      "title": "Sun Yatsen Memorial Hall",
+      "address": "Xinyi District",
+      "img": "./activity-img/SYS_Memorial-wikipedia-cary-bass-sm.jpg",
+      "subtitle": "Memorial, Museum, and Art Gallery",
+      "body": "Watch the changing of the guard ceremony, browse the museum, and enjoy a number of art galleries",
+      "type": ["art"],
+      "lat": 25.040061374178094,
+      "long": 121.56001587047173,
+      "food": false
+  },
+  {
+      "title": "Taiwan Museum",
+      "address": "Zhongzheng District",
+      "img": "./activity-img/taipei-101-activity.jpg",
+      "subtitle": "Natural History Museum and Art gallery",
+      "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan",
+      "type": ["history"],
+      "lat": 25.04308334099123,
+      "long": 121.51513450556618,
+      "food": false
+  }]
+  //this test will need to be updates with dates for the parameter rather than an int
+  let testDates = {
+    "start": "2022-01-03",
+    "end": "2022-01-04"
+  }
+
+  
+  let objArrs = [objArr, nonPrefArr];
+    let testarr=builder.buildDailySchedule(objArrs, testDates);
+    //buildDailySchedule returns an array with two objects, on on activities, the other on time/date
+    let testObjArr = testarr[0];
+    let length = testObjArr.length;
+    expect(length).toBe(5);  
+    
   });
 
 
+  
+  test('check if build function works with all negative food responses', () => {
+
+    let testDates = {
+      "start": "2022-01-03",
+      "end": "2022-01-04"
+    }
+  
+    let response = [{type: 'history', response: 'negative'},{type: 'spicy', response: 'negative'},{type: 'chinese', response: 'negative'},{type: 'japanese', response: 'negative'}] 
+
+    
+    let typeMap = builder.readResponse(response);
+    let activityArr = builder.parseActivities(typeMap);
+    let activityObjArr = builder.matchActivities(activityArr);
+    let sortedArray = builder.buildDailySchedule(activityObjArr, testDates);
+    let length = sortedArray[0].length;
+    expect(length).toBe(5);  //5 cards per day
+  });
+
+    
+  test('check if build function works with all negative responses', () => {
+
+    let testDates = {
+      "start": "2022-01-03",
+      "end": "2022-01-04"
+    }
+  
+    let response = [{type: 'history', response: 'negative'},{type: 'spicy', response: 'negative'},{type: 'chinese', response: 'negative'},{type: 'japanese', response: 'negative'}
+    ,{type: 'art', response: 'negative'},{type: 'sight seeing', response: 'negative'},{type: 'nature', response: 'negative'}] 
+
+    
+    let typeMap = builder.readResponse(response);
+    let activityArr = builder.parseActivities(typeMap);
+    let activityObjArr = builder.matchActivities(activityArr);
+    let sortedArray = builder.buildDailySchedule(activityObjArr, testDates);
+    let length = sortedArray[0].length;
+    expect(length).toBe(5);  //5 cards per day
+  });
+
+  test('builditinerary check with japanese, spicy, history, chinese, nature prefs', () => {
+
+    let testDates = {
+      "start": "2022-01-03",
+      "end": "2022-01-04"
+    }
+  
+    let response = [
+      "japanese",
+      "spicy",
+      "history",
+      "chinese",
+      "nature"
+    ]
+    
+   
+    let activityObjArr = builder.matchActivities(response);
+    let sortedArray = builder.buildDailySchedule(activityObjArr, testDates);
+    let length = sortedArray[0].length;
+    expect(length).toBe(5);  //5 cards per day
+  });
+
+  test('builditinerary check with japanese, spicy, history, chinese, nature prefs over 4 days', () => {
+
+    let testDates = {
+      "start": "2022-01-03",
+      "end": "2022-01-07"
+    }
+  
+    let response = [
+      "japanese",
+      "spicy",
+      "history",
+      "chinese",
+      "nature"
+    ]
+    
+   
+    let activityObjArr = builder.matchActivities(response);
+    //console.log(activityObjArr);
+    let sortedArray = builder.buildDailySchedule(activityObjArr, testDates);
+    let length = sortedArray[0].length;
+    //console.log(sortedArray[0]);
+    expect(length).toBe(20);  //5 cards per day
+  });
+
+  test('expect checktype of [history] and {type:[history, chinese]} to be true', () => {
+
+    
+    let array = ['history'];
+    let objType = ['history', 'chinese']
+    let result = builder.checkTypes(array, objType);
+    
+    expect(result).toBe(true);
+  });
+  test('expect checktype of [japanese] and type:[history, chinese] to be false', () => {
+
+    
+    let array = ['japanese'];
+    let objType = ['history', 'chinese']
+    let result = builder.checkTypes(array, objType);
+    
+    expect(result).toBe(false);
+  });
+
+  test('expect checktype of [japanese, history, art] and type:[nature, chinese, history]} to be true', () => {
+
+    
+    let array = ['japanese', 'history', 'art'];
+    let objType = ['nature', 'chinese', 'history']
+    let result = builder.checkTypes(array, objType);
+    
+    expect(result).toBe(true);
+  });
+
+
+
+
+
   /*
+
+
+
   let DingTaiFeng =  new Activity('Ding Tai Feng', 'xinyi district', img, "Taiwan's most famous dumplings", "One of Taiwan's most famous restaraunt chains. A major crowd pleaser", 'chinese', 25.03356359985413, 121.56457490825865);
 let sushiexpress =  new Activity('Sushi Express', 'Everywhere', img, "Popular sushi chain", "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", 'japanese', 25.03386754133035, 121.5383244857638);
 */
