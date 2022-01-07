@@ -57,13 +57,20 @@ test('response of [{type: history, response: positive}] to be one', () => {
     
     expect(prefArr[0].title).toBe('Sun Yatsen Memorial Hall');
   });
-  test('response of [history, art] to be Huashan 1914 Creative Park at [1]', () => {
 
-    let array = ['art', 'history'];
-    let objArr = builder.matchActivities(array);
-    let prefArr = objArr[0];
-    
-    expect(prefArr[1].title).toBe('Huashan 1914 Creative Park');
+
+  test('expect no non-pref when all things positive', () => {
+    //let response = [{type: 'history', response: 'positive'},{type: 'spicy', response: 'positive'},{type: 'chinese', response: 'positive'},{type: 'japanese', response: 'positive'},{type: 'art', response: 'positive'},{type: 'sight seeing', response: 'positive'}];
+    //let typemap = builder.readResponse(response);
+    //let parsed = builder.parseActivities(typemap)
+    let preftypearray = ['art', 'history', 'sight seeing', 'spicy', 'chinese', 'japanese', 'nature'];
+    let arrays = builder.matchActivities(preftypearray);
+    let preflength = arrays[0].length;
+    let length = arrays[1].length;
+    console.log('should be zero: preflength' + preflength + 'nonpreflength' + length);
+    console.log(arrays[1]);
+    console.log(arrays[0]);
+    expect(length).toBe(0);
   });
 
   test('get distance from two coords', () => {
@@ -305,7 +312,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
     let testarr=builder.buildDailySchedule(objArrs, testDates);
     let testObjArr = testarr[0];
     
-    expect(testObjArr[1].title).toBe('foodtest2')});
+    expect(testObjArr[1].title).toBe('Sushi Express')});
 
   test('after not enough prefObjs adds nonPrefs to final list ', () => {
 
@@ -465,16 +472,114 @@ test('response of [{type: history, response: positive}] to be one', () => {
     let typeMap = builder.readResponse(response);
     let activityArr = builder.parseActivities(typeMap);
     let activityObjArr = builder.matchActivities(activityArr);
-    console.log(activityObjArr);
     let sortedArray = builder.buildDailySchedule(activityObjArr, testDates);
     let length = sortedArray[0].length;
     expect(length).toBe(5);  //5 cards per day
   });
 
+    
+  test('check if build function works with all negative responses', () => {
+
+    let testDates = {
+      "start": "2022-01-03",
+      "end": "2022-01-04"
+    }
+  
+    let response = [{type: 'history', response: 'negative'},{type: 'spicy', response: 'negative'},{type: 'chinese', response: 'negative'},{type: 'japanese', response: 'negative'}
+    ,{type: 'art', response: 'negative'},{type: 'sight seeing', response: 'negative'},{type: 'nature', response: 'negative'}] 
+
+    
+    let typeMap = builder.readResponse(response);
+    let activityArr = builder.parseActivities(typeMap);
+    let activityObjArr = builder.matchActivities(activityArr);
+    let sortedArray = builder.buildDailySchedule(activityObjArr, testDates);
+    let length = sortedArray[0].length;
+    expect(length).toBe(5);  //5 cards per day
+  });
+
+  test('builditinerary check with japanese, spicy, history, chinese, nature prefs', () => {
+
+    let testDates = {
+      "start": "2022-01-03",
+      "end": "2022-01-04"
+    }
+  
+    let response = [
+      "japanese",
+      "spicy",
+      "history",
+      "chinese",
+      "nature"
+    ]
+    
+   
+    let activityObjArr = builder.matchActivities(response);
+    let sortedArray = builder.buildDailySchedule(activityObjArr, testDates);
+    let length = sortedArray[0].length;
+    expect(length).toBe(5);  //5 cards per day
+  });
+
+  test('builditinerary check with japanese, spicy, history, chinese, nature prefs over 4 days', () => {
+
+    let testDates = {
+      "start": "2022-01-03",
+      "end": "2022-01-07"
+    }
+  
+    let response = [
+      "japanese",
+      "spicy",
+      "history",
+      "chinese",
+      "nature"
+    ]
+    
+   
+    let activityObjArr = builder.matchActivities(response);
+    //console.log(activityObjArr);
+    let sortedArray = builder.buildDailySchedule(activityObjArr, testDates);
+    let length = sortedArray[0].length;
+    //console.log(sortedArray[0]);
+    expect(length).toBe(20);  //5 cards per day
+  });
+
+  test('expect checktype of [history] and {type:[history, chinese]} to be true', () => {
+
+    
+    let array = ['history'];
+    let objType = ['history', 'chinese']
+    let result = builder.checkTypes(array, objType);
+    
+    expect(result).toBe(true);
+  });
+  test('expect checktype of [japanese] and type:[history, chinese] to be false', () => {
+
+    
+    let array = ['japanese'];
+    let objType = ['history', 'chinese']
+    let result = builder.checkTypes(array, objType);
+    
+    expect(result).toBe(false);
+  });
+
+  test('expect checktype of [japanese, history, art] and type:[nature, chinese, history]} to be true', () => {
+
+    
+    let array = ['japanese', 'history', 'art'];
+    let objType = ['nature', 'chinese', 'history']
+    let result = builder.checkTypes(array, objType);
+    
+    expect(result).toBe(true);
+  });
+
+
 
 
 
   /*
+
+
+
   let DingTaiFeng =  new Activity('Ding Tai Feng', 'xinyi district', img, "Taiwan's most famous dumplings", "One of Taiwan's most famous restaraunt chains. A major crowd pleaser", 'chinese', 25.03356359985413, 121.56457490825865);
 let sushiexpress =  new Activity('Sushi Express', 'Everywhere', img, "Popular sushi chain", "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", 'japanese', 25.03386754133035, 121.5383244857638);
 */

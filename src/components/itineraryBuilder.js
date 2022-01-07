@@ -29,7 +29,6 @@ class itineraryBuilder{
 
    for (let i = 0; i < response.length; i++){
       let thisType = response[i].type;
-      console.log('thistype is ' + thisType);
      
       let currentVal = typeMap.get(thisType);
       if (response[i].response == 'positive'){
@@ -53,7 +52,7 @@ class itineraryBuilder{
    //over 0.
    // valid types are: art, history, religion, spicy, japanese, chinese, sichuanese, cats, hiking, parks, sight seeing, night life. 
 
-   //let possibleTypes = ['art', 'history', 'religion', 'spicy', 'japanese', 'chinese', 'sichuanese', 'cats', 'hiking', 'parks', 'sightseeing', 'nightlife']
+   //let possibleTypes = ['art', 'history', 'spicy', 'japanese', 'chinese', 'nature', 'sight seeing']
    let possibleTypes = ['japanese', 'spicy', 'art', 'history', 'chinese', 'nature', 'sight seeing'];
    //it will return an array of activity Objects
    let activityArr = [];
@@ -66,7 +65,7 @@ class itineraryBuilder{
          activityArr.push(thisType);
       }
    }
-   console.log(activityArr)
+   
 
    return activityArr;
 }
@@ -82,27 +81,26 @@ class itineraryBuilder{
    let activityObjArr = [];
    let nonPrefObjArr = [];
    let nonPrefMap =  new Map;
-   
-
-   for (let i = 0; i < activityArr.length; i++){
-      for (let j = 0; j < activityList.length; j++){
-         for(let k = 0; k < activityList[j].type.length; k++){
-
-               if (activityArr[i] == activityList[j].type[k]){
-                  activityObjArr.push(activityList[j]);
-                  
-                  break;
-               }
-               else{
-
-                  if (nonPrefMap.get(activityList[j].title) != true){
-                   nonPrefObjArr.push(activityList[j])
-                   nonPrefMap.set(activityList[j].title, true);
-                  }
-               }
-         }
-      }
+   let prefMap = new Map;
+  
+   if (activityArr.length == 0){
+      activityArr = ['sight seeing', 'chinese'];
    }
+
+
+   let numOfActivities = activityList.length;
+   for (let i = 0; i < numOfActivities; i++){ //iterates through all objects
+      let result = this.checkTypes(activityArr, activityList[i].type);
+      if (result == true){
+         activityObjArr.push(activityList[i]);
+      }
+      else{
+         nonPrefObjArr.push(activityList[i]);
+      }
+
+   }
+
+
 
    console.log(nonPrefObjArr.length + 'non prefs')
 
@@ -112,6 +110,20 @@ class itineraryBuilder{
    
 
 }
+
+   checkTypes(userPrefTypes, objTypes){
+   
+      for (let i = 0; i < userPrefTypes.length; i++){
+         for(let j = 0; j< objTypes.length; j++){
+            if(userPrefTypes[i] == objTypes[j]){
+               return true
+            }
+         }
+      }
+
+      return false;
+
+   }
 
  buildDailySchedule(activityObjArrs, requestedDates) {
    //this function will check how close the activities are.
@@ -124,6 +136,10 @@ class itineraryBuilder{
    let nonPrefObjArr = activityObjArrs[1]; //these will be used if there is a failure to find enough preferred activities
 
    console.log('buildDailySchedule fired');
+
+   console.log('pref objects ' + activityObjArr.length);
+   console.log('non pref objects ' + nonPrefObjArr.length);
+
    let foodArr = [];
    let otherArr =[]
 
@@ -176,7 +192,6 @@ class itineraryBuilder{
          let newDate = new Date(startDate);
          newDate.setDate(startDate.getDate()+j);
 
-
          //check that enough preferred activities remain
       if (otherArr.length < 3 ){
          //if not enough push enough activities into otherArr
@@ -185,6 +200,7 @@ class itineraryBuilder{
             otherArr.push(nonPrefOtherArr[0]);
             nonPrefOtherArr.splice(0,1);
          }
+         
 
       }
 
@@ -194,13 +210,12 @@ class itineraryBuilder{
          for (let i = 0; i< neededNum; i++){
             foodArr.push(nonPrefFoodArr[0]);
             nonPrefFoodArr.splice(0,1);
-            console.log('foodprefs')
-            console.log(nonPrefFoodArr);
+          
          }
 
       }
 
-
+         
          //push first activity
          sortedActivity.push(otherArr[0]);
          // corresponding date information
@@ -221,10 +236,10 @@ class itineraryBuilder{
          });
          //console.log(foodSortArr);
          let indexofClosest = foodSortArr[0][0];
-         foodArr.splice(indexofClosest, 1);
+         
          sortedActivity.push(foodArr[indexofClosest]);
          //push lunch and its time info
-          
+         foodArr.splice(indexofClosest, 1);
          dateInfo.push({date: newDate, day: j+1, time: 'Lunch'});
 
          //get second activity closest to food 1
@@ -308,7 +323,7 @@ class itineraryBuilder{
    let typeMap = this.readResponse(response);
    let activityArr = this.parseActivities(typeMap);
    let activityObjArr = this.matchActivities(activityArr);
-   console.log(activityObjArr);
+  
    let sortedArray = this.buildDailySchedule(activityObjArr, dates);
    let cardArr = this.buildCards(sortedArray);
    return cardArr;

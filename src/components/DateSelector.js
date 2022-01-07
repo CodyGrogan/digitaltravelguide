@@ -2,6 +2,8 @@ import {useState} from 'react';
 
 function DateSelector(props){
 
+    const maxDays = 4 //this number time 5 must be greater than total list of activities or else it will crash since activities cannot be repeated
+
     //get current date to set minimum
     let today = new Date();
     let dd = today.getDate();
@@ -78,11 +80,13 @@ function DateSelector(props){
     
 
     }
+    
+    
 
     function getMaxEndDate(endDateString){
         let endDate = new Date(endDateString);
         let maxDate = new Date(endDateString);
-        maxDate.setDate(endDate.getDate()+10);
+        maxDate.setDate(endDate.getDate()+maxDays);
         let dd = maxDate.getDate();
         let mm = maxDate.getMonth()+1;
         let yyyy = maxDate.getFullYear();
