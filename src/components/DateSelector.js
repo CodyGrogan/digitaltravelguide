@@ -2,7 +2,7 @@ import {useState} from 'react';
 
 function DateSelector(props){
 
-    const maxDays = 4 //this number time 5 must be greater than total list of activities or else it will crash since activities cannot be repeated
+    const maxDays = 3 //this number time 5 must be greater than total list of activities or else it will crash since activities cannot be repeated
 
     //get current date to set minimum
     let today = new Date();

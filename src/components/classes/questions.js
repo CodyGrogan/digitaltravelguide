@@ -11,7 +11,7 @@ class Question{
     
       
      createPhrase(question){
-        let phrases = [`Do you like ${question}?`, `How about  ${question}?`, `Do you fancy ${question}?`, `${question} your jam?`, `You love ${question}, right?`, `${question} your cup of tea?`];
+        let phrases = [`Do you like ${question}?`, `How about  ${question}?`, `Do you fancy ${question}?`, `You love ${question}, right?`];
         console.log(phrases);
         let length = phrases.length;
         let ranNum = parseInt(getRandomArbitrary(0, length));
