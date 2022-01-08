@@ -19,6 +19,10 @@ let lungshan = new Activity('Lungshan Temple', 'No. 211, Guangzhou St, Wanhua Di
 let trainmuseum = new Activity('Rail Museum', 'No. 2, Section 1, Yanping N Rd, Datong District, Taipei City, 103', img, 'Learn about the Hundred Year long history of Taiwan Railways', 'The main building of the museum was the Japanese Colonial era railway Bureau Office. This gorgeous structure now houses the Railway Museum, full of models and actual carriages of historic trains', ['history'], 25.048863376232575, 121.51139384602955, false);
 let xingtian = new Activity('Hsingtian Temple (Xingtiangong)', 'No. 109, Section 2, Minquan E Rd, Zhongshan District, Taipei City, 10491', img, 'A temple for New Years Worship', 'This magnificent Daoist temple is marvelous example of Chinese religious architecture. Conveneniently located near the Xintian Temple metro station', ['sight seeing'], 25.063211084901774, 121.53382833481075, false);
 
+let testeveningonly1 =  new Activity('Evening Test 1', 'No. 109, Section 2, Minquan E Rd, Zhongshan District, Taipei City, 10491', img, 'A temple for New Years Worship', 'This magnificent Daoist temple is marvelous example of Chinese religious architecture. Conveneniently located near the Xintian Temple metro station', ['nightlife'], 25.063211084901774, 121.53382833481075, false, ['e']);
+let testeveningonly2 =  new Activity('Evening Test 2', 'No. 109, Section 2, Minquan E Rd, Zhongshan District, Taipei City, 10491', img, 'A temple for New Years Worship', 'This magnificent Daoist temple is marvelous example of Chinese religious architecture. Conveneniently located near the Xintian Temple metro station', ['nightlife'], 25.063211084901774, 121.53382833481075, false, ['e']);
+let testeveningonly3 =  new Activity('Evening Test 2', 'No. 109, Section 2, Minquan E Rd, Zhongshan District, Taipei City, 10491', img, 'A temple for New Years Worship', 'This magnificent Daoist temple is marvelous example of Chinese religious architecture. Conveneniently located near the Xintian Temple metro station', ['nightlife'], 25.063211084901774, 121.53382833481075, false, ['e']);
+
 
 let DingTaiFeng =  new Activity('Ding Tai Feng', 'xinyi district', img, "Taiwan's most famous dumplings", "One of Taiwan's most famous restaraunt chains. A major crowd pleaser", ['chinese'], 25.03356359985413, 121.56457490825865, true);
 let sushiexpress =  new Activity('Sushi Express', 'Everywhere', img, "Popular sushi chain", "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", ['japanese'], 25.03386754133035, 121.5383244857638, true);
@@ -30,6 +34,6 @@ let baibayu = new Activity('Bai Ba Yu', 'No. 152, Section 1, Zhongxiao E Rd, Zho
 let chuanwei = new Activity('Zhen Chuan Wei Sichuanese Dining', 'No. 42之1號, Lane 25, Kangding Rd, Wanhua District, Taipei City, 108', img, 'Chinese Family Style Dining', 'This popular Sichuanese restaraunt attracts numerous tourists for its authentic cuisine. Particularly popular with South Korean tourists.', ['chinese'], 25.043585099985492, 121.50466135641327, true);
 
 let activityList = [Taipei101,DingTaiFeng,sushiexpress,sys,taiwanMuseum, ramenkagetsu, bafangdumpling, palacemuseum, cks, botanicalgarden, daanpark, fuyangeco
-, chuanshu, malahotpot, huashan, lungshan, trainmuseum, xingtian, baibayu, chuanwei];
+, chuanshu, malahotpot, huashan, lungshan, trainmuseum, xingtian, baibayu, chuanwei, testeveningonly1, testeveningonly2, testeveningonly3];
 
 export default activityList;

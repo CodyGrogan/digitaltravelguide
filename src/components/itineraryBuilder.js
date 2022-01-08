@@ -5,6 +5,7 @@
 // sort the array based on highest obj num
 // then pick the higher scored items first to build activityCards for
 // maximum of 6 activity cards per day in schedule (3 food, 3 other)
+import { type } from "@testing-library/user-event/dist/type";
 import ActivityCard from "./AcitivityCard";
 import activityList from "./activityList";
 import Activity from "./classes/Activity";
@@ -25,6 +26,7 @@ class itineraryBuilder{
    typeMap.set('chinese', 0);
    typeMap.set('nature', 0);
    typeMap.set('sight seeing', 0);
+   typeMap.set('nightlife', 0);
   
 
 
@@ -54,7 +56,7 @@ class itineraryBuilder{
    // valid types are: art, history, religion, spicy, japanese, chinese, sichuanese, cats, hiking, parks, sight seeing, night life. 
 
    //let possibleTypes = ['art', 'history', 'spicy', 'japanese', 'chinese', 'nature', 'sight seeing']
-   let possibleTypes = ['japanese', 'spicy', 'art', 'history', 'chinese', 'nature', 'sight seeing'];
+   let possibleTypes = ['japanese', 'spicy', 'art', 'history', 'chinese', 'nature', 'sight seeing', 'nightlife'];
    //it will return an array of activity Objects
    let activityArr = [];
    let nonPrefActivityArr=[];
@@ -141,16 +143,26 @@ class itineraryBuilder{
  pushActivityForTime(otherArr, nonPrefOtherArr, sortedActivity, time){  //time should be the string 'm' 'a' or 'e'
    for (let i = 0; i < otherArr.length; i++){
       if (this.checkTime(otherArr[i], time) == true){
+
+         console.log('is in the morning : ');
+         console.log(otherArr[i]);
          sortedActivity.push(otherArr[i]);
-         otherArr.splice(0, 1);  //remove activity from original array so it cannot be selected again;
+         console.log('matching time event ' +otherArr[i].title);
+
+         otherArr.splice(i, 1);  //remove activity from original array so it cannot be selected again;
+         console.log('check if previous event deleted');
+         console.log(otherArr);
 
          break;
       }
       else if (i == otherArr.length-1){
+         console.log('looking at non pref');
          for (let i2 = 0; i2 < nonPrefOtherArr.length; i2++){
             if (this.checkTime(nonPrefOtherArr[i2], time) == true){
                sortedActivity.push(nonPrefOtherArr[i2]);
-               nonPrefOtherArr.splice(0, 1);  //remove activity from original array so it cannot be selected again;
+               nonPrefOtherArr.splice(i2, 1);  //remove activity from original array so it cannot be selected again;
+               console.log('check if previous event deleted from nonpref');
+               console.log(nonPrefOtherArr);
                break;
             }
 
@@ -163,9 +175,10 @@ class itineraryBuilder{
 
  filterTime(activityArr, time){
    let filteredTime = [];
+   
    for (let i = 0; i < activityArr.length; i++){
-      if (this.checkTime(activityArr[i], time) ==true){
-         filteredTime.push(activityArr[i]);
+      if (this.checkTime(activityArr[i], time) == true){
+         filteredTime.push({item: activityArr[i], index: i});
 
       }
    }
@@ -173,21 +186,32 @@ class itineraryBuilder{
 
  }
 
- sortByDistance(otherArr, sortedActivity, originalArr){
+ sortByDistance(otherArr, sortedActivity, originalArr, event){
+    //otherArr is an array, with [0] being the array of item,
+    console.log('sorting by distance');
+    console.log(otherArr);
    let otherSortArr = [];
    for (let i = 0; i < otherArr.length; i++){
       //put foodObj index and distance in an an array [index, distance]
-      let distance = this.getDistanceFromLatLonInKm(sortedActivity[1].lat, sortedActivity[1].long, otherArr[i].lat, otherArr[i].long);
-      let thisother = [i, distance];  
+      let distance = this.getDistanceFromLatLonInKm(sortedActivity[event].lat, sortedActivity[event].long, otherArr[i].item.lat, otherArr[i].item.long);
+      let thisother = [otherArr[i].index, distance];  
       otherSortArr.push(thisother)
    }
    otherSortArr.sort(function (a, b) {
       return a[1] - b[1];
    });
+   if (otherSortArr.length > 0){
    let indexofClosest = otherSortArr[0][0];
-   sortedActivity.push(otherArr[indexofClosest]);
-   
+   console.log('original index is' + indexofClosest);
+   sortedActivity.push(originalArr[indexofClosest]);
+   console.log('after sort pushed ' + originalArr[indexofClosest].title)
    originalArr.splice(indexofClosest,1);
+   }
+   else{
+      sortedActivity.push(otherArr[0]);
+      originalArr.splice(0,1);
+   }
+   
  }
 
  buildDailySchedule(activityObjArrs, requestedDates) {
@@ -263,6 +287,7 @@ class itineraryBuilder{
      
          
       //push first activity
+      
       this.pushActivityForTime(otherArr, nonPrefOtherArr, sortedActivity, 'm');
       dateInfo.push({date: newDate, day: j+1, time: 'Morning'});
         
@@ -288,24 +313,28 @@ class itineraryBuilder{
          dateInfo.push({date: newDate, day: j+1, time: 'Lunch'});
 
          //get second activity closest to food 1
+
+         console.log('one activity and one food');
+         console.log(sortedActivity);
          let filteredActivity2 = this.filterTime(otherArr, 'a');
          if (filteredActivity2.length > 1 ){
-            this.sortByDistance(filteredActivity2, sortedActivity, otherArr);
+            this.sortByDistance(filteredActivity2, sortedActivity, otherArr, 1);
          }
          else
          {
             filteredActivity2 = this.filterTime(nonPrefOtherArr, 'a');
-            this.sortByDistance(filteredActivity2, sortedActivity, otherArr);
+            this.sortByDistance(filteredActivity2, sortedActivity, nonPrefOtherArr, 1);
 
          }
          dateInfo.push({date: newDate, day: j+1, time: 'Afternoon'});
-        
+        console.log('did sortActivity push an object?');
+        console.log(sortedActivity)
          
          //get second food
          foodSortArr = [];
          for (let i = 0; i < foodArr.length; i++){
             //put foodObj index and distance in an an array [index, distance]
-            let distance = this.getDistanceFromLatLonInKm(sortedActivity[0].lat, sortedActivity[0].long, foodArr[i].lat, foodArr[i].long);
+            let distance = this.getDistanceFromLatLonInKm(sortedActivity[2].lat, sortedActivity[2].long, foodArr[i].lat, foodArr[i].long);
             let thisfood = [i, distance];
             foodSortArr.push(thisfood)
 
@@ -324,12 +353,12 @@ class itineraryBuilder{
         
          let filteredActivity3 = this.filterTime(otherArr, 'e');
          if (filteredActivity3.length > 1 ){
-            this.sortByDistance(filteredActivity3, sortedActivity, otherArr);
+            this.sortByDistance(filteredActivity3, sortedActivity, otherArr, 0);
          }
          else
          {
-            filteredActivity2 = this.filterTime(nonPrefOtherArr, 'e');
-            this.sortByDistance(filteredActivity3, sortedActivity, otherArr);
+            filteredActivity3 = this.filterTime(nonPrefOtherArr, 'e');
+            this.sortByDistance(filteredActivity3, sortedActivity, nonPrefOtherArr, 0);
 
          }
 

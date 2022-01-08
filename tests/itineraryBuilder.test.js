@@ -1,5 +1,6 @@
 import itineraryBuilder from '../src/components/itineraryBuilder';
 import activityList from '../src/components/activityList';
+import Activity from '../src/components/classes/Activity';
 
 const builder = new itineraryBuilder;
 
@@ -64,7 +65,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
     //let response = [{type: 'history', response: 'positive'},{type: 'spicy', response: 'positive'},{type: 'chinese', response: 'positive'},{type: 'japanese', response: 'positive'},{type: 'art', response: 'positive'},{type: 'sight seeing', response: 'positive'}];
     //let typemap = builder.readResponse(response);
     //let parsed = builder.parseActivities(typemap)
-    let preftypearray = ['art', 'history', 'sight seeing', 'spicy', 'chinese', 'japanese', 'nature'];
+    let preftypearray = ['art', 'history', 'sight seeing', 'spicy', 'chinese', 'japanese', 'nature', 'nightlife'];
     let arrays = builder.matchActivities(preftypearray);
     let preflength = arrays[0].length;
     let length = arrays[1].length;
@@ -616,6 +617,38 @@ test('response of [{type: history, response: positive}] to be one', () => {
     expect(result).toBe(false);
 
 
+  });
+
+  test('evening activities only appear at night', ()=>{
+  
+    console.log('evening test starts here');
+    let testDates = {
+      "start": "2022-01-03",
+      "end": "2022-01-04"
+    }
+    let img = 'test';
+    let trainmuseum = new Activity('Rail Museum', 'No. 2, Section 1, Yanping N Rd, Datong District, Taipei City, 103', img, 'Learn about the Hundred Year long history of Taiwan Railways', 'The main building of the museum was the Japanese Colonial era railway Bureau Office. This gorgeous structure now houses the Railway Museum, full of models and actual carriages of historic trains', ['history'], 25.048863376232575, 121.51139384602955, false);
+    let xingtian = new Activity('Hsingtian Temple (Xingtiangong)', 'No. 109, Section 2, Minquan E Rd, Zhongshan District, Taipei City, 10491', img, 'A temple for New Years Worship', 'This magnificent Daoist temple is marvelous example of Chinese religious architecture. Conveneniently located near the Xintian Temple metro station', ['sight seeing'], 25.063211084901774, 121.53382833481075, false);
+       
+    let DingTaiFeng =  new Activity('Ding Tai Feng', 'xinyi district', img, "Taiwan's most famous dumplings", "One of Taiwan's most famous restaraunt chains. A major crowd pleaser", ['chinese'], 25.03356359985413, 121.56457490825865, true);
+    let sushiexpress =  new Activity('Sushi Express', 'Everywhere', img, "Popular sushi chain", "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", ['japanese'], 25.03386754133035, 121.5383244857638, true);
+
+    let huashan = new Activity('Huashan 1914 Creative Park', 'No. 1, Section 1, Bade Rd, Zhongzheng District, Taipei City, 100', img, 'Popular Arts and Crafts center', 'Visit the numerous boutique stores and stalls at this popular creative park. There are usually live events on the weekends. Despite its massive size, it still gets packed on weekends.', ['art'], 25.044289109397933, 121.52943415290716, false);
+    let lungshan = new Activity('Lungshan Temple', 'No. 211, Guangzhou St, Wanhua District, Taipei City, 10853', img, "Taipei's most famous Temple", 'This temple is dedicated to both Daoist and Buddhist figures. Many young people come to here to pray to find love.', ['sight seeing'], 25.03717712767831, 121.49993783389142, false);
+
+
+    let testeveningonly1 =  new Activity('Evening Test 1', 'No. 109, Section 2, Minquan E Rd, Zhongshan District, Taipei City, 10491', img, 'A temple for New Years Worship', 'This magnificent Daoist temple is marvelous example of Chinese religious architecture. Conveneniently located near the Xintian Temple metro station', ['nightlife'], 25.063211084901774, 121.53382833481075, false, ['e']);
+    console.log(testeveningonly1);
+    console.log('was above undefined?')    
+
+    
+    let pref = [testeveningonly1, trainmuseum, xingtian, sushiexpress, DingTaiFeng];
+    let nonpref = [huashan, lungshan];
+    let arrays=[pref, nonpref];
+  
+    let result = builder.buildDailySchedule(arrays, testDates);
+    console.log(result[0]);
+    expect(result[0][4].title).toBe('Evening Test 1');
   });
 
 

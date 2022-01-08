@@ -19,8 +19,9 @@ let sites = new Question('history', 'historic sites');
 let hikes = new Question('nature', 'hiking');
 let garden = new Question('nature', 'gardens');
 let artsandcrafts = new Question('art', 'arts and crafts');
+let nightlife = new Question('nightlife', 'night life');
 
-let questionObjArr = [dumpling, museum, chinese, spicy, gallery, sushi, outdoor, tall, noodles, sites, hikes, garden, artsandcrafts];
+let questionObjArr = [dumpling, museum, chinese, spicy, gallery, sushi, outdoor, tall, noodles, sites, hikes, garden, artsandcrafts, nightlife];
 
 
 export default questionObjArr;
