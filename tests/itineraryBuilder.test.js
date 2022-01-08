@@ -1,4 +1,5 @@
 import itineraryBuilder from '../src/components/itineraryBuilder';
+import activityList from '../src/components/activityList';
 
 const builder = new itineraryBuilder;
 
@@ -572,6 +573,21 @@ test('response of [{type: history, response: positive}] to be one', () => {
     expect(result).toBe(true);
   });
 
+  test('expect checktime of [m, a, e] and "a" to be true', ()=>{
+    let taipei101 = activityList[0];
+    let result = builder.checkTime(taipei101, 'a');
+    expect(result).toBe(true);
+
+
+  });
+  test('expect checktime of [e] and "a" to be false', ()=>{
+    
+    let testobj = {time: ['e']};
+    let result = builder.checkTime(testobj, 'a');
+    expect(result).toBe(false);
+
+
+  });
 
 
 

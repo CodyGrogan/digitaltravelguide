@@ -304,6 +304,19 @@ class itineraryBuilder{
    
 }
 
+ checkTime(activity, time){
+    // time should be an string containing a value  of 'm', 'a', 'e' for morning afternoon evening
+    //this should be compared against the activity's time property. if any of the time property matches the time parameter, return true
+
+    for (let i = 0; i < activity.time.length; i++){
+       if (activity.time[i] == time){
+          return true
+       }
+    }
+    return false;
+
+ }
+
  buildCards(info){
     //build cards takes an array of two arrays, the activityobjArr is at [0] and time info array at[1];
    let activityObjArr = info[0];
