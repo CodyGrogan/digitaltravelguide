@@ -9,8 +9,8 @@ import { type } from "@testing-library/user-event/dist/type";
 import ActivityCard from "./AcitivityCard";
 import activityList from "./activityList";
 import Activity from "./classes/Activity";
-
-
+import apikey from "../../secrets";
+import regeneratorRuntime from "regenerator-runtime";
 class itineraryBuilder{
 
    
@@ -432,6 +432,76 @@ class itineraryBuilder{
    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
    var d = R * c; // Distance in km
    return d;
+ }
+
+async checkWeather(){
+  // api.openweathermap.org/data/2.5/forecast/daily?q=London&units=metric&cnt=7&appid={API key}
+  var axios = require("axios").default;
+   let weather;
+  var options = {
+    method: 'GET',
+    url: 'https://community-open-weather-map.p.rapidapi.com/forecast/daily',
+    params: {
+      q: 'taipei',
+      cnt: '16',
+      units: 'metric'
+    },
+    headers: {
+      'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com',
+      'x-rapidapi-key': apikey
+    }
+  };
+  
+   await axios.request(options).then(function (response) {
+     console.log(response.data);
+      weather = response.data;
+     return weather;
+
+     
+  }).catch(function (error) {
+     console.error(error);
+     weather = null
+     return weather;
+  });
+  return weather;
+ }
+
+ parseWeather(weather){
+
+ 
+   let weatherObjArr = [];
+   console.log(weather.list.length);
+   console.log(weather.list[0]);
+   
+   for (let i = 0; i < weather.list.length; i++){
+      let newDate = new Date;
+      let ms = weather.list[i].dt;
+      newDate.setUTCMilliseconds(ms);
+      let dateString = this.convertDateToString(newDate);
+      let mainWeather= weather.list[i].weather[0].main;
+      let weatherObj = {date: dateString, weather: mainWeather};
+      weatherObjArr.push(weatherObj);
+
+   }
+
+   return weatherObjArr;
+    
+
+ }
+
+ convertDateToString(dateToConvert){
+   let dd = dateToConvert.getDate();
+   let mm = dateToConvert.getMonth()+1;
+   let yyyy = dateToConvert.getFullYear();
+   if (dd<10){
+       dd = '0' + dd;
+   }
+   if (mm < 10){
+       mm = '0' + mm;
+   }
+   let dateString = `${yyyy}-${mm}-${dd}`;
+   return dateString;
+
  }
  
 
