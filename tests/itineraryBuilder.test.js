@@ -95,7 +95,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
           "type": ["japanese"],
           "lat": 25.03386754133035,
           "long": 121.5383244857638,
-          "food": true
+          "food": true,
+          "time": ['m', 'a', 'e']
       },
       {
         "title": "foodtest2",
@@ -106,7 +107,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
         "type": ["japanese"],
         "lat": 25.05386754133035,
         "long": 121.5383244857638,
-        "food": true
+        "food": true,
+        "time": ['m', 'a', 'e']
     },
     {
       "title": "foodtest3",
@@ -117,7 +119,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "type": ["japanese"],
       "lat": 25.07386754133035,
       "long": 121.5383244857638,
-      "food": true
+      "food": true,
+      "time": ['m', 'a', 'e']
   },
       {
           "title": "Sun Yatsen Memorial Hall",
@@ -128,7 +131,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
           "type": ["art"],
           "lat": 25.040061374178094,
           "long": 121.56001587047173,
-          "food": false
+          "food": false,
+          "time": ['m', 'a', 'e']
       },
       {
           "title": "Taiwan Museum",
@@ -139,7 +143,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
           "type": ["history"],
           "lat": 25.04308334099123,
           "long": 121.51513450556618,
-          "food": false
+          "food": false,
+          "time": ['m', 'a', 'e']
       },
       {
         "title": "Fake Taiwan Museum",
@@ -150,7 +155,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
         "type": ["history"],
         "lat": 25.04308334099123,
         "long": 121.51513450556618,
-        "food": false
+        "food": false,
+        "time": ['m', 'a', 'e']
     }
   ];
   //this test will need to be updates with dates for the parameter rather than an int
@@ -180,7 +186,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
           "type": ["japanese"],
           "lat": 25.03386754133035,
           "long": 121.5383244857638,
-          "food": true
+          "food": true,
+          "time": ['m', 'a', 'e']
       },
       {
         "title": "foodtest2",
@@ -191,7 +198,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
         "type": ["japanese"],
         "lat": 25.05386754133035,
         "long": 121.5383244857638,
-        "food": true
+        "food": true,
+        "time": ['m', 'a', 'e']
     },
     {
       "title": "foodtest3",
@@ -202,7 +210,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "type": ["japanese"],
       "lat": 25.07386754133035,
       "long": 121.5383244857638,
-      "food": true
+      "food": true,
+      "time": ['m', 'a', 'e']
   },
       {
           "title": "Sun Yatsen Memorial Hall",
@@ -213,7 +222,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
           "type": ["art"],
           "lat": 25.040061374178094,
           "long": 121.56001587047173,
-          "food": false
+          "food": false,
+          "time": ['m', 'a', 'e']
       },
       {
           "title": "Taiwan Museum",
@@ -224,7 +234,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
           "type": ["history"],
           "lat": 25.04308334099123,
           "long": 121.51513450556618,
-          "food": false
+          "food": false,
+          "time": ['m', 'a', 'e']
       },
       {
         "title": "Fake Taiwan Museum",
@@ -235,7 +246,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
         "type": ["history"],
         "lat": 25.04308334099123,
         "long": 121.51513450556618,
-        "food": false
+        "food": false,
+        "time": ['m', 'a', 'e']
     },
     {
       "title": "Sushi Express",
@@ -246,7 +258,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "type": ["japanese"],
       "lat": 25.03386754133035,
       "long": 121.5383244857638,
-      "food": true
+      "food": true,
+      "time": ['m', 'a', 'e']
   },
   {
     "title": "foodtest2",
@@ -257,7 +270,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
     "type": ["japanese"],
     "lat": 25.05386754133035,
     "long": 121.5383244857638,
-    "food": true
+    "food": true,
+    "time": ['m', 'a', 'e']
 },
 {
   "title": "foodtest3",
@@ -268,7 +282,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
   "type": ["japanese"],
   "lat": 25.07386754133035,
   "long": 121.5383244857638,
-  "food": true
+  "food": true,
+  "time": ['m', 'a', 'e']
 },
   {
       "title": "Sun Yatsen Memorial Hall",
@@ -279,7 +294,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "type": ["art"],
       "lat": 25.040061374178094,
       "long": 121.56001587047173,
-      "food": false
+      "food": false,
+      "time": ['m', 'a', 'e']
   },
   {
       "title": "Taiwan Museum",
@@ -290,7 +306,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "type":[ "history"],
       "lat": 25.04308334099123,
       "long": 121.51513450556618,
-      "food": false
+      "food": false,
+      "time": ['m', 'a', 'e']
   },
   {
     "title": "Fake Taiwan Museum",
@@ -301,7 +318,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
     "type": ["history"],
     "lat": 25.04308334099123,
     "long": 121.51513450556618,
-    "food": false
+    "food": false,
+    "time": ['m', 'a', 'e']
 }
   ];
     let testDates = {
@@ -327,7 +345,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
           "type": ["japanese"],
           "lat": 25.03386754133035,
           "long": 121.5383244857638,
-          "food": true
+          "food": true,
+          "time": ['m', 'a', 'e']
       },
       {
         "title": "foodtest2",
@@ -338,7 +357,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
         "type": ["japanese"],
         "lat": 25.05386754133035,
         "long": 121.5383244857638,
-        "food": true
+        "food": true,
+        "time": ['m', 'a', 'e']
     },
     {
       "title": "foodtest3",
@@ -349,7 +369,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "type": ["japanese"],
       "lat": 25.07386754133035,
       "long": 121.5383244857638,
-      "food": true
+      "food": true,
+      "time": ['m', 'a', 'e']
   },
       {
           "title": "Sun Yatsen Memorial Hall",
@@ -360,7 +381,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
           "type": ["art"],
           "lat": 25.040061374178094,
           "long": 121.56001587047173,
-          "food": false
+          "food": false,
+          "time": ['m', 'a', 'e']
       },
       {
           "title": "Taiwan Museum",
@@ -371,7 +393,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
           "type": ["history"],
           "lat": 25.04308334099123,
           "long": 121.51513450556618,
-          "food": false
+          "food": false,
+          "time": ['m', 'a', 'e']
       }
     
   ];
@@ -385,7 +408,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
     "type": ["history"],
     "lat": 25.04308334099123,
     "long": 121.51513450556618,
-    "food": false
+    "food": false,
+    "time": ['m', 'a', 'e']
     },
     {
       "title": "Sushi Express",
@@ -396,7 +420,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "type": ["japanese"],
       "lat": 25.03386754133035,
       "long": 121.5383244857638,
-      "food": true
+      "food": true,
+      "time": ['m', 'a', 'e']
   },
   {
     "title": "foodtest2",
@@ -407,7 +432,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
     "type": ["japanese"],
     "lat": 25.05386754133035,
     "long": 121.5383244857638,
-    "food": true
+    "food": true,
+    "time": ['m', 'a', 'e']
   },
   {
   "title": "foodtest3",
@@ -418,7 +444,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
   "type": ["japanese"],
   "lat": 25.07386754133035,
   "long": 121.5383244857638,
-  "food": true
+  "food": true,
+  "time": ['m', 'a', 'e']
   },
   {
       "title": "Sun Yatsen Memorial Hall",
@@ -429,7 +456,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "type": ["art"],
       "lat": 25.040061374178094,
       "long": 121.56001587047173,
-      "food": false
+      "food": false,
+      "time": ['m', 'a', 'e']
   },
   {
       "title": "Taiwan Museum",
@@ -440,7 +468,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "type": ["history"],
       "lat": 25.04308334099123,
       "long": 121.51513450556618,
-      "food": false
+      "food": false,
+      "time": ['m', 'a', 'e']
   }]
   //this test will need to be updates with dates for the parameter rather than an int
   let testDates = {
