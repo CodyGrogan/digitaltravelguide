@@ -505,6 +505,24 @@ async checkWeather(){
    return dateString;
 
  }
+
+
+ provideWeather(dates){
+    //first check if end date is before todays date + 16;
+    // if yes, compare each date between the start and end date with the date from the weatherObjArr
+    //if they don't match, push 'Unknown Weather' to weatherList
+    //if they do match, push the weather type to weatherList;
+    //return the weather list;
+    //build itinerary will pass the weatherlist as a parameter to build cards, and then pass the value for weather
+    //as a prop to each of the activity cards
+    let weatherList = [];
+    let today = new Date();
+    today.setDate(today.getDate()+16);
+    let start = new Date(dates.start);
+    
+   
+
+ }
  
 
 
