@@ -16,12 +16,13 @@ let museum = new Question('history', 'history museums');
 let tall = new Question('sight seeing', 'tall buildings');
 let noodles = new Question('japanese', 'noodles');
 let sites = new Question('history', 'historic sites');
-let hikes = new Question('nature', 'hiking');
 let garden = new Question('nature', 'gardens');
 let artsandcrafts = new Question('art', 'arts and crafts');
 let nightlife = new Question('nightlife', 'night life');
+let shopping = new Question('shopping', 'shopping');
+let hiking = new Question('hiking', 'hiking');
 
-let questionObjArr = [dumpling, museum, chinese, spicy, gallery, sushi, outdoor, tall, noodles, sites, hikes, garden, artsandcrafts, nightlife];
+let questionObjArr = [dumpling, museum, chinese, spicy, gallery, sushi, outdoor, tall, noodles, sites, garden, artsandcrafts, nightlife, shopping, hiking];
 
 
 export default questionObjArr;

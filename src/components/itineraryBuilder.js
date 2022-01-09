@@ -9,7 +9,7 @@ import { type } from "@testing-library/user-event/dist/type";
 import ActivityCard from "./AcitivityCard";
 import activityList from "./activityList";
 import Activity from "./classes/Activity";
-import apikey from "../../secrets";
+import apikey from "../secrets";
 import regeneratorRuntime from "regenerator-runtime";
 class itineraryBuilder{
 
@@ -27,6 +27,8 @@ class itineraryBuilder{
    typeMap.set('nature', 0);
    typeMap.set('sight seeing', 0);
    typeMap.set('nightlife', 0);
+   typeMap.set('shopping', 0);
+   typeMap.set('hiking', 0);
   
 
 
@@ -56,7 +58,7 @@ class itineraryBuilder{
    // valid types are: art, history, religion, spicy, japanese, chinese, sichuanese, cats, hiking, parks, sight seeing, night life. 
 
    //let possibleTypes = ['art', 'history', 'spicy', 'japanese', 'chinese', 'nature', 'sight seeing']
-   let possibleTypes = ['japanese', 'spicy', 'art', 'history', 'chinese', 'nature', 'sight seeing', 'nightlife'];
+   let possibleTypes = ['japanese', 'spicy', 'art', 'history', 'chinese', 'nature', 'sight seeing', 'nightlife', 'shopping', 'hiking'];
    //it will return an array of activity Objects
    let activityArr = [];
    let nonPrefActivityArr=[];
