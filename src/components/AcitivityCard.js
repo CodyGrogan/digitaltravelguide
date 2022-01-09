@@ -28,7 +28,7 @@ function ActivityCard(props){
     return(
         <div className="card activity">
             <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger day-num">
-            Day {props.timeInfo.day} - {props.timeInfo.time}
+            Day {props.timeInfo.day} - <br/>{props.timeInfo.time}
             <span class="visually-hidden">Day Num - Time</span>
         </span>
            <div className="card-header ">

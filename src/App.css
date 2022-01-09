@@ -51,6 +51,7 @@ body{
 
 .day-num{
     font-size: 16px;
+    
 }
 
 .activityImg{
@@ -70,7 +71,7 @@ body{
 @media(max-width: 600px) {
     body {
         background-image: url(tpe-tall.jpg);
-        background-size: cover;
+        background-size: 100%;
         background-repeat: no-repeat;
     }
     .activityImg{
