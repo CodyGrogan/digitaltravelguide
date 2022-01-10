@@ -146,14 +146,11 @@ class itineraryBuilder{
    for (let i = 0; i < otherArr.length; i++){
       if (this.checkTime(otherArr[i], time) == true){
 
-         console.log('is in the morning : ');
-         console.log(otherArr[i]);
+       
          sortedActivity.push(otherArr[i]);
-         console.log('matching time event ' +otherArr[i].title);
 
          otherArr.splice(i, 1);  //remove activity from original array so it cannot be selected again;
-         console.log('check if previous event deleted');
-         console.log(otherArr);
+      
 
          break;
       }
@@ -163,8 +160,7 @@ class itineraryBuilder{
             if (this.checkTime(nonPrefOtherArr[i2], time) == true){
                sortedActivity.push(nonPrefOtherArr[i2]);
                nonPrefOtherArr.splice(i2, 1);  //remove activity from original array so it cannot be selected again;
-               console.log('check if previous event deleted from nonpref');
-               console.log(nonPrefOtherArr);
+              
                break;
             }
 
@@ -191,7 +187,6 @@ class itineraryBuilder{
  sortByDistance(otherArr, sortedActivity, originalArr, event){
     //otherArr is an array, with [0] being the array of item,
     console.log('sorting by distance');
-    console.log(otherArr);
    let otherSortArr = [];
    for (let i = 0; i < otherArr.length; i++){
       //put foodObj index and distance in an an array [index, distance]
@@ -204,9 +199,7 @@ class itineraryBuilder{
    });
    if (otherSortArr.length > 0){
    let indexofClosest = otherSortArr[0][0];
-   console.log('original index is' + indexofClosest);
    sortedActivity.push(originalArr[indexofClosest]);
-   console.log('after sort pushed ' + originalArr[indexofClosest].title)
    originalArr.splice(indexofClosest,1);
    }
    else{
@@ -216,11 +209,13 @@ class itineraryBuilder{
    
  }
 
- buildDailySchedule(activityObjArrs, requestedDates) {
+ buildDailySchedule(activityObjArrs, requestedDates, trimmedWeather) {
    //this function will check how close the activities are.
    //and will place activity cards into days 
    //then build the component with the completed information (date and activity object)
    //and return them in an array.
+
+   //weatherArray should be the result of trimWeather()
 
    // there are 5 cards per day. 2 food and 3 other.
    let activityObjArr = activityObjArrs[0];
@@ -240,6 +235,9 @@ class itineraryBuilder{
    let sortedActivity = []
    let dateInfo = [];
 
+   let weather = [];
+   console.log('weather array passed into build schedule')
+   console.log(trimmedWeather)
    //date info format {date: date, day: num, time: morning, lunch, afternoon, dinner, evening}
 
    //parse requested dates
@@ -278,6 +276,14 @@ class itineraryBuilder{
          //one day                 ////////////////////////////////////////////////////////////// there are 3 activities and 2 food in a day
                                                                        //// so we can check that there are enough left in the arr
                                                                                              
+         if (j < trimmedWeather.length){
+            weather.push(trimmedWeather[j]);
+
+         }
+
+         else{
+            weather.push({weather: 'unknown'});
+         }
 
          //first figure out what the date is
          let newDate = new Date(startDate);
@@ -329,8 +335,6 @@ class itineraryBuilder{
 
          }
          dateInfo.push({date: newDate, day: j+1, time: 'Afternoon'});
-        console.log('did sortActivity push an object?');
-        console.log(sortedActivity)
          
          //get second food
          foodSortArr = [];
@@ -371,8 +375,7 @@ class itineraryBuilder{
       }
 
     //console.log(sortedActivity);
-    //console.log(dateInfo);
-
+    console.log(weather);
    return [sortedActivity, dateInfo];
    
 }
@@ -380,7 +383,6 @@ class itineraryBuilder{
  checkTime(activity, time){
     // time should be an string containing a value  of 'm', 'a', 'e' for morning afternoon evening
     //this should be compared against the activity's time property. if any of the time property matches the time parameter, return true
-   console.log(activity);
     for (let i = 0; i < activity.time.length; i++){
        if (activity.time[i] == time){
           return true
@@ -394,25 +396,31 @@ class itineraryBuilder{
     //build cards takes an array of two arrays, the activityobjArr is at [0] and time info array at[1];
    let activityObjArr = info[0];
    let timeInfo = info[1];
+   
    let cardArr = []
 
    for (let i = 0; i < activityObjArr.length; i++){
-      let newjsx = <ActivityCard obj={activityObjArr[i]} timeInfo={timeInfo[i]} />
+      let newjsx = <ActivityCard obj={activityObjArr[i]} timeInfo={timeInfo[i]}  />
       cardArr.push(newjsx);
    }
 
    return cardArr;
 }
 
- buildItinerary(response, dates){
+ async buildItinerary(response, dates){
    console.log('build itinerary fired')
    let typeMap = this.readResponse(response);
    let activityArr = this.parseActivities(typeMap);
    let activityObjArr = this.matchActivities(activityArr);
-
-   //checkweather data goes here
   
-   let sortedArray = this.buildDailySchedule(activityObjArr, dates);
+   //let weather = await this.checkWeather();
+   //let parsed = this.parseWeather(weather);
+   //let trimWeather = this.trimWeatherArr(parsed, dates.start, dates.end);
+   //console.log('inside build itinerary')
+   //console.log(trimWeather);
+   let trimWeather = [{date: '2022-01-10', weather: 'Rain'}]
+  
+   let sortedArray = this.buildDailySchedule(activityObjArr, dates, trimWeather);
    let cardArr = this.buildCards(sortedArray);
    return cardArr;
 
@@ -457,7 +465,6 @@ async checkWeather(){
   };
   
    await axios.request(options).then(function (response) {
-     console.log(response.data);
       weather = response.data;
      return weather;
 
@@ -482,9 +489,7 @@ async checkWeather(){
       let ms = weather.list[i].dt;
       ms = ms*1000;
       newDate.setTime(ms);
-      console.log(newDate.getDate())
       let dateString = this.convertDateToString(newDate);
-      console.log(dateString);
       let mainWeather= weather.list[i].weather[0].main;
       let weatherObj = {date: dateString, weather: mainWeather};
       weatherObjArr.push(weatherObj);
@@ -560,6 +565,9 @@ async checkWeather(){
             trimmedArray.push(weatherObjArr[i]);
 
          }
+
+      console.log('inside trim weather arr()');
+      console.log(trimmedArray);
 
       return trimmedArray;
 

@@ -42,7 +42,7 @@ function ActivityCard(props){
                             <h1>{props.obj.title}</h1>
                        </div>
                        <div className="col-sm">
-                            Weather
+                            
                        </div>
                        
 
