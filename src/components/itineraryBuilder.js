@@ -247,7 +247,7 @@ class itineraryBuilder{
    let endDate = new Date(requestedDates.end);
    const diffTime = Math.abs(endDate - startDate);
    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));  
-   let totaldays = diffDays //for testing right now set to only one day
+   let totaldays = diffDays 
     //first separate food from other
     for (let i = 0; i < activityObjArr.length; i ++){
        if (activityObjArr[i].food == true){
@@ -409,6 +409,8 @@ class itineraryBuilder{
    let typeMap = this.readResponse(response);
    let activityArr = this.parseActivities(typeMap);
    let activityObjArr = this.matchActivities(activityArr);
+
+   //checkweather data goes here
   
    let sortedArray = this.buildDailySchedule(activityObjArr, dates);
    let cardArr = this.buildCards(sortedArray);
@@ -478,8 +480,11 @@ async checkWeather(){
    for (let i = 0; i < weather.list.length; i++){
       let newDate = new Date;
       let ms = weather.list[i].dt;
-      newDate.setUTCMilliseconds(ms);
+      ms = ms*1000;
+      newDate.setTime(ms);
+      console.log(newDate.getDate())
       let dateString = this.convertDateToString(newDate);
+      console.log(dateString);
       let mainWeather= weather.list[i].weather[0].main;
       let weatherObj = {date: dateString, weather: mainWeather};
       weatherObjArr.push(weatherObj);
@@ -507,7 +512,7 @@ async checkWeather(){
  }
 
 
- provideWeather(dates){
+ async provideWeather(dates){
     //first check if end date is before todays date + 16;
     // if yes, compare each date between the start and end date with the date from the weatherObjArr
     //if they don't match, push 'Unknown Weather' to weatherList
@@ -516,9 +521,49 @@ async checkWeather(){
     //build itinerary will pass the weatherlist as a parameter to build cards, and then pass the value for weather
     //as a prop to each of the activity cards
     let weatherList = [];
-    let today = new Date();
-    today.setDate(today.getDate()+16);
+    let maxdate = new Date();
+    maxdate.setDate(maxdate.getDate()+16);
     let start = new Date(dates.start);
+    if (start.getTime() <= maxdate){
+      let weather = await this.checkWeather();
+      let weatherObjArr = this.parseWeather(weather);  
+      let startDate = new Date(dates.start);
+      let startString = this.convertDateToString(startDate);
+      let endDate = new Date(dates.end);
+      let endString = this.convertDateToString(endDate);
+      
+    
+
+    }
+   }
+
+    trimWeatherArr(weatherObjArr, startDate, endDate){
+      let indexOfStart = 0;
+      let indexOfEnd = 0;
+      let trimmedArray = [];
+         for (let i = 0; i < weatherObjArr.length; i++){
+            console.log('objDate' + weatherObjArr[i].date + ' startdate ' + startDate);
+            if (weatherObjArr[i].date == startDate){
+               indexOfStart = i;
+               break
+            }
+         }
+
+         for (let i = indexOfStart; i<weatherObjArr.length; i++){
+            if (weatherObjArr[i].date == endDate){
+               indexOfEnd = i;
+               break;
+            }
+         }
+
+         for (let i = indexOfStart; i <= indexOfEnd; i++){
+            trimmedArray.push(weatherObjArr[i]);
+
+         }
+
+      return trimmedArray;
+
+    }
     
    
 
@@ -526,7 +571,7 @@ async checkWeather(){
  
 
 
-}
+
 
 
 
