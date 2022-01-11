@@ -426,7 +426,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
     "start": "2022-01-10",
     "end": "2022-01-11"
   } 
-  let trimWeather = builder.trimWeatherArr(testWeatherObj, testDates.start, testDates.end);
+  let trimWeather = builder.parseAndTrim(testWeatherObj, testDates.start, testDates.end);
   let nonpref = [];
   let objArrs = [objArr, nonpref];
     let testarr=builder.buildDailySchedule(objArrs, testDates, trimWeather);
@@ -588,7 +588,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "start": "2022-01-10",
       "end": "2022-01-12"
     }
-    let trimWeather = builder.trimWeatherArr(testWeatherObj, testDates.start, testDates.end);
+    let trimWeather = builder.parseAndTrim(testWeatherObj, testDates.start, testDates.end);
     let nonpreffarr = [];
     let objArrs = [objArr, nonpreffarr];
     let testarr=builder.buildDailySchedule(objArrs, testDates, trimWeather);
@@ -741,7 +741,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
   }
 
 
-  let trimWeather = builder.trimWeatherArr(testWeatherObj, testDates.start, testDates.end);
+  let trimWeather = builder.parseAndTrim(testWeatherObj, testDates.start, testDates.end);
   let objArrs = [objArr, nonPrefArr];
     let testarr=builder.buildDailySchedule(objArrs, testDates, trimWeather);
     //buildDailySchedule returns an array with two objects, on on activities, the other on time/date
@@ -762,7 +762,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
   
     let response = [{type: 'history', response: 'negative'},{type: 'spicy', response: 'negative'},{type: 'chinese', response: 'negative'},{type: 'japanese', response: 'negative'}] 
 
-    let trimWeather = builder.trimWeatherArr(testWeatherObj, testDates.start, testDates.end);
+    let trimWeather = builder.parseAndTrim(testWeatherObj, testDates.start, testDates.end);
     let typeMap = builder.readResponse(response);
     let activityArr = builder.parseActivities(typeMap);
     let activityObjArr = builder.matchActivities(activityArr);
@@ -782,7 +782,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
     let response = [{type: 'history', response: 'negative'},{type: 'spicy', response: 'negative'},{type: 'chinese', response: 'negative'},{type: 'japanese', response: 'negative'}
     ,{type: 'art', response: 'negative'},{type: 'sight seeing', response: 'negative'},{type: 'nature', response: 'negative'}] 
 
-    let trimWeather = builder.trimWeatherArr(testWeatherObj, testDates.start, testDates.end);
+    let trimWeather = builder.parseAndTrim(testWeatherObj, testDates.start, testDates.end);
     let typeMap = builder.readResponse(response);
     let activityArr = builder.parseActivities(typeMap);
     let activityObjArr = builder.matchActivities(activityArr);
@@ -807,7 +807,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
     ]
     
    
-    let trimWeather = builder.trimWeatherArr(testWeatherObj, testDates.start, testDates.end);
+    let trimWeather = builder.parseAndTrim(testWeatherObj, testDates.start, testDates.end);
     let activityObjArr = builder.matchActivities(response);
     let sortedArray = builder.buildDailySchedule(activityObjArr, testDates, trimWeather);
     let length = sortedArray[0].length;
@@ -829,7 +829,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
       "nature"
     ]
     
-    let trimWeather = builder.trimWeatherArr(testWeatherObj, testDates.start, testDates.end);
+    let trimWeather = builder.parseAndTrim(testWeatherObj, testDates.start, testDates.end);
     let activityObjArr = builder.matchActivities(response);
     //console.log(activityObjArr);
     let sortedArray = builder.buildDailySchedule(activityObjArr, testDates, trimWeather);
@@ -909,7 +909,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
     let pref = [testeveningonly1, trainmuseum, xingtian, sushiexpress, DingTaiFeng];
     let nonpref = [huashan, lungshan];
     let arrays=[pref, nonpref];
-    let trimWeather = builder.trimWeatherArr(testWeatherObj, testDates.start, testDates.end);
+    let trimWeather = builder.parseAndTrim(testWeatherObj, testDates.start, testDates.end);
     let result = builder.buildDailySchedule(arrays, testDates, trimWeather);
     console.log(result[0]);
     expect(result[0][4].title).toBe('Evening Test 1');
@@ -1467,15 +1467,15 @@ test('response of [{type: history, response: positive}] to be one', () => {
     "end": "2022-01-13"
   }
 
-    let testWeatherObjArr = builder.parseWeather(testWeather);
-    let trimWeather = builder.trimWeatherArr(testWeatherObjArr, testDates.start, testDates.end);
+ 
+    let trimWeather = builder.parseAndTrim(testWeatherObj, testDates.start, testDates.end);
  
     
     //1642276800
     expect(trimWeather.length).toBe(4);
   });
 
-  test('expect weather array returned by buildschedule to have length of 1 for 1 days', ()=>{
+  test('expect weather array returned by buildschedule to have length of 5 for 1 days', ()=>{
     let testDates = {
         "start": "2022-01-10",
         "end": "2022-01-11"
@@ -1499,15 +1499,15 @@ test('response of [{type: history, response: positive}] to be one', () => {
       let pref = [testeveningonly1, trainmuseum, xingtian, sushiexpress, DingTaiFeng];
       let nonpref = [huashan, lungshan];
       let arrays=[pref, nonpref];
-      let parsed = builder.parseWeather(testWeatherObj);
-      let trimWeather = builder.trimWeatherArr(parsed, testDates.start, testDates.end);
+      let trimWeather = builder.parseAndTrim(testWeatherObj, testDates.start, testDates.end);
+
       console.log('result of trim weather')
       console.log(trimWeather);
       let result = builder.buildDailySchedule(arrays, testDates, trimWeather);
 
       let finalWeather = result[2];
       console.log(result[2]);
-      expect(result[2].length).toBe(1);
+      expect(result[2].length).toBe(5);
 
 
   })

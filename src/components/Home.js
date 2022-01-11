@@ -14,7 +14,6 @@ function Home(props){
                 Welcome To Digital Travel Guide Taipei
             </h1> <div className="lineBreak"></div>
             <Link to='/quiz' ><button className="btn btn-primary">Plan your vacation!</button></Link>
-            <ActivityCard obj={obj} timeInfo={dateInfo} weatherInfo={'Snow'}  />
                    
         </div>
     )

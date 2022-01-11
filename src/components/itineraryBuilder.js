@@ -276,7 +276,9 @@ class itineraryBuilder{
          
          //one day                 ////////////////////////////////////////////////////////////// there are 3 activities and 2 food in a day
                                                                        //// so we can check that there are enough left in the arr
-                                                                                             
+         
+                                                                       
+         console.log('trimweather length ' + trimmedWeather.length);
          if (j < trimmedWeather.length){
             weather.push(trimmedWeather[j].weather);
             weather.push(trimmedWeather[j].weather);
@@ -433,12 +435,8 @@ class itineraryBuilder{
    let activityObjArr = this.matchActivities(activityArr);
   
    let weather = await this.checkWeather();
-   //let parsed = this.parseWeather(weather);
-   //console.log(parsed[0].weather);
-   //let trimWeather = this.trimWeatherArr(parsed, dates.start, dates.end);
+   
    let trimmedWeather= this.parseAndTrim(weather, dates.start, dates.end);
-   console.log(trimmedWeather);
-   console.log(trimmedWeather[0].weather);
   
    let sortedArray = this.buildDailySchedule(activityObjArr, dates, trimmedWeather);
    let cardArr = this.buildCards(sortedArray);
