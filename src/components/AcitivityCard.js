@@ -1,11 +1,32 @@
 
-
-
 //this component will take props containing an activity and a date from the parent itinerary
 //component. The date object will contain the calendar date for doing the activity
 
 
 function ActivityCard(props){
+
+
+
+    function getWeatherIcon(weather){
+        console.log(weather);
+
+        let icon;
+        if (weather == 'Rain'){
+            icon='../../weatherimg/rain.png'
+        }
+        else if (weather == 'Clouds'){
+            icon='../../weatherimg/cloudy.png'
+        }
+        else if (weather == 'Clear'){
+            icon='../../weatherimg/sunny.png'
+        }
+        else if (weather == 'Snow'){
+            icon='../../weatherimg/snow.png'
+        }
+       
+        return icon;
+
+    }
 
     function displayDate(date) {
         let dd = date.getDate();
@@ -22,6 +43,7 @@ function ActivityCard(props){
         return dateString;
         
     }
+    let weatherIcon = getWeatherIcon(props.weatherInfo);
 
     let dateString = displayDate(props.timeInfo.date);
 
@@ -42,7 +64,7 @@ function ActivityCard(props){
                             <h1>{props.obj.title}</h1>
                        </div>
                        <div className="col-sm">
-                            Weather {props.weatherInfo}
+                            Weather {props.weatherInfo} <img id='weatherIcon' className="weatherIcon" src={weatherIcon}/>
                        </div>
                        
 
