@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import ActivityCard from "./AcitivityCard";
 import activityList from "./activityList";
 let obj = activityList[0];
-
+let newDate = new Date();
+let dateInfo = {date: newDate, day: 1, time: 'Morning'}
 
 function Home(props){
 
