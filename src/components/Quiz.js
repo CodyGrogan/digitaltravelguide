@@ -56,7 +56,12 @@ useEffect(()=>{
     async function setCards(responseList){
 
         let activityCards = await builder.buildItinerary(responseList, dates);
-       props.setActivityCards(activityCards);;
+        props.setActivityCards(activityCards);
+        let spinner = document.getElementById('spinner');
+        let link = document.getElementById('linkToItinerary');
+        spinner.hidden = true;
+        link.hidden = false;
+
     }
 
 
@@ -72,11 +77,13 @@ useEffect(()=>{
             <QuizQuestion key={currentQuestion} question={questionList[questionIndex].phrase} questionType={questionList[questionIndex].type} answerList={answerList} setAnswerList={setAnswerList} currentQuestion ={currentQuestion} setCurrentQuestion ={setCurrentQuestion} />
         </div>
         <div hidden id='guideCon'>
+            <div id='spinner'>
             <p>Your itinerary is under construction</p>
             <div className="spinner-border" role="status">
             <span className="visually-hidden">Loading...</span>
             </div>
-            <Link to='/itinerary'> <button type="button" className="btn btn-primary">View Your Vacation Now!</button></Link>
+            </div>
+            <Link id='linkToItinerary' to='/itinerary' hidden> <button type="button" className="btn btn-primary">View Your Vacation Now!</button></Link>
         </div>
 
         </div>
