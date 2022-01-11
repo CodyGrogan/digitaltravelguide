@@ -1467,10 +1467,9 @@ test('response of [{type: history, response: positive}] to be one', () => {
     "end": "2022-01-13"
   }
 
-    const testWeatherObjArr = builder.parseWeather(testWeather);
+    let testWeatherObjArr = builder.parseWeather(testWeather);
     let trimWeather = builder.trimWeatherArr(testWeatherObjArr, testDates.start, testDates.end);
-    console.log(testWeatherObjArr);
-    console.log(trimWeather);
+ 
     
     //1642276800
     expect(trimWeather.length).toBe(4);
@@ -1510,6 +1509,16 @@ test('response of [{type: history, response: positive}] to be one', () => {
       console.log(result[2]);
       expect(result[2].length).toBe(1);
 
+
+  })
+
+  test('expect trimmed[0] to be Rain', ()=>{
+    let testDates = {
+        "start": "2022-01-10",
+        "end": "2022-01-11"
+      }
+      let result = builder.parseAndTrim(testWeatherObj,testDates.start, testDates.end);
+      expect(result[0].weather).toBe('Rain');
 
   })
   /*

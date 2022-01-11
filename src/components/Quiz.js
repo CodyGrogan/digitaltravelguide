@@ -24,8 +24,7 @@ useEffect(()=>{
        let guide = document.getElementById('guideCon');
        quiz.remove();
        guide.hidden = false;
-       let activityCards = builder.buildItinerary(responseList, dates);
-       props.setActivityCards(activityCards);
+       setCards(responseList);
 
     
 
@@ -54,6 +53,11 @@ useEffect(()=>{
 },
 [dates]);
 
+    async function setCards(responseList){
+
+        let activityCards = await builder.buildItinerary(responseList, dates);
+       props.setActivityCards(activityCards);;
+    }
 
 
     return(

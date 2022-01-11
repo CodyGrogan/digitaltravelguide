@@ -11,6 +11,7 @@ import activityList from "./activityList";
 import Activity from "./classes/Activity";
 import apikey from "../secrets";
 import regeneratorRuntime from "regenerator-runtime";
+import Weather from "./classes/Weather";
 class itineraryBuilder{
 
    
@@ -277,12 +278,27 @@ class itineraryBuilder{
                                                                        //// so we can check that there are enough left in the arr
                                                                                              
          if (j < trimmedWeather.length){
-            weather.push(trimmedWeather[j]);
+            weather.push(trimmedWeather[j].weather);
+            weather.push(trimmedWeather[j].weather);
+
+            weather.push(trimmedWeather[j].weather);
+
+            weather.push(trimmedWeather[j].weather);
+
+            weather.push(trimmedWeather[j].weather);
+
 
          }
 
          else{
-            weather.push({weather: 'unknown'});
+            weather.push('unknown');
+            weather.push('unknown');
+
+            weather.push('unknown');
+
+            weather.push('unknown');
+            weather.push('unknown');
+
          }
 
          //first figure out what the date is
@@ -376,7 +392,7 @@ class itineraryBuilder{
 
     //console.log(sortedActivity);
     console.log(weather);
-   return [sortedActivity, dateInfo];
+   return [sortedActivity, dateInfo, weather];
    
 }
 
@@ -396,11 +412,14 @@ class itineraryBuilder{
     //build cards takes an array of two arrays, the activityobjArr is at [0] and time info array at[1];
    let activityObjArr = info[0];
    let timeInfo = info[1];
+   let weatherInfo = info[2];
+   
    
    let cardArr = []
 
    for (let i = 0; i < activityObjArr.length; i++){
-      let newjsx = <ActivityCard obj={activityObjArr[i]} timeInfo={timeInfo[i]}  />
+      let weatherString = weatherInfo[i];
+      let newjsx = <ActivityCard obj={activityObjArr[i]} timeInfo={timeInfo[i]} weatherInfo={weatherString} />;
       cardArr.push(newjsx);
    }
 
@@ -413,14 +432,15 @@ class itineraryBuilder{
    let activityArr = this.parseActivities(typeMap);
    let activityObjArr = this.matchActivities(activityArr);
   
-   //let weather = await this.checkWeather();
+   let weather = await this.checkWeather();
    //let parsed = this.parseWeather(weather);
+   //console.log(parsed[0].weather);
    //let trimWeather = this.trimWeatherArr(parsed, dates.start, dates.end);
-   //console.log('inside build itinerary')
-   //console.log(trimWeather);
-   let trimWeather = [{date: '2022-01-10', weather: 'Rain'}]
+   let trimmedWeather= this.parseAndTrim(weather, dates.start, dates.end);
+   console.log(trimmedWeather);
+   console.log(trimmedWeather[0].weather);
   
-   let sortedArray = this.buildDailySchedule(activityObjArr, dates, trimWeather);
+   let sortedArray = this.buildDailySchedule(activityObjArr, dates, trimmedWeather);
    let cardArr = this.buildCards(sortedArray);
    return cardArr;
 
@@ -477,6 +497,67 @@ async checkWeather(){
   return weather;
  }
 
+ parseAndTrim(weather, startDate, endDate){
+
+   let weatherObjArr = [];
+   console.log(weather.list.length);
+   console.log(weather.list[0]);
+   
+   for (let i = 0; i < weather.list.length; i++){
+      let newDate = new Date;
+      let ms = weather.list[i].dt;
+      ms = ms*1000;
+      newDate.setTime(ms);
+      let dateString = this.convertDateToString(newDate);
+      let mainWeather= weather.list[i].weather[0].main;
+      let weatherObj = new Weather(dateString, mainWeather);
+      weatherObjArr.push(weatherObj);
+
+   }
+
+   console.log(weatherObjArr[0].weather);
+
+
+   // trim
+
+   let indexOfStart = 0;
+   let indexOfEnd = 0;
+   let trimmedArray = [];
+
+
+      for (let i = 0; i < weatherObjArr.length; i++){
+         console.log('objDate' + weatherObjArr[i].date + weatherObjArr[i].weather + ' startdate ' + startDate);
+         if (weatherObjArr[i].date === startDate){
+            indexOfStart = i;
+            break
+         }
+      }
+
+      for (let i = indexOfStart; i< weatherObjArr.length; i++){
+         if (weatherObjArr[i].date === endDate){
+            indexOfEnd = i;
+            break;
+         }
+      }
+
+      for (let i = indexOfStart; i <= indexOfEnd; i++){
+         
+         trimmedArray.push(weatherObjArr[i]);
+
+      }
+
+   console.log('inside trim weather arr()');
+   console.log(trimmedArray);
+   //console.log(trimmedArray[0].date);
+   //console.log(trimmedArray[0].weather);
+
+   return trimmedArray;
+
+
+
+
+ }
+
  parseWeather(weather){
 
  
@@ -491,11 +572,12 @@ async checkWeather(){
       newDate.setTime(ms);
       let dateString = this.convertDateToString(newDate);
       let mainWeather= weather.list[i].weather[0].main;
-      let weatherObj = {date: dateString, weather: mainWeather};
+      let weatherObj = new Weather(dateString, mainWeather);
       weatherObjArr.push(weatherObj);
 
    }
 
+   console.log(weatherObjArr[0].weather);
    return weatherObjArr;
     
 
@@ -517,57 +599,37 @@ async checkWeather(){
  }
 
 
- async provideWeather(dates){
-    //first check if end date is before todays date + 16;
-    // if yes, compare each date between the start and end date with the date from the weatherObjArr
-    //if they don't match, push 'Unknown Weather' to weatherList
-    //if they do match, push the weather type to weatherList;
-    //return the weather list;
-    //build itinerary will pass the weatherlist as a parameter to build cards, and then pass the value for weather
-    //as a prop to each of the activity cards
-    let weatherList = [];
-    let maxdate = new Date();
-    maxdate.setDate(maxdate.getDate()+16);
-    let start = new Date(dates.start);
-    if (start.getTime() <= maxdate){
-      let weather = await this.checkWeather();
-      let weatherObjArr = this.parseWeather(weather);  
-      let startDate = new Date(dates.start);
-      let startString = this.convertDateToString(startDate);
-      let endDate = new Date(dates.end);
-      let endString = this.convertDateToString(endDate);
-      
-    
-
-    }
-   }
-
-    trimWeatherArr(weatherObjArr, startDate, endDate){
+ trimWeatherArr(weatherObjArr, startDate, endDate){
       let indexOfStart = 0;
       let indexOfEnd = 0;
       let trimmedArray = [];
+
+
          for (let i = 0; i < weatherObjArr.length; i++){
-            console.log('objDate' + weatherObjArr[i].date + ' startdate ' + startDate);
-            if (weatherObjArr[i].date == startDate){
+            console.log('objDate' + weatherObjArr[i].date + weatherObjArr[i].weather + ' startdate ' + startDate);
+            if (weatherObjArr[i].date === startDate){
                indexOfStart = i;
                break
             }
          }
 
-         for (let i = indexOfStart; i<weatherObjArr.length; i++){
-            if (weatherObjArr[i].date == endDate){
+         for (let i = indexOfStart; i< weatherObjArr.length; i++){
+            if (weatherObjArr[i].date === endDate){
                indexOfEnd = i;
                break;
             }
          }
 
          for (let i = indexOfStart; i <= indexOfEnd; i++){
+            
             trimmedArray.push(weatherObjArr[i]);
 
          }
 
       console.log('inside trim weather arr()');
       console.log(trimmedArray);
+      //console.log(trimmedArray[0].date);
+      //console.log(trimmedArray[0].weather);
 
       return trimmedArray;
 
