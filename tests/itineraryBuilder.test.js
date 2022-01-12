@@ -432,8 +432,9 @@ test('response of [{type: history, response: positive}] to be one', () => {
     let testarr=builder.buildDailySchedule(objArrs, testDates, trimWeather);
     //buildDailySchedule returns an array with two objects, on on activities, the other on time/date
     let testObjArr = testarr[0];
-    
-    expect(testObjArr[0].title).toBe('Sun Yatsen Memorial Hall')  });
+    //the way this test worked before is irrelevant now that the array is shuffled before picking
+    //first activity
+    expect(testObjArr[0].food).toBe(false)});
 
   test('build daily schedule food arr to be sorted by distance after 2 days', () => {
     //this test will need to be updates with dates for the parameter rather than an int
@@ -815,6 +816,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
   });
 
   test('builditinerary check with japanese, spicy, history, chinese, nature prefs over 4 days', () => {
+    console.log('Expect 20 cards')
 
     let testDates = {
       "start": "2022-01-10",

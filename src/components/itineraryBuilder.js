@@ -229,9 +229,11 @@ class itineraryBuilder{
 
    let foodArr = [];
    let otherArr =[]
+   let tempOtherArr =[]; //temp arrays will hold nature/hiking activities on rainy days and will be passed back to otherArr/nonprefotherarr at end of day
 
    let nonPrefFoodArr = [];
    let nonPrefOtherArr = [];
+   let tempNonPrefOtherArr=[];
    
    let sortedActivity = []
    let dateInfo = [];
@@ -266,6 +268,8 @@ class itineraryBuilder{
       }
    }
 
+   console.log('length of otherarr is ' + otherArr.length);
+
     //put a random other activity into sortedActivity
     //then check for closest food from foodArr
     //then check for closest otherArr
@@ -274,10 +278,12 @@ class itineraryBuilder{
 
     for (let j = 0; j < totaldays; j++){
          
-         //one day                 ////////////////////////////////////////////////////////////// there are 3 activities and 2 food in a day
+ //one day     ////////////////////////////////////////////////////////////// there are 3 activities and 2 food in a day
                                                                        //// so we can check that there are enough left in the arr
-         
-                                                                       
+     otherArr = this.shuffle(otherArr);  //shuffle the array each day so the first event chosen is randmom
+     nonPrefOtherArr = this.shuffle(nonPrefOtherArr);
+     console.log('day ' + j + ' length of otherarr is ' + otherArr.length);
+                                                                 
          console.log('trimweather length ' + trimmedWeather.length);
          if (j < trimmedWeather.length){
             weather.push(trimmedWeather[j].weather);
@@ -302,6 +308,53 @@ class itineraryBuilder{
             weather.push('unknown');
 
          }
+       
+
+         //filterout outdoor activities if raining
+      if (trimmedWeather[j]!= undefined){
+         if (trimmedWeather[j].weather == 'Rain'){
+            console.log('day ' + j + ' length of otherarr is ' + otherArr.length);
+            let indexToDeletePref = [];
+            let indexToDeleteNonPref = [];
+            for (let i = 0; i < otherArr.length; i ++){
+               let result = this.checkOutdoor(otherArr[i]);
+               console.log(otherArr[i].title + 'outdoor is' + result);
+               if (result == true){
+                     tempOtherArr.push(otherArr[i]);
+                     indexToDeletePref.push(i);
+               }
+            }
+            for (let i = 0; i < nonPrefOtherArr.length; i ++){
+               let result = this.checkOutdoor(nonPrefOtherArr[i]);
+               console.log(nonPrefOtherArr[i].title + 'outdoor is' + result);
+
+               if (result == true){
+                     tempNonPrefOtherArr.push(nonPrefOtherArr[i]);
+                     indexToDeleteNonPref.push(i);
+               }
+            }
+
+            if (indexToDeletePref.length > 0){
+            for (let i = indexToDeletePref.length-1; i >= 0; i--){
+               otherArr.splice(indexToDeletePref[i], 1);
+            }
+            }
+
+            if (indexToDeleteNonPref.length > 0){
+            for (let i = indexToDeleteNonPref.length-1; i >= 0; i--){
+               nonPrefOtherArr.splice(indexToDeleteNonPref[i], 1);
+            }
+            }
+
+            console.log('filtered outdoor');
+            console.log(tempOtherArr.length, tempNonPrefOtherArr.length);
+            console.log(otherArr);
+            console.log(tempOtherArr);
+         }
+      }
+
+
+
 
          //first figure out what the date is
          let newDate = new Date(startDate);
@@ -341,8 +394,9 @@ class itineraryBuilder{
          //get second activity closest to food 1
 
          console.log('one activity and one food');
-         console.log(sortedActivity);
+         
          let filteredActivity2 = this.filterTime(otherArr, 'a');
+         
          if (filteredActivity2.length > 1 ){
             this.sortByDistance(filteredActivity2, sortedActivity, otherArr, 1);
          }
@@ -388,9 +442,22 @@ class itineraryBuilder{
 
          dateInfo.push({date: newDate, day: j+1, time: 'Evening'});
 
+
+
+          //put back removed outdoor activities;
+
+         otherArr = otherArr.concat(tempOtherArr);
+         tempOtherArr = [];
+         
+
+         nonPrefOtherArr = nonPrefOtherArr.concat(tempNonPrefOtherArr);
+         nonPrefOtherArr = [];
          ////// End of day
 
       }
+
+     
+
 
     //console.log(sortedActivity);
     console.log(weather);
@@ -409,6 +476,17 @@ class itineraryBuilder{
     return false;
 
  }
+
+ checkOutdoor(activity){
+   //checks if activity is outdoor
+   for (let i = 0; i < activity.type.length; i++){
+      if (activity.type[i] === 'hiking' || activity.type[i] === 'nature'){
+         return true;
+      }
+   }
+   return false;
+
+}
 
  buildCards(info){
     //build cards takes an array of two arrays, the activityobjArr is at [0] and time info array at[1];
@@ -631,6 +709,25 @@ async checkWeather(){
 
       return trimmedArray;
 
+    }
+    
+    //from stack overflow, fisheryates shuffle
+     shuffle(array) {
+      let currentIndex = array.length,  randomIndex;
+    
+      // While there remain elements to shuffle...
+      while (currentIndex != 0) {
+    
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+    
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex], array[currentIndex]];
+      }
+    
+      return array;
     }
     
    
