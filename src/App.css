@@ -70,6 +70,10 @@ body{
     max-width: 48px;
 }
 
+.homeBtn{
+    margin-bottom: 10px;
+}
+
 
 
 @media(max-width: 600px) {

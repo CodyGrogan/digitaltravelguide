@@ -282,7 +282,7 @@ class itineraryBuilder{
                                                                        //// so we can check that there are enough left in the arr
      otherArr = this.shuffle(otherArr);  //shuffle the array each day so the first event chosen is randmom
      nonPrefOtherArr = this.shuffle(nonPrefOtherArr);
-     console.log('day ' + j + ' length of otherarr is ' + otherArr.length);
+     console.log('day ' + j + ' length of otherarr is ' + otherArr.length + 'nonpref length ' + nonPrefOtherArr.length);
                                                                  
          console.log('trimweather length ' + trimmedWeather.length);
          if (j < trimmedWeather.length){
@@ -348,8 +348,9 @@ class itineraryBuilder{
 
             console.log('filtered outdoor');
             console.log(tempOtherArr.length, tempNonPrefOtherArr.length);
-            console.log(otherArr);
-            console.log(tempOtherArr);
+            console.log('remaining otherArr objects pref and nonpref')
+            console.log(otherArr.length);
+            console.log(nonPrefOtherArr.length);
          }
       }
 
@@ -360,8 +361,7 @@ class itineraryBuilder{
          let newDate = new Date(startDate);
          newDate.setDate(startDate.getDate()+j);
 
-         //check that enough preferred activities remain
-      this.pushMore(otherArr, nonPrefOtherArr, 3);
+         //check that enough preferred food remain
       this.pushMore(foodArr, nonPrefFoodArr, 2);
      
          
@@ -402,8 +402,13 @@ class itineraryBuilder{
          }
          else
          {
+            if (filteredActivity2.length > 1){
             filteredActivity2 = this.filterTime(nonPrefOtherArr, 'a');
             this.sortByDistance(filteredActivity2, sortedActivity, nonPrefOtherArr, 1);
+            }
+            else{
+               console.log('neither filtered activity long enough')
+            }
 
          }
          dateInfo.push({date: newDate, day: j+1, time: 'Afternoon'});
@@ -435,8 +440,17 @@ class itineraryBuilder{
          }
          else
          {
+            
             filteredActivity3 = this.filterTime(nonPrefOtherArr, 'e');
+            if (filteredActivity3.length > 1){
             this.sortByDistance(filteredActivity3, sortedActivity, nonPrefOtherArr, 0);
+            }
+            else
+            {
+               console.log('filtered activity 3 not long enough');
+               console.log(otherArr.length);
+               console.log(nonPrefOtherArr.length);
+            }
 
          }
 
@@ -451,7 +465,7 @@ class itineraryBuilder{
          
 
          nonPrefOtherArr = nonPrefOtherArr.concat(tempNonPrefOtherArr);
-         nonPrefOtherArr = [];
+         tempNonPrefOtherArr = [];
          ////// End of day
 
       }
@@ -461,6 +475,7 @@ class itineraryBuilder{
 
     //console.log(sortedActivity);
     console.log(weather);
+    console.log(sortedActivity);
    return [sortedActivity, dateInfo, weather];
    
 }

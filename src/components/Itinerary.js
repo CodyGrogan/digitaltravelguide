@@ -22,7 +22,7 @@ function Itinerary(props){
             
            
             {activityCards}
-            <Link to={'/'}><button className="btn btn-warning">Home</button></Link>
+            <Link to={'/'}><button className="btn btn-warning homeBtn">Home</button></Link>
             
         </div>
     )
