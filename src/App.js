@@ -24,6 +24,7 @@ function App() {
       <Route path='/' element={<Home/>}/>
       <Route path='/quiz' element={<Quiz setQuestionResponse={setQuestionResponse} setDatesResponse={setDatesResponse} setActivityCards={setActivityCards}/>}/>
       <Route path='/itinerary' element={<Itinerary getCards={getCards}/>}/>
+      <Route path='*' element={<Home/>} />
       </Routes>
       </BrowserRouter>
       

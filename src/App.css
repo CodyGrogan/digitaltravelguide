@@ -19,7 +19,24 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 10%;
+    padding-top: 15%;
+    flex-direction: column;
+}
+
+.itenPageCon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5%;
+    flex-direction: column;
+}
+
+
+.cardCon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
     flex-direction: column;
 }
 
@@ -98,4 +115,33 @@ body{
     }
     
 
+  }
+
+  @media all {
+    .page-break {
+      display: none;
+    }
+  }
+  
+  @media print {
+    html, body {
+      height: initial !important;
+      overflow: initial !important;
+      -webkit-print-color-adjust: exact;
+    }
+
+  
+  }
+  
+  @media print {
+    .page-break {
+      margin-top: 1rem;
+      display: block;
+      page-break-before: auto;
+    }
+  }
+  
+  @page {
+    size: auto;
+    margin: 20mm;
   }

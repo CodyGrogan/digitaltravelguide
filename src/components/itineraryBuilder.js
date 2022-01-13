@@ -527,7 +527,8 @@ class itineraryBuilder{
    let activityArr = this.parseActivities(typeMap);
    let activityObjArr = this.matchActivities(activityArr);
   
-   let weather = await this.checkWeather();
+   let weather = await this.checkWeatherExpress();     //use this for production
+   //let weather = await this.checkWeather();              //use this for testing
    
    let trimmedWeather= this.parseAndTrim(weather, dates.start, dates.end);
   
@@ -558,8 +559,8 @@ class itineraryBuilder{
  }
 
 async checkWeather(){
-  // api.openweathermap.org/data/2.5/forecast/daily?q=London&units=metric&cnt=7&appid={API key}
-  var axios = require("axios").default;
+   //this is the same code that runs on the express backend, here fore testing purposes only
+   var axios = require("axios").default;
    let weather;
   var options = {
     method: 'GET',
@@ -586,6 +587,15 @@ async checkWeather(){
      return weather;
   });
   return weather;
+ }
+
+ async checkWeatherExpress(){
+   let result = await fetch('/weather').then(response => {
+      return response.json();
+
+   });
+   console.log(result);
+   return result;
  }
 
  parseAndTrim(weather, startDate, endDate){

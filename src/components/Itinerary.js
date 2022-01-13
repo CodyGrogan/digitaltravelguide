@@ -4,8 +4,10 @@
 //breakfast, morningactivity, lunch, noon activity, dinner, nightactivity
 
 import ActivityCard from "./AcitivityCard";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef} from "react";
 import {Link} from 'react-router-dom';
+import ReactToPrint, { useReactToPrint } from "react-to-print";
+import ItineraryList from "./ItineraryList";
 
 
 
@@ -15,14 +17,23 @@ function Itinerary(props){
     useEffect(()=>{
         let cards = props.getCards();
         setActivityCards(cards);
-    }, [])
+    }, []);
+
+    const componentRef = useRef();
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
     
     return(
-        <div className="pageCon itineraryPageBackground">
+        <div className="itenPageCon itineraryPageBackground">
+            
+            <ItineraryList cards={activityCards} ref={componentRef}/>
             
            
-            {activityCards}
+            <button className="btn btn-primary" onClick={handlePrint}>Print your Itinerary!</button>
             <Link to={'/'}><button className="btn btn-warning homeBtn">Home</button></Link>
+
+            
             
         </div>
     )

@@ -64,7 +64,7 @@ function ActivityCard(props){
                             <h1>{props.obj.title}</h1>
                        </div>
                        <div className="col-sm">
-                            Weather {props.weatherInfo} <img id='weatherIcon' className="weatherIcon" src={weatherIcon}/>
+                             <img id='weatherIcon' className="weatherIcon" src={weatherIcon}/>
                        </div>
                        
 

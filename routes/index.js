@@ -8,6 +8,7 @@ const apikey = process.env.WEATHERAPI;
 router.get('/weather', async function(req, res){
     console.log('getting weather');
     let weather = await checkWeather();
+    console.log(weather);
     res.json(weather);
     
     
@@ -49,7 +50,7 @@ async function checkWeather(){
        
     }).catch(function (error) {
        console.error(error);
-       weather = null
+       weather = null;
        return weather;
     });
     return weather;
