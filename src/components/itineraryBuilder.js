@@ -528,8 +528,8 @@ class itineraryBuilder{
    let activityArr = this.parseActivities(typeMap);
    let activityObjArr = this.matchActivities(activityArr);
   
-   //let weather = await this.checkWeatherExpress();     //use this for production
-   let weather = await this.checkWeather();              //use this for testing
+   let weather = await this.checkWeatherExpress();     //use this for production
+   //let weather = await this.checkWeather();              //use this for testing
    
    let trimmedWeather= this.parseAndTrim(weather, dates.start, dates.end);
   
