@@ -3,6 +3,10 @@ import React, { useEffect, useState, useRef} from "react";
 import {Link} from 'react-router-dom';
 import ReactToPrint, { useReactToPrint } from "react-to-print";
 
+function printList(cards){
+
+}
+
 const ItineraryList = React.forwardRef((props, ref) => (  <div  ref={ref} className="cardCon">   
  {props.cards}
 
