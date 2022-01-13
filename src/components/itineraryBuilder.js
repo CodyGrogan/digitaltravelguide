@@ -9,10 +9,11 @@ import { type } from "@testing-library/user-event/dist/type";
 import ActivityCard from "./AcitivityCard";
 import activityList from "./activityList";
 import Activity from "./classes/Activity";
-import apikey from "../secrets";
+
 import regeneratorRuntime from "regenerator-runtime";
 import Weather from "./classes/Weather";
 import TextList from "./TextList";
+const apikey = process.env.WEATHERAPI;
 class itineraryBuilder{
 
    
