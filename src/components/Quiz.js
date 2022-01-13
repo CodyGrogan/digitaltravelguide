@@ -56,7 +56,8 @@ useEffect(()=>{
     async function setCards(responseList){
 
         let activityCards = await builder.buildItinerary(responseList, dates);
-        props.setActivityCards(activityCards);
+        props.setActivityCards(activityCards[0]);
+        props.setTextList(activityCards[1]);
         let spinner = document.getElementById('spinner');
         let link = document.getElementById('linkToItinerary');
         spinner.hidden = true;

@@ -12,11 +12,14 @@ import ItineraryList from "./ItineraryList";
 
 
 function Itinerary(props){
-    const [activityCards, setActivityCards] = useState()
+    const [activityCards, setActivityCards] = useState();
+    const [textList, setTextList] = useState();
 
     useEffect(()=>{
         let cards = props.getCards();
         setActivityCards(cards);
+        let text = props.getText();
+        setTextList(text);
     }, []);
 
     const componentRef = useRef();
@@ -27,10 +30,13 @@ function Itinerary(props){
     return(
         <div className="itenPageCon itineraryPageBackground">
             
-            <ItineraryList cards={activityCards} ref={componentRef}/>
-            
+
+            {activityCards}
+            <div style={{ display: "none" }}>
+            <ItineraryList  cards={textList} ref={componentRef}/>
+            </div>
            
-            <button className="btn btn-primary" onClick={handlePrint}>Print your Itinerary!</button>
+            <button className="btn btn-primary homeBtn" onClick={handlePrint}>Print your Itinerary!</button>
             <Link to={'/'}><button className="btn btn-warning homeBtn">Home</button></Link>
 
             

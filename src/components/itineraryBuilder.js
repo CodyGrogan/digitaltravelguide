@@ -12,6 +12,7 @@ import Activity from "./classes/Activity";
 import apikey from "../secrets";
 import regeneratorRuntime from "regenerator-runtime";
 import Weather from "./classes/Weather";
+import TextList from "./TextList";
 class itineraryBuilder{
 
    
@@ -527,17 +528,38 @@ class itineraryBuilder{
    let activityArr = this.parseActivities(typeMap);
    let activityObjArr = this.matchActivities(activityArr);
   
-   let weather = await this.checkWeatherExpress();     //use this for production
-   //let weather = await this.checkWeather();              //use this for testing
+   //let weather = await this.checkWeatherExpress();     //use this for production
+   let weather = await this.checkWeather();              //use this for testing
    
    let trimmedWeather= this.parseAndTrim(weather, dates.start, dates.end);
   
    let sortedArray = this.buildDailySchedule(activityObjArr, dates, trimmedWeather);
    let cardArr = this.buildCards(sortedArray);
-   return cardArr;
+   let textArr = this.buildTextList(sortedArray);
+   return [cardArr, textArr];
 
 
 }
+
+   buildTextList(info){
+
+      let activityObjArr = info[0];
+      let timeInfo = info[1];
+      let weatherInfo = info[2];
+      
+      
+      let textArr = []
+   
+      for (let i = 0; i < activityObjArr.length; i++){
+         let weatherString = weatherInfo[i];
+         let newjsx = <TextList obj={activityObjArr[i]} timeInfo={timeInfo[i]}/>;
+         textArr.push(newjsx);
+      }
+   
+      return textArr;
+
+   }
+
    deg2rad(deg){
       return deg * (Math.PI/180)
    }

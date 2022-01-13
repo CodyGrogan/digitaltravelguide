@@ -91,7 +91,9 @@ body{
     margin-bottom: 10px;
 }
 
-
+.textList{
+    color: black;
+}
 
 @media(max-width: 600px) {
     body {

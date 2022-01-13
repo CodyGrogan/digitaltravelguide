@@ -12,8 +12,12 @@ function App() {
   const [questionResponse, setQuestionResponse] = useState();
   const [datesResponse, setDatesResponse] = useState();
   const [activityCards, setActivityCards] = useState();
+  const [textList, setTextList] = useState();
   function getCards(){
     return activityCards;
+  }
+  function getText(){
+    return textList;
   }
 
   return (
@@ -22,8 +26,8 @@ function App() {
       <BrowserRouter>
       <Routes>
       <Route path='/' element={<Home/>}/>
-      <Route path='/quiz' element={<Quiz setQuestionResponse={setQuestionResponse} setDatesResponse={setDatesResponse} setActivityCards={setActivityCards}/>}/>
-      <Route path='/itinerary' element={<Itinerary getCards={getCards}/>}/>
+      <Route path='/quiz' element={<Quiz setQuestionResponse={setQuestionResponse} setDatesResponse={setDatesResponse} setActivityCards={setActivityCards} setTextList={setTextList}/>}/>
+      <Route path='/itinerary' element={<Itinerary getCards={getCards} getText={getText}/>}/>
       <Route path='*' element={<Home/>} />
       </Routes>
       </BrowserRouter>
