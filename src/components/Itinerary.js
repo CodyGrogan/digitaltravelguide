@@ -37,7 +37,7 @@ function Itinerary(props){
             </div>
            
             <button className="btn btn-primary homeBtn" onClick={handlePrint}>Print your Itinerary!</button>
-            <Link to={'/'}><button className="btn btn-warning homeBtn">Home</button></Link>
+            <Link to={'/'}><button className="btn btn-warning homeBtn">Reset</button></Link>
 
             
             

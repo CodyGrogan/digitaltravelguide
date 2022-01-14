@@ -13,7 +13,8 @@ import Activity from "./classes/Activity";
 import regeneratorRuntime from "regenerator-runtime";
 import Weather from "./classes/Weather";
 import TextList from "./TextList";
-const apikey = process.env.WEATHERAPI;
+
+const apikey = process.env.WEATHERAPI;   //for unittesting, you must set the API key here directly, or some unit tests will fail
 class itineraryBuilder{
 
    

@@ -268,27 +268,207 @@ const testWeatherObj = {
 
 const builder = new itineraryBuilder;
 
-test('builditinerary check with japanese, spicy, history, chinese, nature prefs over 4 days', () => {
-    console.log('Expect 20 cards')
 
-    let testDates = {
-      "start": "2022-01-10",
-      "end": "2022-01-14"
+test('after not enough prefObjs adds nonPrefs to final list ', () => {
+
+    let objArr = [
+      {
+          "title": "Sushi Express",
+          "address": "Everywhere",
+          "img": "./activity-img/taipei-101-activity.jpg",
+          "subtitle": "Popular sushi chain",
+          "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
+          "type": ["japanese"],
+          "lat": 25.03386754133035,
+          "long": 121.5383244857638,
+          "food": true,
+          "time": ['m', 'a', 'e']
+      },
+      {
+        "title": "foodtest2",
+        "address": "Everywhere",
+        "img": "./activity-img/taipei-101-activity.jpg",
+        "subtitle": "Popular sushi chain",
+        "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
+        "type": ["japanese"],
+        "lat": 25.05386754133035,
+        "long": 121.5383244857638,
+        "food": true,
+        "time": ['m', 'a', 'e']
+    },
+    {
+      "title": "foodtest3",
+      "address": "Everywhere",
+      "img": "./activity-img/taipei-101-activity.jpg",
+      "subtitle": "Popular sushi chain",
+      "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
+      "type": ["japanese"],
+      "lat": 25.07386754133035,
+      "long": 121.5383244857638,
+      "food": true,
+      "time": ['m', 'a', 'e']
+  },
+      {
+          "title": "Sun Yatsen Memorial Hall",
+          "address": "Xinyi District",
+          "img": "./activity-img/SYS_Memorial-wikipedia-cary-bass-sm.jpg",
+          "subtitle": "Memorial, Museum, and Art Gallery",
+          "body": "Watch the changing of the guard ceremony, browse the museum, and enjoy a number of art galleries",
+          "type": ["art"],
+          "lat": 25.040061374178094,
+          "long": 121.56001587047173,
+          "food": false,
+          "time": ['m', 'a', 'e']
+      },
+      {
+          "title": "Taiwan Museum",
+          "address": "Zhongzheng District",
+          "img": "./activity-img/taipei-101-activity.jpg",
+          "subtitle": "Natural History Museum and Art gallery",
+          "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan",
+          "type": ["history"],
+          "lat": 25.04308334099123,
+          "long": 121.51513450556618,
+          "food": false,
+          "time": ['m', 'a', 'e']
+      },
+      {
+        "title": "Taiwan Museum",
+        "address": "Zhongzheng District",
+        "img": "./activity-img/taipei-101-activity.jpg",
+        "subtitle": "Natural History Museum and Art gallery",
+        "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan",
+        "type": ["history"],
+        "lat": 25.04308334099123,
+        "long": 121.51513450556618,
+        "food": false,
+        "time": ['m', 'a', 'e']
+    },
+    {
+        "title": "Taiwan Museum",
+        "address": "Zhongzheng District",
+        "img": "./activity-img/taipei-101-activity.jpg",
+        "subtitle": "Natural History Museum and Art gallery",
+        "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan",
+        "type": ["history"],
+        "lat": 25.04308334099123,
+        "long": 121.51513450556618,
+        "food": false,
+        "time": ['m', 'a', 'e']
     }
-  
-    let response = [
-      "japanese",
-      "spicy",
-      "history",
-      "chinese",
-      "nature"
-    ]
     
-    let trimWeather = builder.parseAndTrim(testWeatherObj, testDates.start, testDates.end);
-    let activityObjArr = builder.matchActivities(response);
-    //console.log(activityObjArr);
-    let sortedArray = builder.buildDailySchedule(activityObjArr, testDates, trimWeather);
-    let length = sortedArray[0].length;
-    //console.log(sortedArray[0]);
-    expect(length).toBe(20);  //5 cards per day
+  ];
+
+  let nonPrefArr = [  {
+    "title": "Fake Taiwan Museum",
+    "address": "Zhongzheng District",
+    "img": "./activity-img/taipei-101-activity.jpg",
+    "subtitle": "Natural History Museum and Art gallery",
+    "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan",
+    "type": ["history"],
+    "lat": 25.04308334099123,
+    "long": 121.51513450556618,
+    "food": false,
+    "time": ['m', 'a', 'e']
+    },
+    {
+      "title": "Sushi Express",
+      "address": "Everywhere",
+      "img": "./activity-img/taipei-101-activity.jpg",
+      "subtitle": "Popular sushi chain",
+      "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
+      "type": ["japanese"],
+      "lat": 25.03386754133035,
+      "long": 121.5383244857638,
+      "food": true,
+      "time": ['m', 'a', 'e']
+  },
+  {
+    "title": "foodtest2",
+    "address": "Everywhere",
+    "img": "./activity-img/taipei-101-activity.jpg",
+    "subtitle": "Popular sushi chain",
+    "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
+    "type": ["japanese"],
+    "lat": 25.05386754133035,
+    "long": 121.5383244857638,
+    "food": true,
+    "time": ['m', 'a', 'e']
+  },
+  {
+  "title": "foodtest3",
+  "address": "Everywhere",
+  "img": "./activity-img/taipei-101-activity.jpg",
+  "subtitle": "Popular sushi chain",
+  "body": "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch",
+  "type": ["japanese"],
+  "lat": 25.07386754133035,
+  "long": 121.5383244857638,
+  "food": true,
+  "time": ['m', 'a', 'e']
+  },
+  {
+      "title": "Sun Yatsen Memorial Hall",
+      "address": "Xinyi District",
+      "img": "./activity-img/SYS_Memorial-wikipedia-cary-bass-sm.jpg",
+      "subtitle": "Memorial, Museum, and Art Gallery",
+      "body": "Watch the changing of the guard ceremony, browse the museum, and enjoy a number of art galleries",
+      "type": ["art"],
+      "lat": 25.040061374178094,
+      "long": 121.56001587047173,
+      "food": false,
+      "time": ['m', 'a', 'e']
+  },
+  {
+      "title": "Taiwan Museum",
+      "address": "Zhongzheng District",
+      "img": "./activity-img/taipei-101-activity.jpg",
+      "subtitle": "Natural History Museum and Art gallery",
+      "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan",
+      "type": ["history"],
+      "lat": 25.04308334099123,
+      "long": 121.51513450556618,
+      "food": false,
+      "time": ['m', 'a', 'e']
+  },
+  {
+    "title": "Taiwan Museum",
+    "address": "Zhongzheng District",
+    "img": "./activity-img/taipei-101-activity.jpg",
+    "subtitle": "Natural History Museum and Art gallery",
+    "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan",
+    "type": ["history"],
+    "lat": 25.04308334099123,
+    "long": 121.51513450556618,
+    "food": false,
+    "time": ['m', 'a', 'e']
+},
+{
+    "title": "Taiwan Museum",
+    "address": "Zhongzheng District",
+    "img": "./activity-img/taipei-101-activity.jpg",
+    "subtitle": "Natural History Museum and Art gallery",
+    "body": "Built by the Japanese colonial government, visit this museum to learn about the natural history of Taiwan",
+    "type": ["history"],
+    "lat": 25.04308334099123,
+    "long": 121.51513450556618,
+    "food": false,
+    "time": ['m', 'a', 'e']
+}
+]
+  //this test will need to be updates with dates for the parameter rather than an int
+  let testDates = {
+    "start": "2022-01-10",
+    "end": "2022-01-11"
+  }
+
+
+  let trimWeather = builder.parseAndTrim(testWeatherObj, testDates.start, testDates.end);
+  let objArrs = [objArr, nonPrefArr];
+    let testarr=builder.buildDailySchedule(objArrs, testDates, trimWeather);
+    //buildDailySchedule returns an array with two objects, on on activities, the other on time/date
+    let testObjArr = testarr[0];
+    let length = testObjArr.length;
+    expect(length).toBe(5);  
+    
   });
