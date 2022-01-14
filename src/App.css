@@ -95,6 +95,23 @@ body{
     color: black;
 }
 
+.about{
+    position: absolute;
+    display: inline-flex;
+    bottom: 10%;
+    background-color: gainsboro;
+    font-size: 12px;
+    border-radius: 10px;
+    padding: 5px;
+}
+.gitLink{
+    width: 24px;
+    margin-left: 5px;
+}
+a{
+    color: black;
+}
+
 @media(max-width: 600px) {
     body {
         background-image: url(tpe-tall.jpg);

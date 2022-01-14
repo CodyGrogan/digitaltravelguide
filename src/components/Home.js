@@ -2,9 +2,8 @@ import QuizQuestion from "./QuizQuestion";
 import { Link } from "react-router-dom";
 import ActivityCard from "./AcitivityCard";
 import activityList from "./activityList";
-let obj = activityList[0];
 let newDate = new Date();
-let dateInfo = {date: newDate, day: 1, time: 'Morning'}
+let gitimg = '/github.png'
 
 function Home(props){
 
@@ -14,6 +13,10 @@ function Home(props){
                 Welcome To Digital Travel Guide Taipei
             </h1> <div className="lineBreak"></div>
             <Link to='/quiz' ><button className="btn btn-primary">Plan your vacation!</button></Link>
+
+            <div className="about">
+            <a href='https://github.com/CodyGrogan/digitaltravelguide' target="_blank"><img src={gitimg} className='gitLink'  /> Cody Grogan</a>
+            </div>
                    
         </div>
     )
