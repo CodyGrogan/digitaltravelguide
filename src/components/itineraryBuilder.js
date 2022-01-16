@@ -405,8 +405,9 @@ class itineraryBuilder{
          }
          else
          {
-            if (filteredActivity2.length > 1){
+            
             filteredActivity2 = this.filterTime(nonPrefOtherArr, 'a');
+            if (filteredActivity2.length > 1){
             this.sortByDistance(filteredActivity2, sortedActivity, nonPrefOtherArr, 1);
             }
             else{

@@ -8,3 +8,4 @@ https://commons.wikimedia.org/wiki/File:SYS_Memorial_Hall_view_from_Taipei_101_2
 https://commons.wikimedia.org/wiki/File:Jing-Jan_Building_Chengde_Road_entrance_20131002.jpg
 https://commons.wikimedia.org/wiki/File:Truffle_Soup_Dumplings_at_Din_Tai_Fung.jpg
 https://en.wikipedia.org/wiki/File:National_Taiwan_Museum_front_20070912.jpg
+https://commons.wikimedia.org/wiki/File:Taipei_Fine_Arts_Museum_20150919.jpg

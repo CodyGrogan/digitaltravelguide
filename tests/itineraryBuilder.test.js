@@ -2,6 +2,7 @@ import itineraryBuilder from '../src/components/itineraryBuilder';
 import activityList from '../src/components/activityList';
 import Activity from '../src/components/classes/Activity';
 import { parse } from 'dotenv';
+import Weather from '../src/components/classes/Weather';
 
 const builder = new itineraryBuilder;
 
@@ -1350,6 +1351,28 @@ test('response of [{type: history, response: positive}] to be one', () => {
       let result = builder.parseAndTrim(testWeatherObj,testDates.start, testDates.end);
       expect(result[0].weather).toBe('Rain');
 
+  })
+
+  test('expect response of [hiking, nightlife] on 4 days to have sorted array length of 20', ()=>{
+      let testDates = {
+      "start": "2022-01-10",
+      "end": "2022-01-14"
+    }
+  
+    let response = [{type: 'hiking', response: 'positive'}, {type: 'nightlife', response: 'positive'}, {type: 'history', response: 'negative'},{type: 'spicy', response: 'negative'},{type: 'chinese', response: 'negative'},{type: 'japanese', response: 'negative'}, {type: 'art', response: 'negative'}, {type: 'nature', response: 'negative'}, {type: 'sight seeing', response: 'negative'}] 
+    let day1 = new Weather('2022-01-10', 'Rain');
+    let day2 = new Weather('2022-01-11', 'Rain');
+    let day3 = new Weather('2022-01-12', 'Rain');
+    let day4 = new Weather('2022-01-13', 'Rain');
+    let day5 = new Weather('2022-01-14', 'Rain');
+    let trimWeather = [day1, day2, day3, day4, day5];
+    let typeMap = builder.readResponse(response);
+    let activityArr = builder.parseActivities(typeMap);
+    let activityObjArr = builder.matchActivities(activityArr);
+    let sortedArray = builder.buildDailySchedule(activityObjArr, testDates, trimWeather);
+    let length = sortedArray[0].length;
+    console.log(sortedArray[0]);
+    expect(length).toBe(20);  //5 cards per day
   })
   /*
 
