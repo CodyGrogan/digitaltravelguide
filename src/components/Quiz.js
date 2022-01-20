@@ -14,6 +14,7 @@ const [answerList, setAnswerList] = useState([]);
 const [currentQuestion, setCurrentQuestion] = useState(0);
 const [questionIndex, setQuestionIndex] = useState(0);
 const [dates, setDates] = useState(null);
+
 console.log(dates);
 console.log(questionObjArr[0].content)
 useEffect(()=>{
@@ -75,7 +76,7 @@ useEffect(()=>{
         </div>
 
         <div hidden id='quizCon'>
-            <QuizQuestion key={currentQuestion} question={questionList[questionIndex].phrase} questionType={questionList[questionIndex].type} answerList={answerList} setAnswerList={setAnswerList} currentQuestion ={currentQuestion} setCurrentQuestion ={setCurrentQuestion} />
+            <QuizQuestion key={currentQuestion} question={questionList[questionIndex].phrase} questionType={questionList[questionIndex].type} answerList={answerList} setAnswerList={setAnswerList} currentQuestion ={currentQuestion} setCurrentQuestion ={setCurrentQuestion} totalQuestions={questionList.length} />
         </div>
         <div hidden id='guideCon'>
             <div id='spinner'>

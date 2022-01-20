@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ProgressBar from "./ProgressBar";
 
 
 function QuizQuestion(props){
@@ -54,6 +55,9 @@ function QuizQuestion(props){
                 <button className="btn btn-danger quiz-question" >Hate it</button>
             </div>
             <br/>
+            <div>
+                <ProgressBar currentQuestion={props.currentQuestion} totalQuestions={props.totalQuestions} />
+            </div>
             
             </div>
         </div>
