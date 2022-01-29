@@ -108,11 +108,11 @@ function DateSelector(props){
 
         <label htmlFor="start">Start Date</label> 
        <div className="lineBreak"></div> 
-       <input onChange={setEndDate} id='start' name="start" type="date" className="date-input" min={today}/>
+       <input onChange={setEndDate} id='start' name="start" type="date" className="date-input form-control" min={today}/>
        <div className="lineBreak"></div> 
        <label htmlFor="end">End Date</label>
        <div className="lineBreak"></div> 
-       <input id='end' name='end' type="date" className="date-input" min={minEnd} max={maxEnd}/>
+       <input id='end' name='end' type="date" className="date-input form-control" min={minEnd} max={maxEnd}/>
        <div className="lineBreak"></div> 
        
        <button type="button" className="btn btn-primary" onClick={()=> returnDates()}>Submit</button>
