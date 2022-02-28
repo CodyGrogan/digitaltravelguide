@@ -533,6 +533,8 @@ class itineraryBuilder{
   
    let weather = await this.checkWeatherExpress();     //use this for production
    //let weather = await this.checkWeather();              //use this for testing
+
+   console.log(weather);
    
    let trimmedWeather= this.parseAndTrim(weather, dates.start, dates.end);
   
@@ -625,7 +627,14 @@ async checkWeather(){
 
  parseAndTrim(weather, startDate, endDate){
 
+
    let weatherObjArr = [];
+
+   let trimmedArray = [];
+
+
+   if (weather != null){
+
    console.log(weather.list.length);
    console.log(weather.list[0]);
    
@@ -648,7 +657,6 @@ async checkWeather(){
 
    let indexOfStart = 0;
    let indexOfEnd = 0;
-   let trimmedArray = [];
 
 
       for (let i = 0; i < weatherObjArr.length; i++){
@@ -678,6 +686,16 @@ async checkWeather(){
    //console.log(trimmedArray[0].weather);
 
    return trimmedArray;
+   }
+   else{
+
+      
+      let weatherObj = new Weather('dateString', 'Unknown');
+      weatherObjArr.push(weatherObj);
+      trimmedArray.push(weatherObjArr[0]);
+      return trimmedArray;
+
+   }
 
 
 

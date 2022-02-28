@@ -332,9 +332,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
     let arrays = builder.matchActivities(preftypearray);
     let preflength = arrays[0].length;
     let length = arrays[1].length;
-    console.log('should be zero: preflength' + preflength + 'nonpreflength' + length);
-    console.log(arrays[1]);
-    console.log(arrays[0]);
+ 
     expect(length).toBe(0);
   });
 
@@ -761,7 +759,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
 
   
 
-  test('check weatherdata returns true', async () =>{
+ /* test('check weatherdata returns true', async () =>{
  
     //THIS TEST WILL FAIL IF YOU DID NOT USE YOUR OWN APIKEY IN itineraryBuilder, 
     //this works in production with an apikey held in .env, but the unit test will not work without putting the key directly in the
@@ -770,7 +768,7 @@ test('response of [{type: history, response: positive}] to be one', () => {
    
    expect(weather.list.length).toBe(16);
 
-  });
+  }); */
 
   test('check parsing of weatherdata', ()=>{
 
@@ -1351,7 +1349,8 @@ test('response of [{type: history, response: positive}] to be one', () => {
       let result = builder.parseAndTrim(testWeatherObj,testDates.start, testDates.end);
       expect(result[0].weather).toBe('Rain');
 
-  })
+  });
+  
 
   test('expect response of [hiking, nightlife] on 4 days to have sorted array length of 20', ()=>{
       let testDates = {
@@ -1371,13 +1370,31 @@ test('response of [{type: history, response: positive}] to be one', () => {
     let activityObjArr = builder.matchActivities(activityArr);
     let sortedArray = builder.buildDailySchedule(activityObjArr, testDates, trimWeather);
     let length = sortedArray[0].length;
-    console.log(sortedArray[0]);
     expect(length).toBe(20);  //5 cards per day
   })
-  /*
 
 
 
-  let DingTaiFeng =  new Activity('Ding Tai Feng', 'xinyi district', img, "Taiwan's most famous dumplings", "One of Taiwan's most famous restaraunt chains. A major crowd pleaser", 'chinese', 25.03356359985413, 121.56457490825865);
-let sushiexpress =  new Activity('Sushi Express', 'Everywhere', img, "Popular sushi chain", "Cheap, good and fast. Conveyor belt sushi perfect for a quick lunch", 'japanese', 25.03386754133035, 121.5383244857638);
-*/
+  test('providing past data causes unknown weather', () => {
+
+    let testDates = {
+      "start": "2022-03-10",
+      "end": "2022-03-11"
+    }
+  
+    let response = [
+      "japanese",
+      "spicy",
+      "history",
+      "chinese",
+      "nature"
+    ]
+    
+   
+    let trimWeather = builder.parseAndTrim(null, testDates.start, testDates.end);
+    let activityObjArr = builder.matchActivities(response);
+    let sortedArray = builder.buildDailySchedule(activityObjArr, testDates, trimWeather);
+    let length = sortedArray[0].length;
+    console.log(sortedArray);
+    expect(length).toBe(5);  //5 cards per day 
+  });
