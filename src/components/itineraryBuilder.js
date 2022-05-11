@@ -638,6 +638,29 @@ async checkWeather(){
 
    if (weather != null){
 
+   //first check if start date is after last date of weather data
+
+   //
+   let lastindex = weather.list.length - 1;
+   let lastdate = weather.list[lastindex].dt;
+   let lastms  = lastdate*1000;
+   let startDateData = new Date(startDate);
+   let startms = startDateData.getTime();
+   console.log('last ms ' + lastms + ' start ms' + startms)
+
+   
+   if (startms >= lastms){
+      let weatherObj = new Weather('dateString', 'Unknown');
+      weatherObjArr.push(weatherObj);
+      trimmedArray.push(weatherObjArr[0]);
+      return trimmedArray;
+
+
+   }
+   else{
+
+   
+
    console.log(weather.list.length);
    console.log(weather.list[0]);
    
@@ -688,7 +711,8 @@ async checkWeather(){
    //console.log(trimmedArray[0].date);
    //console.log(trimmedArray[0].weather);
 
-   return trimmedArray;
+       return trimmedArray;
+      }
    }
    else{
 
