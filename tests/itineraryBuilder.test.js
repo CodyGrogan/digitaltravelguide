@@ -1374,6 +1374,28 @@ test('response of [{type: history, response: positive}] to be one', () => {
   })
 
 
+  test('expect only liking hiking and outdoors with all rain weather to not crash', ()=>{
+    let testDates = {
+    "start": "2022-01-10",
+    "end": "2022-01-14"
+  }
+
+  let response = [{type: 'shopping', response: 'negative'}, {type: 'hiking', response: 'positive'}, {type: 'nightlife', response: 'negative'}, {type: 'history', response: 'negative'},{type: 'spicy', response: 'negative'},{type: 'chinese', response: 'negative'},{type: 'japanese', response: 'negative'}, {type: 'art', response: 'negative'}, {type: 'nature', response: 'positive'}, {type: 'sight seeing', response: 'negative'}] 
+  let day1 = new Weather('2022-01-10', 'Rain');
+  let day2 = new Weather('2022-01-11', 'Rain');
+  let day3 = new Weather('2022-01-12', 'Rain');
+  let day4 = new Weather('2022-01-13', 'Rain');
+  let day5 = new Weather('2022-01-14', 'Rain');
+  let trimWeather = [day1, day2, day3, day4, day5];
+  let typeMap = builder.readResponse(response);
+  let activityArr = builder.parseActivities(typeMap);
+  let activityObjArr = builder.matchActivities(activityArr);
+  let sortedArray = builder.buildDailySchedule(activityObjArr, testDates, trimWeather);
+  let length = sortedArray[0].length;
+  expect(length).toBe(20);  //5 cards per day
+})
+
+
 
   test('providing past data causes unknown weather', () => {
 
