@@ -283,7 +283,7 @@ class itineraryBuilder{
          
  //one day     ////////////////////////////////////////////////////////////// there are 3 activities and 2 food in a day
                                                                        //// so we can check that there are enough left in the arr
-     otherArr = this.shuffle(otherArr);  //shuffle the array each day so the first event chosen is randmom
+     otherArr = this.shuffle(otherArr);  //shuffle the array each day so the first event chosen is random
      nonPrefOtherArr = this.shuffle(nonPrefOtherArr);
      console.log('day ' + j + ' length of otherarr is ' + otherArr.length + 'nonpref length ' + nonPrefOtherArr.length);
                                                                  
@@ -364,6 +364,9 @@ class itineraryBuilder{
          let newDate = new Date(startDate);
          newDate.setDate(startDate.getDate()+j);
 
+         //check that enough activities remain
+
+         this.pushMore(otherArr, nonPrefOtherArr, 3);
          //check that enough preferred food remain
       this.pushMore(foodArr, nonPrefFoodArr, 2);
      
