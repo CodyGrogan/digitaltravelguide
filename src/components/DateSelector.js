@@ -34,9 +34,19 @@ function DateSelector(props){
         let end = document.getElementById('end').value;
         let startDate = new Date(start);
         let endDate = new Date(end);
+
+        //iPhone Safari does not respect the min max attributes on input=date
+        
+        let maxEndDate = new Date(maxEnd);
+        
+
         let startDateMs = startDate.getTime();
         let endDateMs = endDate.getTime();
-        if (endDateMs > startDateMs){
+        let maxMS = maxEndDate.getTime();
+        if (maxMS < endDateMs){
+            alert('Maximum vacations days should be 5');
+        }
+        else if (endDateMs > startDateMs){
             props.setDates({start: start, end: end});
         console.log('dates returned');
 
@@ -116,6 +126,8 @@ function DateSelector(props){
        <div className="lineBreak"></div> 
        
        <button type="button" className="btn btn-primary" onClick={()=> returnDates()}>Submit</button>
+
+       <div className="form-text">Vacation cannot last more than 5 days.</div>
 
 
         </div>
